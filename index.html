@@ -12,6 +12,35 @@
     <!-- FontAwesome for link icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <style>
+      /* Responsive design styles for mobile devices */
+      @media (max-width: 768px) {
+        /* Force layout table cells to stack vertically */
+        td[style*="width:63%"], 
+        td[style*="width:37%"], 
+        td[style*="width:20%"], 
+        td[style*="width:80%"] {
+          display: block !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box;
+          padding: 15px 0 !important;
+        }
+        
+        /* Center the profile picture on mobile */
+        td[style*="width:37%"] img {
+          max-width: 250px !important;
+          margin: 0 auto;
+          display: block;
+        }
+
+        /* Center project/publication images on mobile */
+        td[style*="width:20%"] img {
+          margin: 0 auto 10px auto;
+          display: block;
+        }
+      }
+    </style>
   </head>
 
   <body>
