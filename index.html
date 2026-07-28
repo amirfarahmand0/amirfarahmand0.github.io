@@ -45,18 +45,71 @@
       .sidebar a:hover {
         text-decoration: underline;
       }
-      /* Hide sidebar on smaller screens to prevent overlapping content */
+      
+      /* Mobile Navigation Button */
+      #mobile-nav-btn {
+        display: none; /* Hidden by default on desktop */
+        position: fixed;
+        bottom: 15px;
+        left: 2.5%;
+        width: 95%;
+        background-color: #007aff; /* Standard iOS blue */
+        color: white;
+        text-align: center;
+        padding: 14px 0;
+        border-radius: 8px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 1001;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        box-sizing: border-box;
+      }
+
+      /* Mobile Layout Overrides */
       @media (max-width: 1100px) {
         .sidebar {
-          display: none;
+          display: none; /* Hide by default on mobile, handled by JS */
+          top: auto;
+          bottom: 75px; /* Sit right above the mobile button */
+          left: 5%;
+          width: 90%;
+          box-sizing: border-box;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        #mobile-nav-btn {
+          display: block; /* Show button on mobile */
+        }
+
+        /* Force table columns to stack vertically on mobile */
+        .intro-col-left, .intro-col-right {
+          display: block !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          box-sizing: border-box;
+        }
+
+        .intro-col-right {
+          text-align: center;
+          padding-top: 20px !important;
+        }
+
+        .intro-col-right img {
+          max-width: 220px !important; /* Control image size on mobile */
+          margin: 0 auto;
         }
       }
     </style>
   </head>
 
   <body>
+    <!-- Mobile Bottom Navigation Button -->
+    <div id="mobile-nav-btn" onclick="toggleNav()">≡ Show Sections</div>
+
     <!-- Sidebar Menu -->
-    <div class="sidebar">
+    <div class="sidebar" id="mobile-sidebar">
       <ul>
         <li><a href="#introduction">▸ Scroll to: Introduction</a></li>
         <li><a href="#research">▸ Scroll to: Research</a></li>
@@ -71,7 +124,8 @@
         <td style="padding:0px">
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
             <tr id="introduction" style="padding:0px">
-              <td style="padding:2.5%;width:63%;vertical-align:middle">
+              <!-- Left Column: Text (Added intro-col-left class for mobile stacking) -->
+              <td class="intro-col-left" style="padding:2.5%;width:63%;vertical-align:middle">
                 <p class="name" style="text-align: center;">
                   Amirhosein Farahmand
                 </p>
@@ -98,7 +152,8 @@
                   <a href="https://github.com/amirfarahmand0/"><i class="fab fa-github"></i> Github</a>
                 </p>
               </td>
-              <td style="padding:2.5%;width:37%;max-width:37%">
+              <!-- Right Column: Image (Added intro-col-right class for mobile stacking) -->
+              <td class="intro-col-right" style="padding:2.5%;width:37%;max-width:37%">
                 <a href="images/profile.jpg"><img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%;" alt="profile photo" src="images/profile.jpg" class="hoverZoomLink"></a>
               </td>
             </tr>
@@ -344,5 +399,30 @@
         </td>
       </tr>
     </table>
+
+    <!-- Javascript for Mobile Nav Toggle -->
+    <script>
+      function toggleNav() {
+        var nav = document.getElementById("mobile-sidebar");
+        var btn = document.getElementById("mobile-nav-btn");
+        if (nav.style.display === "block") {
+          nav.style.display = "none";
+          btn.innerHTML = "≡ Show Sections";
+        } else {
+          nav.style.display = "block";
+          btn.innerHTML = "≡ Hide Sections";
+        }
+      }
+
+      // Automatically hide the menu when a link is clicked on mobile
+      document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 1100) {
+            document.getElementById("mobile-sidebar").style.display = "none";
+            document.getElementById("mobile-nav-btn").innerHTML = "≡ Show Sections";
+          }
+        });
+      });
+    </script>
   </body>
 </html>
