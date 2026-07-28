@@ -13,42 +13,63 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-      /* Responsive design styles for mobile devices */
-      @media (max-width: 768px) {
-        /* Force layout table cells to stack vertically */
-        td[style*="width:63%"], 
-        td[style*="width:37%"], 
-        td[style*="width:20%"], 
-        td[style*="width:80%"] {
-          display: block !important;
-          width: 100% !important;
-          max-width: 100% !important;
-          box-sizing: border-box;
-          padding: 15px 0 !important;
-        }
-        
-        /* Center the profile picture on mobile */
-        td[style*="width:37%"] img {
-          max-width: 250px !important;
-          margin: 0 auto;
-          display: block;
-        }
-
-        /* Center project/publication images on mobile */
-        td[style*="width:20%"] img {
-          margin: 0 auto 10px auto;
-          display: block;
+      /* Sidebar navigation styles */
+      .sidebar {
+        position: fixed;
+        top: 250px;
+        left: 20px;
+        background-color: #fbfbfb;
+        border: 1px solid #e1e4e8;
+        border-radius: 6px;
+        padding: 15px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        z-index: 1000;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+      .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      .sidebar li {
+        margin-bottom: 10px;
+      }
+      .sidebar li:last-child {
+        margin-bottom: 0;
+      }
+      .sidebar a {
+        text-decoration: none;
+        color: #0366d6;
+        font-size: 14px;
+      }
+      .sidebar a:hover {
+        text-decoration: underline;
+      }
+      /* Hide sidebar on smaller screens to prevent overlapping content */
+      @media (max-width: 1100px) {
+        .sidebar {
+          display: none;
         }
       }
     </style>
   </head>
 
   <body>
+    <!-- Sidebar Menu -->
+    <div class="sidebar">
+      <ul>
+        <li><a href="#introduction">▸ Scroll to: Introduction</a></li>
+        <li><a href="#research">▸ Scroll to: Research</a></li>
+        <li><a href="#projects">▸ Scroll to: Projects</a></li>
+        <li><a href="#teaching">▸ Scroll to: Teaching</a></li>
+      </ul>
+    </div>
+
     <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
       <tr style="padding:0px">
         <td style="padding:0px">
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
-            <tr style="padding:0px">
+            <tr id="introduction" style="padding:0px">
               <td style="padding:2.5%;width:63%;vertical-align:middle">
                 <p class="name" style="text-align: center;">
                   Amirhosein Farahmand
@@ -62,9 +83,12 @@
                 <p>
                   Previously, I worked as a Research Assistant at GISMA University of Applied Sciences under the supervision of <a href="https://m-mahdavi.github.io/">Dr. Mohammad Mahdavi</a>, where my research focused on multimodal AI and large language models.
                 </p>
-                <p>
+                
+                <!-- Highlight Box -->
+                <div style="border: 2px solid #e1e4e8; background-color: #f6f8fa; padding: 15px; border-radius: 6px; margin: 20px 0;">
                   I am actively seeking PhD or MSc opportunities to further develop my expertise in machine learning and statistical methodologies, particularly in connecting cutting-edge AI approaches with reliable and clinically meaningful decision-making.
-                </p>
+                </div>
+
                 <p style="text-align:center">
                   <a href="mailto:amirhosein.farahmand.piruz@gmail.com"><i class="fas fa-envelope"></i> Email</a> &nbsp;/&nbsp;
                   <a href="data/AmirhoseinFarahmand-CV.pdf"><i class="fas fa-file-pdf"></i> CV</a> &nbsp;/&nbsp;
@@ -81,7 +105,7 @@
           <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
               <tr>
               <td style="padding:16px;width:100%;vertical-align:middle">
-                <h2>Research / Publications</h2>
+                <h2 id="research">Research / Publications</h2>
               </td>
             </tr>
           </tbody></table>
@@ -163,7 +187,7 @@
           <table style="width:100%; margin:0 auto; border:0; border-spacing:0; padding:16px;"><tbody>
             <tr>
               <td>
-                <h2>Personal Projects</h2>
+                <h2 id="projects">Projects</h2>
                 <p>I have also worked on a variety of personal projects, some of which are featured below. For a full list, I recommend checking out my <a href="https://github.com/amirfarahmand0">GitHub page</a>.</p>
               </td>
             </tr>
@@ -180,7 +204,7 @@
                   <span class="papertitle">Statistical Dependence and Graphical Models</span>
                 </a>
                 <br>
-                <em>Personal Project</em>
+                <em>University of Tehran</em>
                 <br>
                 <a href="https://github.com/amirfarahmand0">GitHub</a>
                 <p></p>
@@ -256,7 +280,7 @@
           <table style="width:100%; margin:0 auto; border:0; border-spacing:0; padding:16px;"><tbody>
             <tr>
               <td>
-                <h2>Teaching</h2>
+                <h2 id="teaching">Teaching</h2>
                 <p>I have also been an active member of our academic community. Some of my main contributions are as follows.</p>
               </td>
             </tr>
