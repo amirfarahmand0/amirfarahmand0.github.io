@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" font-family="Lato,Helvetica,sans-serif">
+<rect width="160" height="160" fill="#fff"/>
+<path d="M26 16V124H152" fill="none" stroke="#444" stroke-width="1.2"/>
+<path d="M26 36H150" stroke="#f09228" stroke-width="1.6" stroke-dasharray="5 3"/>
+<text x="148" y="31" font-size="8.5" text-anchor="end" fill="#c56d0a">EVPI</text>
+<path d="M28 122 C40 80 60 58 90 48 S135 40 150 39" fill="none" stroke="#1772d0" stroke-width="2.4"/>
+<text x="112" y="62" font-size="8.5" fill="#1772d0">EVSI(n)</text>
+<g fill="#1772d0"><circle cx="45" cy="86" r="2.4"/><circle cx="70" cy="58" r="2.4"/><circle cx="105" cy="45" r="2.4"/></g>
+<text x="89" y="138" font-size="9" text-anchor="middle" fill="#444">validation sample size n</text>
+<text x="13" y="70" font-size="9" text-anchor="middle" fill="#444" transform="rotate(-90 13 70)">value of information</text>
+<text x="80" y="153" font-size="8.5" text-anchor="middle" fill="#777">Bayesian net benefit</text>
+</svg>

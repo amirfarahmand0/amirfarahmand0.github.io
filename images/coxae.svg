@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" font-family="Lato,Helvetica,sans-serif">
+<rect width="160" height="160" fill="#fff"/>
+<defs><marker id="b" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" fill="#666"/></marker></defs>
+<path d="M10 14H34L54 32V48L34 66H10Z" fill="#eef4fc" stroke="#1772d0"/>
+<rect x="58" y="30" width="16" height="20" rx="2" fill="#1772d0"/>
+<text x="66" y="44" font-size="9" fill="#fff" text-anchor="middle">z</text>
+<path d="M78 32L98 14H150V66H98L78 48Z" fill="#eef4fc" stroke="#1772d0"/>
+<text x="30" y="43" font-size="8" text-anchor="middle" fill="#1772d0">encoder</text>
+<text x="124" y="43" font-size="8" text-anchor="middle" fill="#1772d0">decoder</text>
+<path d="M66 51V74" stroke="#666" marker-end="url(#b)"/>
+<rect x="38" y="76" width="56" height="16" rx="3" fill="#fff6e8" stroke="#f09228"/>
+<text x="66" y="87" font-size="8" text-anchor="middle" fill="#c56d0a">Cox head</text>
+<path d="M108 82 L150 82" stroke="none"/>
+<path d="M20 102V140H150" fill="none" stroke="#444"/>
+<path d="M22 106H40V112H58V121H80V128H104V133H130V136H148" fill="none" stroke="#1772d0" stroke-width="2"/>
+<path d="M22 106H46V115H70V124H96V130H120V132H148" fill="none" stroke="#f09228" stroke-width="2"/>
+<text x="85" y="153" font-size="8" text-anchor="middle" fill="#777">reconstruction + partial likelihood</text>
+</svg>
