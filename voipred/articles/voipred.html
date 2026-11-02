@@ -104,7 +104,7 @@
 </tbody>
 </table>
 <p>Every result has <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> (a short table), <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> (the main findings), <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> (the full results) methods.</p>
-<p><strong>What you need.</strong> For each patient in the validation sample: the predicted risk of the event, from any model or software (or the fitted model itself), and the observed outcome: 0/1 for a binary outcome, or a time and a status for a survival or competing-risk outcome.</p>
+<p><strong>What you need.</strong> For each patient in the validation sample: the predicted risk of the event, from any model or software (or the fitted model itself), and the observed outcome: for a binary outcome, 0/1, <code>TRUE</code>/<code>FALSE</code>, or a factor with two levels; for a survival or competing-risk outcome, a time and a status.</p>
 </section><section class="level2" data-number="2"><h2 data-number="2" id="installation">
 <span class="header-section-number">2</span> Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -151,7 +151,7 @@
 <section class="level3" data-number="4.1"><h3 data-number="4.1" id="net-benefit-of-one-model">
 <span class="header-section-number">4.1</span> Net benefit of one model<a class="anchor" aria-label="anchor" href="#net-benefit-of-one-model"></a>
 </h3>
-<p><code><a href="../reference/nb_val.html">nb_val()</a></code> takes the validation data, the predicted risks (<code>predicted_risk</code>: a vector, or the name of the column that holds them), the outcome and the thresholds. The thresholds should cover the range that is clinically reasonable for the decision; here, risks of 30-day death from 1% to 30%.</p>
+<p><code><a href="../reference/nb_val.html">nb_val()</a></code> takes the validation data, the predicted risks (<code>predicted_risk</code>: a vector, or the name of the column that holds them), the outcome and the thresholds. A binary outcome can be coded 0/1 (1 = event), as <code>TRUE</code>/<code>FALSE</code> (<code>TRUE</code> = event), or as a factor with two levels (the event is the level <code>"1"</code> if there is one, otherwise the second level, e.g. <code>"dead"</code> in <code>factor(..., levels = c("alive", "dead"))</code>); the results are the same. The thresholds should cover the range that is clinically reasonable for the decision; here, risks of 30-day death from 1% to 30%.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
@@ -312,10 +312,21 @@
 </div>
 </div>
 </div>
+<p><code>plot(e, type = "relative")</code> draws the relative EVPI, which puts EVPI on a scale comparable across thresholds; the dashed line at 1 means no value of perfect information:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">e</span>, type <span class="op">=</span> <span class="st">"relative"</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="voipred_files/figure-html/evpi-relative-1.png" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>EVPI is largest, 0.00219, at a threshold of 6%: about 219 net true positives per 100,000 patients are expected to be lost because of the uncertainty in this validation sample of 500 patients. Whether this is worth a further study depends on the number of patients who would be affected by the decision, and on the cost of the study.</p>
 <p><strong>P(useful)</strong> is the probability that each model has a higher net benefit than both default strategies, the share of draws in which it does. It compares each model only with the default strategies:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span></span>
 <span><span class="co">#&gt; P(useful): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -359,7 +370,7 @@
 <p><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> gives, for each model, the thresholds where P(useful) is above 0.95, between 0.5 and 0.95, and below 0.5. A P(useful) near 0.5 means that the data give no evidence either way: the model’s net benefit is about that of the best default strategy.</p>
 <p><strong>P(best)</strong> is the probability that each strategy (each model, treat all, treat none) has the highest net benefit; the probabilities add up to 1 at each threshold. It compares the models with each other:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_best</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; P(best): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
 <span><span class="co">#&gt; Most likely best: Full 0.01-0.06, Age only 0.07, Full 0.08-0.30</span></span>
@@ -391,7 +402,7 @@
 </h3>
 <p>The expected gain in net benefit from a future validation study of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> patients (<code>future_n</code>), added to the current sample, before choosing the strategy, is quantified by the expected value of sample information (EVSI). It is between 0 and EVPI, and approaches EVPI as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> grows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span>
 <span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evsi.html">evsi</a></span><span class="op">(</span><span class="va">res</span>, future_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2000</span>, <span class="fl">4000</span><span class="op">)</span>, n_sim <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
@@ -430,7 +441,7 @@
 </h3>
 <p><code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> of the result of <code><a href="../reference/nb_val.html">nb_val()</a></code> draws EVPI and EVSI in a panel below the decision curve, so that the net benefit and the value of information can be read together:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>, evpi <span class="op">=</span> <span class="va">e</span>, evsi <span class="op">=</span> <span class="va">o</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -478,7 +489,7 @@
 <p><strong>When to use prior information.</strong> It matters when the effective sample size is small, for example when most predicted risks are on one side of a threshold, so that few patients are treated (or untreated) there <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>. At other thresholds, and with reasonably large samples, priors change the results little.</p>
 <p><strong>The informative prior.</strong> Every model treats everyone at a threshold of 0 (sensitivity 1, specificity 0) and no one at a threshold above all predicted risks (sensitivity 0, specificity 1). Near the ends of the decision curve, where the data say little, <code><a href="../reference/nb_informative.html">nb_informative()</a></code> states, with little weight (about 5 patients), that the model behaves like treat all at the lowest threshold and like treat none at the highest, and stays vague in between; the prevalence has a uniform prior. <span class="citation" data-cites="cruz2025">Cruz and Korthauer (<a href="#ref-cruz2025" role="doc-biblioref">2025</a>)</span> found that it keeps EVPI decreasing with the sample size in small samples. It reproduces bayesDCA’s construction and defaults, and is for binary outcomes only; the prior at a threshold depends on the range of thresholds given to <code><a href="../reference/nb_val.html">nb_val()</a></code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
 <span>                  predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="st">"p_full"</span>, `Age only` <span class="op">=</span> <span class="st">"p_age"</span><span class="op">)</span>,</span>
 <span>                  outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
@@ -523,7 +534,7 @@
 </h3>
 <p>For a survival outcome, the event is the event by a time horizon, and the predicted risks are the risks of the event by that horizon. We use the Rotterdam breast cancer data (<code>rotterdam</code>, from the survival package): 2,982 women with primary breast cancer, used by <span class="citation" data-cites="royston2013">Royston and Altman (<a href="#ref-royston2013" role="doc-biblioref">2013</a>)</span> to illustrate the validation of survival models. The outcome is death, and we evaluate the risk of death by 5 years. As before, the data are split at random, here into 1,500 women to fit the models and 600 to validate them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rott</span> <span class="op">&lt;-</span> <span class="va">rotterdam</span></span>
 <span><span class="va">rott</span><span class="op">$</span><span class="va">years</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">$</span><span class="va">dtime</span> <span class="op">/</span> <span class="fl">365.25</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
@@ -537,7 +548,7 @@
 </div>
 <p>The outcome is given with <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv()</a></code>, and <code>horizon</code> is required. Here the fitted models are given, and voipred predicts each patient’s risk by 5 years from them:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
 <span>                predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
 <span>                outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
@@ -572,7 +583,7 @@
 </h3>
 <p>When censoring may depend on patient characteristics that are also related to the outcome (for example when older or sicker patients are more often lost to follow-up, or when the length of follow-up changes with calendar time while the case mix changes too), Kaplan-Meier can give a biased net benefit. Conditional inverse probability of censoring weighting (cIPCW) allows censoring to depend on covariates <span class="citation" data-cites="farahmand2026">(<a href="#ref-farahmand2026" role="doc-biblioref">Farahmand et al. 2026</a>)</span>. Give the covariates that censoring may depend on: voipred fits a Cox model of the censoring times of the validation data on them, and weights the patients by the inverse of their probability of remaining uncensored (truncated at 0.02, i.e. weights of at most 50):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_ci</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
 <span>                 predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
 <span>                 outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
@@ -600,7 +611,7 @@
 </h3>
 <p>The VoI functions work in the same way. Their draws are the Bayesian bootstrap; with cIPCW, the censoring model is refitted in every draw, which takes longer.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
 <span><span class="va">e_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res_s</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e_s</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
@@ -626,7 +637,7 @@
 </h3>
 <p>With competing events, the status is a factor whose first level is censoring, and <code>cause</code> names the event of interest; the net benefit is computed from the cumulative incidence of that cause (Aalen-Johansen, or cIPCW). Here, the risk of recurrence by 5 years, with death before recurrence as a competing event, from a cause-specific Cox model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crdat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">recur</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">d</span><span class="op">$</span><span class="va">rtime</span>, <span class="va">d</span><span class="op">$</span><span class="va">dtime</span><span class="op">)</span> <span class="op">/</span> <span class="fl">365.25</span></span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">recur</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">death</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
@@ -664,7 +675,7 @@
 </h3>
 <p>Net benefit, EVPI and EVSI are per patient, so their values are small. <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> take <code>per</code>, the number of patients to express them per (default 1), e.g. <code>per = 100000</code>; the headers and the y axes say the scale, and the results themselves stay per patient. The default can be set once with <code>options(voipred.per = 100000)</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; EVPI: Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws, per 100,000 patients</span></span>
 <span><span class="co">#&gt; EVPI &gt; 0 at 0.03-0.30; largest 219.3 at 0.06</span></span>
@@ -730,7 +741,7 @@
 </table>
 <p>With <code>per</code>, the per-patient columns are kept and the scaled ones added (e.g. <code>EVPI_per_100000</code>). As the tables share <code>threshold</code> (and <code>model</code>), they can be combined, e.g. into one table per threshold and model for a report:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"model"</span>, <span class="st">"NB_model"</span>, <span class="st">"delta_NB"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>           <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"model"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">e</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"EVPI_per_100000"</span><span class="op">)</span><span class="op">]</span>,</span>
@@ -750,7 +761,7 @@
 </h2>
 <p><code><a href="../reference/nb_val.html">nb_val()</a></code> can also give credible intervals of the net benefit, with <code>interval = 0.95</code> (from <code>n_sim</code> draws, as in <a href="#sec-voi" class="quarto-xref">Section 5</a>). We do not recommend them for deciding whether to use a model: an interval shows the uncertainty of each net benefit on its own, while the decision depends on which strategy is best, and on whether more data could change that choice, which is what EVPI, P(useful) and P(best) measure (see also <span class="citation" data-cites="vickers2023ci">Vickers et al. (<a href="#ref-vickers2023ci" role="doc-biblioref">2023</a>)</span>). For this reason, <code><a href="../reference/nb_val.html">nb_val()</a></code> and every method that shows the intervals give a warning.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">res_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>, predicted_risk <span class="op">=</span> <span class="st">"p_full"</span>, outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
 <span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"Full"</span>,</span>
@@ -761,7 +772,7 @@
 <span><span class="co">#&gt; P(useful) and P(best).</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_int</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Net benefit of Full: binary, n = 500, 26 events (5.2%), prior improper Beta(0, 0); 95% credible intervals from 1000 posterior draws</span></span>
 <span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>

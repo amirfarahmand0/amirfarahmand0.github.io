@@ -70,6 +70,7 @@ P(useful), P(best), EVPI, EVSI) is built on.</p>
 <span>  prior <span class="op">=</span> <span class="fu"><a href="nb_priors.html">nb_improper</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  predict_function <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  subgroup <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  interval <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_sim <span class="op">=</span> <span class="fl">1000</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -204,6 +205,15 @@ models.</p></dd>
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
 <dd><p>Optional names of the models in printed output and plots: a
 single string, or one per model, in order. Default: see "Labels".</p></dd>
+
+
+<dt id="arg-subgroup">subgroup<a class="anchor" aria-label="anchor" href="#arg-subgroup"></a></dt>
+<dd><p>Optional subgroups, for the framework of Wang et al. on
+subgroup utility heterogeneity (see "Subgroups"): the name of a column of
+<code>data</code>, several column names (their combinations, e.g. <code>c("sex", "smoker")</code>), or a factor or vector with one subgroup per row of <code>data</code>
+(factor levels keep their order; logical vectors give <code>FALSE</code> and
+<code>TRUE</code>). Every patient needs a subgroup; numeric variables with many
+values must be cut into categories first.</p></dd>
 
 
 <dt id="arg-interval">interval<a class="anchor" aria-label="anchor" href="#arg-interval"></a></dt>
@@ -353,6 +363,26 @@ position).</p></li>
 </ol><p>The labels must be different, and cannot be <code>"Treat All"</code> or
 <code>"Treat None"</code> (the default strategies); otherwise <code>nb_val()</code> stops and asks
 for names.</p>
+<p><strong>Subgroups.</strong> With <code>subgroup</code>, <code>nb_val()</code> also computes the net benefit of
+each model, treat all and treat none within each subgroup (Step 1 of the
+framework of Wang et al.), with the same estimator (with cIPCW, the censoring
+weights of the whole sample). When the incremental utility of a true positive
+relative to a false negative (\(a - c\), written \(k\)) differs between
+subgroups, population-level net benefit can favour a strategy that population
+utility does not favour. <a href="summary.voipred_nb.html">summary()</a> checks this: whether
+the subgroup-specific differences in net benefit against a comparator have the
+same sign (Step 2: if they do, differences in \(k\) cannot change the
+population conclusion), the K-value for two subgroups (the critical ratio
+\(k_1/k_2\) at which the conclusion changes) and, with <code>k</code> (e.g. the relative
+risk reductions of the treatment in each subgroup, for a prognostic model),
+whether population net benefit and population utility favour different
+strategies (Step 3; for more than two subgroups, <code>k</code> can be ranges).
+<code>plot(type = "subgroups")</code> draws the subgroup differences in net benefit, and
+<code>plot(type = "region")</code> the inconsistency region of Wang et al. at one
+threshold. <code><a href="k_value.html">k_value()</a></code> computes the K-value from published values. The
+result then has <code>subgroups</code> (the subgroups and their net benefit), and
+<code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> has a <code>subgroup</code> column (<code>"All"</code> for the whole sample).
+Credible intervals are not available with subgroups.</p>
 <p><strong>Predicting the risks from a model (optional).</strong> Instead of the risks,
 the fitted model can be given as <code>predicted_risk</code> (e.g.
 <code>nb_val(val, fit, "y")</code>, or as an element of a list). voipred then predicts the risks of the patients

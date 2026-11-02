@@ -56,7 +56,15 @@ estimates at every threshold.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="fl">10</span>, per <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"voipred.per"</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'voipred_nb'</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">object</span>, thresholds <span class="op">=</span> <span class="cn">NULL</span>, per <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"voipred.per"</span>, <span class="fl">1</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  thresholds <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  per <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"voipred.per"</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  comparator <span class="op">=</span> <span class="st">"Treat All"</span>,</span>
+<span>  k <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  shares <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'voipred_nb'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span></span>
@@ -99,6 +107,23 @@ default can be set once with <code>options(voipred.per = 100000)</code>.</p></dd
 <dt id="arg-thresholds">thresholds<a class="anchor" aria-label="anchor" href="#arg-thresholds"></a></dt>
 <dd><p>Optional thresholds to show in the table (among those of
 the result); default: all, of which the first 10 are printed.</p></dd>
+
+
+<dt id="arg-comparator-k-shares">comparator, k, shares<a class="anchor" aria-label="anchor" href="#arg-comparator-k-shares"></a></dt>
+<dd><p>For a result with subgroups (<code>nb_val(subgroup = )</code>, see "Subgroups" in <code><a href="nb_val.html">nb_val()</a></code>): the comparator of the subgroup
+differences in net benefit, <code>"Treat All"</code> (default), <code>"Treat None"</code>,
+<code>"best default"</code> (treat all or treat none, whichever is better in the whole
+sample at the threshold) or another model; <code>k</code>, the incremental utility of a
+true positive relative to a false negative (\(a - c\)) in each subgroup,
+e.g. the relative risk reduction of the treatment: values named by
+subgroup, e.g. <code>c(male = 0.28, female = 0.15)</code>, or (any number of
+subgroups) ranges, e.g. <code>list(male = c(0.2, 0.3), ...)</code>; <code>shares</code>, the
+relative sizes of the subgroups in the target population (default: in the
+sample). <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> then adds the checks of Wang et al.: the subgroup
+differences, their share-weighted sum (the population difference), whether
+they have the same sign, the K-value (two subgroups) and, with <code>k</code>, the
+utility-weighted difference (<code>delta_U</code>) and whether population net benefit
+and population utility favour the same strategy (<code>consistent</code>).</p></dd>
 
 
 <dt id="arg-row-names-optional">row.names, optional<a class="anchor" aria-label="anchor" href="#arg-row-names-optional"></a></dt>
