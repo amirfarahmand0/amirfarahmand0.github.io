@@ -70,10 +70,10 @@
     <section class="level2" data-number="1"><h2 data-number="1" id="introduction">
 <span class="header-section-number">1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>voipred (the package voipred.dev) evaluates clinical prediction models in a validation sample by their <strong>clinical utility</strong>, and quantifies how much the remaining uncertainty matters for the decision of whether to use them. It implements decision curve analysis based on <strong>net benefit</strong> <span class="citation" data-cites="vickers2006 vickers2019">(<a href="#ref-vickers2006" role="doc-biblioref">Vickers and Elkin 2006</a>; <a href="#ref-vickers2019" role="doc-biblioref">Vickers, Van Calster, and Steyerberg 2019</a>)</span>, for binary, survival and competing-risk outcomes <span class="citation" data-cites="vickers2008">(<a href="#ref-vickers2008" role="doc-biblioref">Vickers et al. 2008</a>)</span>, in a Bayesian framework <span class="citation" data-cites="wynants2018 cruz2025">(<a href="#ref-wynants2018" role="doc-biblioref">Wynants et al. 2018</a>; <a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>, and <strong>value-of-information (VoI) analysis</strong> for model validation <span class="citation" data-cites="sadatsafavi2023 sadatsafavi2025">(<a href="#ref-sadatsafavi2023" role="doc-biblioref">Sadatsafavi et al. 2023</a>, <a href="#ref-sadatsafavi2025" role="doc-biblioref">2025</a>)</span>.</p>
+<p>voipred (the package voipred.dev) evaluates clinical prediction models in a validation sample by their <strong>clinical utility</strong>, and quantifies how much the remaining uncertainty matters for the decision of whether to use them. It implements decision curve analysis based on <strong>net benefit</strong> <span class="citation" data-cites="vickers2006 vickers2019">(<a href="#ref-vickers2006" role="doc-biblioref">Vickers and Elkin 2006</a>; <a href="#ref-vickers2019" role="doc-biblioref">Vickers, Van Calster, and Steyerberg 2019</a>)</span>, for binary, survival and competing-risk outcomes <span class="citation" data-cites="vickers2008">(<a href="#ref-vickers2008" role="doc-biblioref">Vickers et al. 2008</a>)</span>, in a Bayesian framework <span class="citation" data-cites="wynants2018 cruz2025">(<a href="#ref-wynants2018" role="doc-biblioref">Wynants et al. 2018</a>; <a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>, and <strong>value of information analysis</strong> for model validation <span class="citation" data-cites="sadatsafavi2023 sadatsafavi2025">(<a href="#ref-sadatsafavi2023" role="doc-biblioref">Sadatsafavi et al. 2023</a>, <a href="#ref-sadatsafavi2025" role="doc-biblioref">2025</a>)</span>.</p>
 <p><strong>Net benefit.</strong> A prediction model is used to decide on treatment by treating the patients whose predicted risk is at or above a threshold <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>. Its net benefit is <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>B</mi><mo>=</mo><mfrac><mrow><mi>T</mi><mi>P</mi></mrow><mi>n</mi></mfrac><mo>−</mo><mfrac><mrow><mi>F</mi><mi>P</mi></mrow><mi>n</mi></mfrac><mo>⋅</mo><mfrac><mi>t</mi><mrow><mn>1</mn><mo>−</mo><mi>t</mi></mrow></mfrac><mo>,</mo></mrow><annotation encoding="application/x-tex">NB = \frac{TP}{n} - \frac{FP}{n} \cdot \frac{t}{1-t},</annotation></semantics></math> the proportion of true positives minus the proportion of false positives, weighted by the odds of the threshold. The threshold expresses how the harm of an unnecessary treatment is weighed against the benefit of a necessary one: at <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>10</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">t = 10\%</annotation></semantics></math>, treating 9 patients unnecessarily is accepted to treat 1 patient who needs it. Net benefit is in units of true positives: 0.03 means 3 net true positives per 100 patients, i.e. 3 more patients correctly treated per 100, without more unnecessary treatments. A model is <strong>useful</strong> at a threshold where its net benefit is higher than that of both default strategies, treating everyone and treating no one; a decision curve shows this over a range of thresholds.</p>
-<p><strong>Value of information.</strong> A validation sample is finite, so the estimated net benefit is uncertain, and the strategy that looks best (a model, treating everyone or treating no one) may not be the best in the population. VoI analysis asks how much this uncertainty matters for the decision: the expected value of perfect information (EVPI) is the expected loss in net benefit due to it, and the expected value of sample information (EVSI) is the expected gain from a further validation study of a given size. They are complemented by the probability that a model is useful, P(useful), and the probability that each strategy is the best, P(best).</p>
-<p><strong>Workflow.</strong> The main function is <code><a href="../reference/nb_val.html">nb_val()</a></code>, which computes the net benefit of one or several models at a range of thresholds. Its result is used by the VoI functions:</p>
+<p><strong>Value of information.</strong> A validation sample is finite, so the estimated net benefit is uncertain, and the strategy that looks best (a model, treating everyone or treating no one) may not be the best in the population. value of information analysis asks how much this uncertainty matters for the decision: the expected value of perfect information (EVPI) is the expected loss in net benefit due to it, and the expected value of sample information (EVSI) is the expected gain from a further validation study of a given size. They are complemented by the probability that a model is useful, P(useful), and the probability that each strategy is the best, P(best).</p>
+<p><strong>Workflow.</strong> The main function is <code><a href="../reference/nb_val.html">nb_val()</a></code>, which computes the net benefit of one or several models at a range of thresholds. Its result is used by the value of information functions:</p>
 <table class="table caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -113,6 +113,7 @@
 </table>
 <p>Every result has <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> (a short table), <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> (the main findings), <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> (the full results) methods.</p>
 <p><strong>What you need.</strong> For each patient in the validation sample: the predicted risk of the event, from any model or software (or the fitted model itself), and the observed outcome: for a binary outcome, 0/1, <code>TRUE</code>/<code>FALSE</code>, or a factor with two levels; for a survival or competing-risk outcome, a time and a status.</p>
+<p><strong>How this article is organised.</strong> <a href="#sec-binary" class="quarto-xref">Section 4</a> shows the complete analysis for a binary outcome: net benefit and decision curves, prior information, and the value of information analysis. <a href="#sec-survival" class="quarto-xref">Section 5</a> shows the same analyses for a survival outcome, with what differs (censoring, and competing risks). The sections after them apply to both: subgroups (<a href="#sec-subgroups" class="quarto-xref">Section 6</a>), reporting (<a href="#sec-reporting" class="quarto-xref">Section 7</a>) and credible intervals (<a href="#sec-ci" class="quarto-xref">Section 8</a>); <a href="#sec-options" class="quarto-xref">Section 9</a> summarises the choices.</p>
 </section><section class="level2" data-number="2"><h2 data-number="2" id="installation">
 <span class="header-section-number">2</span> Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -153,12 +154,16 @@
 <span><span class="co">#&gt; 28674     0 68.297      I 0.069787317 0.082148493</span></span>
 <span><span class="co">#&gt; 40636     0 87.063      I 0.294718680 0.287617106</span></span></code></pre></div>
 </div>
-</section><section class="level2" data-number="4"><h2 data-number="4" id="sec-nb">
-<span class="header-section-number">4</span> Net benefit and decision curves<a class="anchor" aria-label="anchor" href="#sec-nb"></a>
+</section><section class="level2" data-number="4"><h2 data-number="4" id="sec-binary">
+<span class="header-section-number">4</span> Binary outcome<a class="anchor" aria-label="anchor" href="#sec-binary"></a>
 </h2>
-<section class="level3" data-number="4.1"><h3 data-number="4.1" id="net-benefit-of-one-model">
-<span class="header-section-number">4.1</span> Net benefit of one model<a class="anchor" aria-label="anchor" href="#net-benefit-of-one-model"></a>
+<p>This section analyses the GUSTO-I example (<a href="#sec-data" class="quarto-xref">Section 3</a>), a binary outcome: the net benefit and decision curves of the models, prior information (which is for binary outcomes only), and the value of information analysis.</p>
+<section class="level3" data-number="4.1"><h3 data-number="4.1" id="sec-nb">
+<span class="header-section-number">4.1</span> Net benefit and decision curves<a class="anchor" aria-label="anchor" href="#sec-nb"></a>
 </h3>
+<section class="level4" data-number="4.1.1"><h4 data-number="4.1.1" id="net-benefit-of-one-model">
+<span class="header-section-number">4.1.1</span> Net benefit of one model<a class="anchor" aria-label="anchor" href="#net-benefit-of-one-model"></a>
+</h4>
 <p><code><a href="../reference/nb_val.html">nb_val()</a></code> takes the validation data, the predicted risks (<code>predicted_risk</code>: a vector, or the name of the column that holds them), the outcome and the thresholds. A binary outcome can be coded 0/1 (1 = event), as <code>TRUE</code>/<code>FALSE</code> (<code>TRUE</code> = event), or as a factor with two levels (the event is the level <code>"1"</code> if there is one, otherwise the second level, e.g. <code>"dead"</code> in <code>factor(..., levels = c("alive", "dead"))</code>); the results are the same. The thresholds should cover the range that is clinically reasonable for the decision; here, risks of 30-day death from 1% to 30%.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
@@ -183,7 +188,7 @@
 <span><span class="co">#&gt;       0.10  Full  0.01533 -0.05333       0  0.01533</span></span>
 <span><span class="co">#&gt; # 20 more thresholds; use summary() or as.data.frame()</span></span></code></pre></div>
 </div>
-<p>The header line shows what was evaluated. “prior improper Beta(0, 0)” is the default prior: no prior information is used, the estimates come from the data alone, and the net benefit is the usual one of decision curve analysis (priors are optional, see <a href="#sec-priors" class="quarto-xref">Section 6</a>). The table has one row per threshold (and per model) with:</p>
+<p>The header line shows what was evaluated. “prior improper Beta(0, 0)” is the default prior: no prior information is used, the estimates come from the data alone, and the net benefit is the usual one of decision curve analysis (priors are optional, see <a href="#sec-priors" class="quarto-xref">Section 4.2</a>). The table has one row per threshold (and per model) with:</p>
 <ul>
 <li>
 <code>NB_model</code>: the net benefit of treating the patients whose predicted risk is at or above the threshold;</li>
@@ -226,9 +231,9 @@
 </div>
 </div>
 <p>The full model has a higher net benefit than both default strategies at every threshold from 1% to 30% (<code>delta_NB</code> &gt; 0), so using it would be better than treating everyone or no one at any of these thresholds. Its largest gain is 0.0207 at a threshold of 5%: about 2.1 more net true positives per 100 patients than the best default strategy. At the lowest thresholds the gain is small, because treating everyone is almost as good when nearly all patients would be treated anyway.</p>
-</section><section class="level3" data-number="4.2"><h3 data-number="4.2" id="comparing-models">
-<span class="header-section-number">4.2</span> Comparing models<a class="anchor" aria-label="anchor" href="#comparing-models"></a>
-</h3>
+</section><section class="level4" data-number="4.1.2"><h4 data-number="4.1.2" id="comparing-models">
+<span class="header-section-number">4.1.2</span> Comparing models<a class="anchor" aria-label="anchor" href="#comparing-models"></a>
+</h4>
 <p>To compare models, give them to one call of <code><a href="../reference/nb_val.html">nb_val()</a></code> as a list, one element per model. Every other argument applies to all of them, and every result compares them:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
@@ -266,21 +271,84 @@
 </div>
 </div>
 </div>
-<p>The age-only model is useful at 13 of the 30 thresholds, from 2% to 14%, while the full model, which also uses the clinical predictors, is useful at all of them. Around 5%, the two models have almost the same net benefit, and the best strategy switches between them; with only 500 patients, the data may not tell them apart there. Whether such differences are real is what the value-of-information analysis (<a href="#sec-voi" class="quarto-xref">Section 5</a>) quantifies.</p>
+<p>The age-only model is useful at 13 of the 30 thresholds, from 2% to 14%, while the full model, which also uses the clinical predictors, is useful at all of them. Around 5%, the two models have almost the same net benefit, and the best strategy switches between them; with only 500 patients, the data may not tell them apart there. Whether such differences are real is what the value of information analysis (<a href="#sec-voi" class="quarto-xref">Section 4.3</a>) quantifies.</p>
 <p><strong>Giving the models.</strong> <code>predicted_risk</code> takes, for one model, a vector of risks (<code>val$p_full</code>), the name of the column of <code>data</code> that holds them (<code>"p_full"</code>), or the fitted model (<code>fit_full</code>), from which voipred predicts the risks; for several models, a <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> of these, mixed freely, e.g. <code>list(Full = fit_full, Age = "p_age")</code> (use <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>, not <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>, which joins vectors and takes fitted models apart). The common models (<code>glm</code>, <code>coxph</code>, <code>survreg</code>, random forests, …) are predicted from automatically; for any other, give <code>predict_function</code> (see <code><a href="../reference/nb_val.html">?nb_val</a></code>). Each model is labelled by its name in the list, otherwise by the column name or the name in the call. Results computed separately, on the same data and thresholds, can be combined with <code><a href="https://rdrr.io/r/base/c.html" class="external-link">c()</a></code>.</p>
-</section></section><section class="level2" data-number="5"><h2 data-number="5" id="sec-voi">
-<span class="header-section-number">5</span> Value-of-information analysis<a class="anchor" aria-label="anchor" href="#sec-voi"></a>
-</h2>
-<section class="level3" data-number="5.1"><h3 data-number="5.1" id="how-the-uncertainty-is-represented">
-<span class="header-section-number">5.1</span> How the uncertainty is represented<a class="anchor" aria-label="anchor" href="#how-the-uncertainty-is-represented"></a>
+</section></section><section class="level3" data-number="4.2"><h3 data-number="4.2" id="sec-priors">
+<span class="header-section-number">4.2</span> Prior information (the Bayesian framework)<a class="anchor" aria-label="anchor" href="#sec-priors"></a>
 </h3>
-<p>The VoI functions take the result of <code><a href="../reference/nb_val.html">nb_val()</a></code> and draw the net benefit of every strategy <code>n_sim</code> times from its distribution given the validation data; all their results are computed from these draws. For a binary outcome, the draws come from the posterior of the prevalence, sensitivity and specificity, which is known in closed form (Beta distributions; a Dirichlet over the patterns of treatment when several models are compared), with the prior of <code><a href="../reference/nb_val.html">nb_val()</a></code>. For survival and competing-risk outcomes they are the Bayesian bootstrap <span class="citation" data-cites="rubin1981">(<a href="#ref-rubin1981" role="doc-biblioref">Rubin 1981</a>)</span>: random weights on the patients, with the net benefit recomputed in each draw. There is no MCMC, so there is no convergence to monitor. When models are compared, all of them are evaluated on the same patients within each draw, so their correlation is preserved. The draws are random: set a seed to reproduce them.</p>
-</section><section class="level3" data-number="5.2"><h3 data-number="5.2" id="evpi-puseful-and-pbest">
-<span class="header-section-number">5.2</span> EVPI, P(useful) and P(best)<a class="anchor" aria-label="anchor" href="#evpi-puseful-and-pbest"></a>
-</h3>
-<p><code><a href="../reference/evpi.html">evpi()</a></code> computes three measures at each threshold from one set of draws:</p>
+<p>voipred.dev computes the net benefit in a Bayesian framework. By default it uses no prior information, so the estimates are those of standard decision curve analysis, and the uncertainty is that of the data alone (for a binary outcome, the posterior draws then have exactly the distribution of the Bayesian bootstrap, the approach of <span class="citation" data-cites="sadatsafavi2023">Sadatsafavi et al. (<a href="#ref-sadatsafavi2023" role="doc-biblioref">2023</a>)</span>). Prior information can be added for binary outcomes with the <code>prior</code> argument of <code><a href="../reference/nb_val.html">nb_val()</a></code>:</p>
+<table class="table caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Prior</th>
+<th>What it assumes</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>
+<code><a href="../reference/nb_priors.html">nb_improper()</a></code> (default)</td>
+<td>no prior information: Beta(0, 0) for prevalence, sensitivity and specificity</td>
+</tr>
+<tr class="even">
+<td>
+<code><a href="../reference/nb_priors.html">nb_uniform()</a></code>, <code><a href="../reference/nb_priors.html">nb_jeffreys()</a></code>
+</td>
+<td>Beta(1, 1) or Beta(0.5, 0.5) for all three</td>
+</tr>
+<tr class="odd">
+<td><code><a href="../reference/nb_priors.html">nb_beta()</a></code></td>
+<td>your own Beta priors, e.g. on the prevalence from earlier studies; the parts not given are Beta(0, 0)</td>
+</tr>
+<tr class="even">
+<td><code><a href="../reference/nb_informative.html">nb_informative()</a></code></td>
+<td>the informative prior of bayesDCA <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>, whose priors on sensitivity and specificity change with the threshold</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use prior information.</strong> It matters when the effective sample size is small, for example when most predicted risks are on one side of a threshold, so that few patients are treated (or untreated) there <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>. At other thresholds, and with reasonably large samples, priors change the results little.</p>
+<p><strong>The informative prior.</strong> Every model treats everyone at a threshold of 0 (sensitivity 1, specificity 0) and no one at a threshold above all predicted risks (sensitivity 0, specificity 1). Near the ends of the decision curve, where the data say little, <code><a href="../reference/nb_informative.html">nb_informative()</a></code> states, with little weight (about 5 patients), that the model behaves like treat all at the lowest threshold and like treat none at the highest, and stays vague in between; the prevalence has a uniform prior. <span class="citation" data-cites="cruz2025">Cruz and Korthauer (<a href="#ref-cruz2025" role="doc-biblioref">2025</a>)</span> found that it keeps EVPI decreasing with the sample size in small samples. It reproduces bayesDCA’s construction and defaults, and is for binary outcomes only; the prior at a threshold depends on the range of thresholds given to <code><a href="../reference/nb_val.html">nb_val()</a></code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">res_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
+<span>                  predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="st">"p_full"</span>, `Age only` <span class="op">=</span> <span class="st">"p_age"</span><span class="op">)</span>,</span>
+<span>                  outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
+<span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                  prior <span class="op">=</span> <span class="fu"><a href="../reference/nb_informative.html">nb_informative</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res_inf</span><span class="op">$</span><span class="va">prior_shapes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>, <span class="op">]</span>    <span class="co"># the prior at some thresholds</span></span>
+<span><span class="co">#&gt;    threshold     se_a      se_b      sp_a     sp_b prev_a prev_b</span></span>
+<span><span class="co">#&gt; 1       0.01 4.950000 0.0500000 0.0500000 4.950000      1      1</span></span>
+<span><span class="co">#&gt; 5       0.05 2.171302 0.9825444 0.9825444 2.171302      1      1</span></span>
+<span><span class="co">#&gt; 10      0.10 1.000000 1.0000000 1.0000000 1.000000      1      1</span></span>
+<span><span class="co">#&gt; 20      0.20 1.000000 1.0000000 1.0000000 1.000000      1      1</span></span>
+<span><span class="co">#&gt; 30      0.30 0.050000 4.9500000 4.9500000 0.050000      1      1</span></span></code></pre></div>
+</div>
+<p>Reporting the results with and without the prior shows how much it matters; <a href="#sec-small" class="quarto-xref">Section 4.3.5</a> compares the EVPI under the two priors.</p>
+<p><strong>Common concerns.</strong></p>
+<ul>
+<li>
+<em>Is the Bayesian analysis complicated?</em> With the default prior, <code><a href="../reference/nb_val.html">nb_val()</a></code> gives the usual net benefit; the Bayesian framework only represents its uncertainty for the value of information functions.</li>
+<li>
+<em>Do I have to choose a prior?</em> No; priors are an option for small effective sample sizes.</li>
+<li>
+<em>Do I have to monitor convergence?</em> No: the draws are exact (closed form, or the Bayesian bootstrap), with no MCMC.</li>
+<li>
+<em>Will the prior make the results subjective?</em> With the default prior, the results are those of standard decision curve analysis. A prior matters only where the data are scarce, and its influence can be shown by reporting the results with and without it.</li>
+</ul></section><section class="level3" data-number="4.3"><h3 data-number="4.3" id="sec-voi">
+<span class="header-section-number">4.3</span> Value of information analysis<a class="anchor" aria-label="anchor" href="#sec-voi"></a>
+</h3>
+<section class="level4" data-number="4.3.1"><h4 data-number="4.3.1" id="how-the-uncertainty-is-represented">
+<span class="header-section-number">4.3.1</span> How the uncertainty is represented<a class="anchor" aria-label="anchor" href="#how-the-uncertainty-is-represented"></a>
+</h4>
+<p>The value of information functions take the result of <code><a href="../reference/nb_val.html">nb_val()</a></code> and draw the net benefit of every strategy <code>n_sim</code> times from its distribution given the validation data; all their results are computed from these draws. For a binary outcome, the draws come from the posterior of the prevalence, sensitivity and specificity, which is known in closed form (Beta distributions; a Dirichlet over the patterns of treatment when several models are compared), with the prior of <code><a href="../reference/nb_val.html">nb_val()</a></code>. For survival and competing-risk outcomes they are the Bayesian bootstrap <span class="citation" data-cites="rubin1981">(<a href="#ref-rubin1981" role="doc-biblioref">Rubin 1981</a>)</span>: random weights on the patients, with the net benefit recomputed in each draw. There is no MCMC, so there is no convergence to monitor. When models are compared, all of them are evaluated on the same patients within each draw, so their correlation is preserved. The draws are random: set a seed to reproduce them.</p>
+</section><section class="level4" data-number="4.3.2"><h4 data-number="4.3.2" id="evpi-puseful-and-pbest">
+<span class="header-section-number">4.3.2</span> EVPI, P(useful) and P(best)<a class="anchor" aria-label="anchor" href="#evpi-puseful-and-pbest"></a>
+</h4>
+<p><code><a href="../reference/evpi.html">evpi()</a></code> computes three measures at each threshold from one set of draws:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res</span>, n_sim <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
 <span><span class="va">e</span></span>
@@ -302,7 +370,7 @@
 </div>
 <p><strong>EVPI.</strong> With <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><msub><mi>B</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">NB_s</annotation></semantics></math> the net benefit of strategy <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>, choosing the strategy with the highest expected net benefit gives <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>max</mo><mi>s</mi></msub><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>N</mi><msub><mi>B</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\max_s E(NB_s)</annotation></semantics></math>; knowing the true net benefits, one would always choose the truly best strategy, which gives <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>E</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mo>max</mo><mi>s</mi></msub><mi>N</mi><msub><mi>B</mi><mi>s</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">E(\max_s NB_s)</annotation></semantics></math>. EVPI is the difference, the expected loss in net benefit due to uncertainty. It is 0 when the best strategy is certain. The relative EVPI (<code>rEVPI</code>) compares the gain from perfect information with the gain from using the model(s) over the best default strategy: 1.10 means that perfect information would add 10% to it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; EVPI: Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
 <span><span class="co">#&gt; EVPI &gt; 0 at 0.03-0.30; largest 0.002193 at 0.06</span></span>
@@ -322,7 +390,7 @@
 </div>
 <p><code>plot(e, type = "relative")</code> draws the relative EVPI, which puts EVPI on a scale comparable across thresholds; the dashed line at 1 means no value of perfect information:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">e</span>, type <span class="op">=</span> <span class="st">"relative"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -334,7 +402,7 @@
 <p>EVPI is largest, 0.00219, at a threshold of 6%: about 219 net true positives per 100,000 patients are expected to be lost because of the uncertainty in this validation sample of 500 patients. Whether this is worth a further study depends on the number of patients who would be affected by the decision, and on the cost of the study.</p>
 <p><strong>P(useful)</strong> is the probability that each model has a higher net benefit than both default strategies, the share of draws in which it does. It compares each model only with the default strategies:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span></span>
 <span><span class="co">#&gt; P(useful): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -378,7 +446,7 @@
 <p><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> gives, for each model, the thresholds where P(useful) is above 0.95, between 0.5 and 0.95, and below 0.5. A P(useful) near 0.5 means that the data give no evidence either way: the model’s net benefit is about that of the best default strategy.</p>
 <p><strong>P(best)</strong> is the probability that each strategy (each model, treat all, treat none) has the highest net benefit; the probabilities add up to 1 at each threshold. It compares the models with each other:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_best</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; P(best): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
 <span><span class="co">#&gt; Most likely best: Full 0.01-0.06, Age only 0.07, Full 0.08-0.30</span></span>
@@ -405,12 +473,12 @@
 </div>
 </div>
 <p>At 6%, where EVPI is largest, the full model is the best in 50% of the draws and the age-only model in 50%: the data cannot tell the two models apart, which is why perfect information has most value there.</p>
-</section><section class="level3" data-number="5.3"><h3 data-number="5.3" id="evsi-the-value-of-a-further-validation-study">
-<span class="header-section-number">5.3</span> EVSI: the value of a further validation study<a class="anchor" aria-label="anchor" href="#evsi-the-value-of-a-further-validation-study"></a>
-</h3>
+</section><section class="level4" data-number="4.3.3"><h4 data-number="4.3.3" id="evsi-the-value-of-a-further-validation-study">
+<span class="header-section-number">4.3.3</span> EVSI: the value of a further validation study<a class="anchor" aria-label="anchor" href="#evsi-the-value-of-a-further-validation-study"></a>
+</h4>
 <p>The expected gain in net benefit from a future validation study of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> patients (<code>future_n</code>), added to the current sample, before choosing the strategy, is quantified by the expected value of sample information (EVSI). It is between 0 and EVPI, and approaches EVPI as <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math> grows:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span>
 <span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evsi.html">evsi</a></span><span class="op">(</span><span class="va">res</span>, future_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2000</span>, <span class="fl">4000</span><span class="op">)</span>, n_sim <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
@@ -444,12 +512,12 @@
 </div>
 </div>
 <p>The header states the information at the two moments that EVSI compares: before the future study, the prior updated with the validation data (as for EVPI), and after it, with the future study added. <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> gives the share of EVPI that a study of each size would recover. At 6%, a further study of 500 patients would recover about 69% of EVPI, and one of 4,000 patients about 94%: most of the value of perfect information can be obtained with a moderate study, with diminishing returns beyond it. Multiplied by the number of patients affected by the decision, EVSI can be compared with the cost of the study.</p>
-</section><section class="level3" data-number="5.4"><h3 data-number="5.4" id="evpi-and-evsi-below-the-decision-curve">
-<span class="header-section-number">5.4</span> EVPI and EVSI below the decision curve<a class="anchor" aria-label="anchor" href="#evpi-and-evsi-below-the-decision-curve"></a>
-</h3>
+</section><section class="level4" data-number="4.3.4"><h4 data-number="4.3.4" id="evpi-and-evsi-below-the-decision-curve">
+<span class="header-section-number">4.3.4</span> EVPI and EVSI below the decision curve<a class="anchor" aria-label="anchor" href="#evpi-and-evsi-below-the-decision-curve"></a>
+</h4>
 <p><code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> of the result of <code><a href="../reference/nb_val.html">nb_val()</a></code> draws EVPI and EVSI in a panel below the decision curve, so that the net benefit and the value of information can be read together:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span>, evpi <span class="op">=</span> <span class="va">e</span>, evsi <span class="op">=</span> <span class="va">o</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output-display">
 <div>
@@ -458,59 +526,14 @@
 </div>
 </div>
 </div>
-<p><strong>Small effective sample sizes.</strong> Where few patients are on one side of a threshold (typically at very low or very high thresholds), the data say little, and the VoI measures can behave unexpectedly; for example, EVPI may not decrease steadily as the sample size grows <span class="citation" data-cites="sadatsafavi2023">(<a href="#ref-sadatsafavi2023" role="doc-biblioref">Sadatsafavi et al. 2023</a>)</span>. Interpret them with care there; prior information (<a href="#sec-priors" class="quarto-xref">Section 6</a>) can stabilise them.</p>
-</section></section><section class="level2" data-number="6"><h2 data-number="6" id="sec-priors">
-<span class="header-section-number">6</span> Prior information<a class="anchor" aria-label="anchor" href="#sec-priors"></a>
-</h2>
-<p>voipred.dev computes the net benefit in a Bayesian framework. By default it uses no prior information, so the estimates are those of standard decision curve analysis, and the uncertainty is that of the data alone (for a binary outcome, the posterior draws then have exactly the distribution of the Bayesian bootstrap, the approach of <span class="citation" data-cites="sadatsafavi2023">Sadatsafavi et al. (<a href="#ref-sadatsafavi2023" role="doc-biblioref">2023</a>)</span>). Prior information can be added for binary outcomes with the <code>prior</code> argument of <code><a href="../reference/nb_val.html">nb_val()</a></code>:</p>
-<table class="table caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead><tr class="header">
-<th>Prior</th>
-<th>What it assumes</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>
-<code><a href="../reference/nb_priors.html">nb_improper()</a></code> (default)</td>
-<td>no prior information: Beta(0, 0) for prevalence, sensitivity and specificity</td>
-</tr>
-<tr class="even">
-<td>
-<code><a href="../reference/nb_priors.html">nb_uniform()</a></code>, <code><a href="../reference/nb_priors.html">nb_jeffreys()</a></code>
-</td>
-<td>Beta(1, 1) or Beta(0.5, 0.5) for all three</td>
-</tr>
-<tr class="odd">
-<td><code><a href="../reference/nb_priors.html">nb_beta()</a></code></td>
-<td>your own Beta priors, e.g. on the prevalence from earlier studies; the parts not given are Beta(0, 0)</td>
-</tr>
-<tr class="even">
-<td><code><a href="../reference/nb_informative.html">nb_informative()</a></code></td>
-<td>the informative prior of bayesDCA <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>, whose priors on sensitivity and specificity change with the threshold</td>
-</tr>
-</tbody>
-</table>
-<p><strong>When to use prior information.</strong> It matters when the effective sample size is small, for example when most predicted risks are on one side of a threshold, so that few patients are treated (or untreated) there <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>. At other thresholds, and with reasonably large samples, priors change the results little.</p>
-<p><strong>The informative prior.</strong> Every model treats everyone at a threshold of 0 (sensitivity 1, specificity 0) and no one at a threshold above all predicted risks (sensitivity 0, specificity 1). Near the ends of the decision curve, where the data say little, <code><a href="../reference/nb_informative.html">nb_informative()</a></code> states, with little weight (about 5 patients), that the model behaves like treat all at the lowest threshold and like treat none at the highest, and stays vague in between; the prevalence has a uniform prior. <span class="citation" data-cites="cruz2025">Cruz and Korthauer (<a href="#ref-cruz2025" role="doc-biblioref">2025</a>)</span> found that it keeps EVPI decreasing with the sample size in small samples. It reproduces bayesDCA’s construction and defaults, and is for binary outcomes only; the prior at a threshold depends on the range of thresholds given to <code><a href="../reference/nb_val.html">nb_val()</a></code>.</p>
+</section><section class="level4" data-number="4.3.5"><h4 data-number="4.3.5" id="sec-small">
+<span class="header-section-number">4.3.5</span> Small effective sample sizes<a class="anchor" aria-label="anchor" href="#sec-small"></a>
+</h4>
+<p>Where few patients are on one side of a threshold (typically at very low or very high thresholds), the data say little, and the value of information measures can behave unexpectedly; for example, EVPI may not decrease steadily as the sample size grows <span class="citation" data-cites="sadatsafavi2023">(<a href="#ref-sadatsafavi2023" role="doc-biblioref">Sadatsafavi et al. 2023</a>)</span>. Interpret them with care there; prior information (<a href="#sec-priors" class="quarto-xref">Section 4.2</a>) can stabilise them.</p>
+<p>For example, with the informative prior of <a href="#sec-priors" class="quarto-xref">Section 4.2</a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
-<span>                  predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="st">"p_full"</span>, `Age only` <span class="op">=</span> <span class="st">"p_age"</span><span class="op">)</span>,</span>
-<span>                  outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
-<span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
-<span>                  prior <span class="op">=</span> <span class="fu"><a href="../reference/nb_informative.html">nb_informative</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">res_inf</span><span class="op">$</span><span class="va">prior_shapes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>, <span class="op">]</span>    <span class="co"># the prior at some thresholds</span></span>
-<span><span class="co">#&gt;    threshold     se_a      se_b      sp_a     sp_b prev_a prev_b</span></span>
-<span><span class="co">#&gt; 1       0.01 4.950000 0.0500000 0.0500000 4.950000      1      1</span></span>
-<span><span class="co">#&gt; 5       0.05 2.171302 0.9825444 0.9825444 2.171302      1      1</span></span>
-<span><span class="co">#&gt; 10      0.10 1.000000 1.0000000 1.0000000 1.000000      1      1</span></span>
-<span><span class="co">#&gt; 20      0.20 1.000000 1.0000000 1.0000000 1.000000      1      1</span></span>
-<span><span class="co">#&gt; 30      0.30 0.050000 4.9500000 4.9500000 0.050000      1      1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">e_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res_inf</span>, n_sim <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="va">ee</span><span class="op">$</span><span class="va">threshold</span>,</span>
 <span>                 EVPI_default <span class="op">=</span> <span class="va">ee</span><span class="op">$</span><span class="va">EVPI</span>,</span>
@@ -523,26 +546,17 @@
 <span><span class="co">#&gt; 20      0.20      0.00044          0.00035</span></span>
 <span><span class="co">#&gt; 30      0.30      0.00027          0.00038</span></span></code></pre></div>
 </div>
-<p>With 500 patients, the two priors give similar EVPI, except near the ends of the range, where the informative prior expresses its assumptions. Reporting the results with and without the prior shows how much it matters.</p>
-<p><strong>Common concerns.</strong></p>
-<ul>
-<li>
-<em>Is the Bayesian analysis complicated?</em> With the default prior, <code><a href="../reference/nb_val.html">nb_val()</a></code> gives the usual net benefit; the Bayesian framework only represents its uncertainty for the VoI functions.</li>
-<li>
-<em>Do I have to choose a prior?</em> No; priors are an option for small effective sample sizes.</li>
-<li>
-<em>Do I have to monitor convergence?</em> No: the draws are exact (closed form, or the Bayesian bootstrap), with no MCMC.</li>
-<li>
-<em>Will the prior make the results subjective?</em> With the default prior, the results are those of standard decision curve analysis. A prior matters only where the data are scarce, and its influence can be shown by reporting the results with and without it.</li>
-</ul></section><section class="level2" data-number="7"><h2 data-number="7" id="sec-survival">
-<span class="header-section-number">7</span> Survival and competing-risk outcomes<a class="anchor" aria-label="anchor" href="#sec-survival"></a>
+<p>With 500 patients, the two priors give similar EVPI, except near the ends of the range, where the informative prior expresses its assumptions.</p>
+</section></section></section><section class="level2" data-number="5"><h2 data-number="5" id="sec-survival">
+<span class="header-section-number">5</span> Survival outcome<a class="anchor" aria-label="anchor" href="#sec-survival"></a>
 </h2>
-<section class="level3" data-number="7.1"><h3 data-number="7.1" id="net-benefit-by-a-time-horizon">
-<span class="header-section-number">7.1</span> Net benefit by a time horizon<a class="anchor" aria-label="anchor" href="#net-benefit-by-a-time-horizon"></a>
+<p>The same analyses for a survival outcome, where the event is the event by a time horizon and some patients are censored before it: net benefit and decision curves (with Kaplan-Meier, or with cIPCW when censoring is informative), the value of information analysis, and competing risks. The methods are those of <a href="#sec-binary" class="quarto-xref">Section 4</a>; only what differs is explained here.</p>
+<section class="level3" data-number="5.1"><h3 data-number="5.1" id="net-benefit-and-decision-curves">
+<span class="header-section-number">5.1</span> Net benefit and decision curves<a class="anchor" aria-label="anchor" href="#net-benefit-and-decision-curves"></a>
 </h3>
 <p>For a survival outcome, the event is the event by a time horizon, and the predicted risks are the risks of the event by that horizon. We use the Rotterdam breast cancer data (<code>rotterdam</code>, from the survival package): 2,982 women with primary breast cancer, used by <span class="citation" data-cites="royston2013">Royston and Altman (<a href="#ref-royston2013" role="doc-biblioref">2013</a>)</span> to illustrate the validation of survival models. The outcome is death, and we evaluate the risk of death by 5 years. As before, the data are split at random, here into 1,500 women to fit the models and 600 to validate them.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rott</span> <span class="op">&lt;-</span> <span class="va">rotterdam</span></span>
 <span><span class="va">rott</span><span class="op">$</span><span class="va">years</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">$</span><span class="va">dtime</span> <span class="op">/</span> <span class="fl">365.25</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
@@ -556,7 +570,7 @@
 </div>
 <p>The outcome is given with <code><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv()</a></code>, and <code>horizon</code> is required. Here the fitted models are given, and voipred predicts each patient’s risk by 5 years from them:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
 <span>                predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
 <span>                outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
@@ -586,12 +600,12 @@
 </div>
 <p>The two models perform very similarly: the best strategy switches between them from one threshold to the next, and their largest gains are 0.093 (Cox) and 0.082 (Weibull). Both are better than the default strategies above 8%; below it, with 27% of the women dying within 5 years, treating everyone is as good.</p>
 <p>By default, censoring is handled with Kaplan-Meier estimates <span class="citation" data-cites="vickers2008">(<a href="#ref-vickers2008" role="doc-biblioref">Vickers et al. 2008</a>)</span>: the risk of the event by the horizon, overall and among the treated patients. This assumes that censoring is independent of the outcome.</p>
-</section><section class="level3" data-number="7.2"><h3 data-number="7.2" id="informative-censoring-cipcw">
-<span class="header-section-number">7.2</span> Informative censoring: cIPCW<a class="anchor" aria-label="anchor" href="#informative-censoring-cipcw"></a>
+</section><section class="level3" data-number="5.2"><h3 data-number="5.2" id="informative-censoring-cipcw">
+<span class="header-section-number">5.2</span> Informative censoring: cIPCW<a class="anchor" aria-label="anchor" href="#informative-censoring-cipcw"></a>
 </h3>
 <p>When censoring may depend on patient characteristics that are also related to the outcome (for example when older or sicker patients are more often lost to follow-up, or when the length of follow-up changes with calendar time while the case mix changes too), Kaplan-Meier can give a biased net benefit. Conditional inverse probability of censoring weighting (cIPCW) allows censoring to depend on covariates <span class="citation" data-cites="farahmand2026">(<a href="#ref-farahmand2026" role="doc-biblioref">Farahmand et al. 2026</a>)</span>. Give the covariates that censoring may depend on: voipred fits a Cox model of the censoring times of the validation data on them, and weights the patients by the inverse of their probability of remaining uncensored (truncated at 0.02, i.e. weights of at most 50):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_ci</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
 <span>                 predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
 <span>                 outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html" class="external-link">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
@@ -614,12 +628,12 @@
 <span><span class="co">#&gt;        0.4 Weibull 0.272 0.942   0.0440 -0.2233       0  0.04400</span></span></code></pre></div>
 </div>
 <p>Here the results with cIPCW are close to those with Kaplan-Meier (the net benefits differ by at most 0.0014), so censoring related to these covariates does not change the conclusions. When censoring is purely administrative (the end of the study), Kaplan-Meier is fine. The censoring model does not have to be a Cox model: any survival model fitted to the censoring times can be given (<code>cipcw = &lt;model&gt;</code>), e.g. a parametric model or a random survival forest; <code><a href="../reference/cipcw_control.html">cipcw_control()</a></code> sets the other options (truncation, given weights, how to refit the model). See <code><a href="../reference/cipcw_control.html">?cipcw_control</a></code>, which includes an example with a random survival forest.</p>
-</section><section class="level3" data-number="7.3"><h3 data-number="7.3" id="value-of-information-for-survival-outcomes">
-<span class="header-section-number">7.3</span> Value of information for survival outcomes<a class="anchor" aria-label="anchor" href="#value-of-information-for-survival-outcomes"></a>
+</section><section class="level3" data-number="5.3"><h3 data-number="5.3" id="value-of-information-analysis">
+<span class="header-section-number">5.3</span> Value of information analysis<a class="anchor" aria-label="anchor" href="#value-of-information-analysis"></a>
 </h3>
-<p>The VoI functions work in the same way. Their draws are the Bayesian bootstrap; with cIPCW, the censoring model is refitted in every draw, which takes longer.</p>
+<p>The value of information functions work in the same way. Their draws are the Bayesian bootstrap; with cIPCW, the censoring model is refitted in every draw, which takes longer.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
 <span><span class="va">e_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res_s</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e_s</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
@@ -640,12 +654,12 @@
 </div>
 </div>
 <p>EVPI is positive over most thresholds, because the two models are so close that the data rarely show which one is best; it is largest, 0.00257, at 46% (about 257 net true positives per 100,000 patients), which is small compared with the gain of either model over the default strategies (up to 0.093): the uncertainty is mostly about which of two almost equally good models to use.</p>
-</section><section class="level3" data-number="7.4"><h3 data-number="7.4" id="competing-risks">
-<span class="header-section-number">7.4</span> Competing risks<a class="anchor" aria-label="anchor" href="#competing-risks"></a>
+</section><section class="level3" data-number="5.4"><h3 data-number="5.4" id="competing-risks">
+<span class="header-section-number">5.4</span> Competing risks<a class="anchor" aria-label="anchor" href="#competing-risks"></a>
 </h3>
 <p>With competing events, the status is a factor whose first level is censoring, and <code>cause</code> names the event of interest; the net benefit is computed from the cumulative incidence of that cause (Aalen-Johansen, or cIPCW). Here, the risk of recurrence by 5 years, with death before recurrence as a competing event, from a cause-specific Cox model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">crdat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">recur</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">d</span><span class="op">$</span><span class="va">rtime</span>, <span class="va">d</span><span class="op">$</span><span class="va">dtime</span><span class="op">)</span> <span class="op">/</span> <span class="fl">365.25</span></span>
 <span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">recur</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">death</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
@@ -675,11 +689,12 @@
 <span><span class="co">#&gt;        0.5 Cause-specific Cox 0.313 0.891   0.0595 -0.2018       0   0.0595</span></span></code></pre></div>
 </div>
 <p>With 40% of the women having a recurrence within 5 years, treating everyone is best at low thresholds; the model is useful from 18%, with its largest gain, 0.107, at 40%.</p>
-</section></section><section class="level2" data-number="8"><h2 data-number="8" id="sec-subgroups">
-<span class="header-section-number">8</span> Subgroups: utility heterogeneity<a class="anchor" aria-label="anchor" href="#sec-subgroups"></a>
+</section></section><section class="level2" data-number="6"><h2 data-number="6" id="sec-subgroups">
+<span class="header-section-number">6</span> Subgroups: utility heterogeneity<a class="anchor" aria-label="anchor" href="#sec-subgroups"></a>
 </h2>
-<section class="level3" data-number="8.1"><h3 data-number="8.1" id="the-idea">
-<span class="header-section-number">8.1</span> The idea<a class="anchor" aria-label="anchor" href="#the-idea"></a>
+<p>This section applies to binary and survival outcomes alike.</p>
+<section class="level3" data-number="6.1"><h3 data-number="6.1" id="the-idea">
+<span class="header-section-number">6.1</span> The idea<a class="anchor" aria-label="anchor" href="#the-idea"></a>
 </h3>
 <p>Net benefit is expressed in units of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a - c</annotation></semantics></math>, the incremental utility of a true positive relative to a false negative (written <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>): within a population, the difference in utility between two strategies is <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mspace width="0.167em"></mspace><mi>Δ</mi><mi>N</mi><mi>B</mi></mrow><annotation encoding="application/x-tex">k \, \Delta NB</annotation></semantics></math>, so net benefit and utility favour the same strategy. When the population consists of subgroups whose <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> differs, for example because a treatment is more effective in men than in women, this no longer holds <span class="citation" data-cites="wang2026">(<a href="#ref-wang2026" role="doc-biblioref">Wang et al. 2026</a>)</span>. With subgroups <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">i = 1, \dots, m</annotation></semantics></math> of sizes <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>n</mi><mi>i</mi></msub><annotation encoding="application/x-tex">n_i</annotation></semantics></math>, the population difference in net benefit weights the subgroup differences by size only, whereas the population difference in utility also weights them by <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>k</mi><mi>i</mi></msub><annotation encoding="application/x-tex">k_i</annotation></semantics></math>: <math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><mi>N</mi><mi>B</mi><mo>∝</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>n</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>N</mi><msub><mi>B</mi><mi>i</mi></msub><mo>,</mo><mspace width="2.0em"></mspace><mi>Δ</mi><mi>U</mi><mo>∝</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>n</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><msub><mi>k</mi><mi>i</mi></msub><mspace width="0.167em"></mspace><mi>Δ</mi><mi>N</mi><msub><mi>B</mi><mi>i</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">\Delta NB \propto \sum_i n_i \, \Delta NB_i, \qquad
   \Delta U \propto \sum_i n_i \, k_i \, \Delta NB_i .</annotation></semantics></math> The two can therefore favour different strategies: population net benefit can favour the model while population utility favours the comparator, or the reverse. This is possible only when the subgroup <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><mi>N</mi><msub><mi>B</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\Delta NB_i</annotation></semantics></math> do not all have the same sign. For two subgroups, the combinations of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>Δ</mi><mi>N</mi><msub><mi>B</mi><mn>1</mn></msub><mo>,</mo><mi>Δ</mi><mi>N</mi><msub><mi>B</mi><mn>2</mn></msub><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(\Delta NB_1,
@@ -720,12 +735,12 @@
 </table>
 <p>The evidence on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math> comes from the treatment effect: for a diagnostic model, the effect of treatment among people with the target disease; for a prognostic model, under the assumptions of <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>, the relative risk reduction (RRR) of the treatment in each subgroup.</p>
 <p><strong>Notation.</strong> In the framework, <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Δ</mi><mi>N</mi><msub><mi>B</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">\Delta NB_i</annotation></semantics></math> is the difference in net benefit between the model and a comparator that is the same strategy in every subgroup (by default treat all), so that the sums above compare two population strategies. voipred.dev calls it <code>diff_NB</code> (<code>diff_NB_&lt;subgroup&gt;</code>, and <code>diff_NB_population</code> for the size-weighted sum), to keep it apart from <code>delta_NB</code>, which compares the model with the best default strategy chosen in each group. The utility-weighted difference is <code>diff_utility</code>.</p>
-</section><section class="level3" data-number="8.2"><h3 data-number="8.2" id="subgroups-in-gusto-i-age">
-<span class="header-section-number">8.2</span> Subgroups in GUSTO-I: age<a class="anchor" aria-label="anchor" href="#subgroups-in-gusto-i-age"></a>
+</section><section class="level3" data-number="6.2"><h3 data-number="6.2" id="subgroups-in-gusto-i-age">
+<span class="header-section-number">6.2</span> Subgroups in GUSTO-I: age<a class="anchor" aria-label="anchor" href="#subgroups-in-gusto-i-age"></a>
 </h3>
 <p>Subgroup estimates need more data than population estimates, so for this section we validate the full model on 5,000 patients (the next 5,000 in the random order of <a href="#sec-data" class="quarto-xref">Section 3</a>), with two subgroups: patients younger than 65 years, and those 65 and over. <code>subgroup</code> takes the name of a column of <code>data</code> (as here), several column names (their combinations), or a factor or vector with one subgroup per patient.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">val_age</span> <span class="op">&lt;-</span> <span class="va">gusto</span><span class="op">[</span><span class="va">i</span><span class="op">[</span><span class="fl">5001</span><span class="op">:</span><span class="fl">10000</span><span class="op">]</span>, <span class="op">]</span></span>
 <span><span class="va">val_age</span><span class="op">$</span><span class="va">p_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">fit_full</span>, newdata <span class="op">=</span> <span class="va">val_age</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
 <span><span class="va">val_age</span><span class="op">$</span><span class="va">age_group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">val_age</span><span class="op">$</span><span class="va">age</span> <span class="op">&gt;=</span> <span class="fl">65</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"under 65"</span>, <span class="st">"65 and over"</span><span class="op">)</span><span class="op">)</span></span>
@@ -738,7 +753,7 @@
 </div>
 <p><strong>Steps 1 and 2.</strong> <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> adds, for each threshold, the subgroup differences in net benefit against treat all, their size-weighted sum, and whether they have the same sign; <code>plot(type = "subgroups")</code> draws them:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_age</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.03</span>, <span class="fl">0.04</span>, <span class="fl">0.05</span>, <span class="fl">0.06</span>, <span class="fl">0.10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Net benefit of Full: binary, n = 5000, 339 events (6.8%), prior improper Beta(0, 0)</span></span>
 <span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>
@@ -781,7 +796,7 @@
 <p>At 3% to 6%, the model is better than treat all in one age group and worse in the other, so Step 3 is needed there; at the other thresholds the signs agree, and differences in <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a - c</annotation></semantics></math> between the age groups cannot change the conclusion.</p>
 <p><strong>Step 3.</strong> The K-values at these thresholds range from 0.0023 to 0.039: the conclusion would change only if <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>c</mi></mrow><annotation encoding="application/x-tex">a - c</annotation></semantics></math> in patients 65 and over were 26 to 426 times that in younger patients, so it is robust to plausible differences between the age groups. With evidence on <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>, give it as <code>k</code> (the values below are hypothetical, for illustration only); <code>diff_utility</code> is then the utility-weighted difference, and <code>consistent</code> says whether population net benefit and population utility favour the same strategy. <code>plot(type = "region")</code> locates the observed point relative to the inconsistency region at one threshold, as in <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_age</span>, thresholds <span class="op">=</span> <span class="va">opp</span><span class="op">$</span><span class="va">threshold</span>,</span>
 <span>        k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>`under 65` <span class="op">=</span> <span class="fl">0.30</span>, `65 and over` <span class="op">=</span> <span class="fl">0.20</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Net benefit of Full: binary, n = 5000, 339 events (6.8%), prior improper Beta(0, 0)</span></span>
@@ -818,12 +833,12 @@
 </div>
 </div>
 </div>
-</section><section class="level3" data-number="8.3"><h3 data-number="8.3" id="from-published-results">
-<span class="header-section-number">8.3</span> From published results<a class="anchor" aria-label="anchor" href="#from-published-results"></a>
+</section><section class="level3" data-number="6.3"><h3 data-number="6.3" id="from-published-results">
+<span class="header-section-number">6.3</span> From published results<a class="anchor" aria-label="anchor" href="#from-published-results"></a>
 </h3>
 <p>Without patient data, <code><a href="../reference/k_value.html">k_value()</a></code> computes the K-value from published subgroup differences in net benefit. In the case study of <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>, SCORE2 at a 3% threshold had a difference against treat all of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>−</mi><mn>0.00160</mn></mrow><annotation encoding="application/x-tex">-0.00160</annotation></semantics></math> in men and <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.00345</mn><annotation encoding="application/x-tex">0.00345</annotation></semantics></math> in women (equal proportions assumed), and LDL-lowering therapy has RRRs of 0.28 in men and 0.15 in women:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/k_value.html">k_value</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="op">-</span><span class="fl">0.0016</span>, Women <span class="op">=</span> <span class="fl">0.00345</span><span class="op">)</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="fl">0.28</span>, Women <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Subgroup difference in net benefit (diff_NB): Men -0.00160, Women 0.00345 (opposite signs)</span></span>
 <span><span class="co">#&gt; Shares: Men 50%, Women 50%</span></span>
@@ -832,20 +847,21 @@
 <span><span class="co">#&gt; With k: k_Men / k_Women = 1.867, so population NB and population utility favour the same strategy.</span></span></code></pre></div>
 </div>
 <p>The evidence-based ratio, 1.867, is below the K-value of 2.156, so population net benefit and population utility favour the same strategy, as in the paper.</p>
-</section><section class="level3" data-number="8.4"><h3 data-number="8.4" id="interpreting-conflicting-signs">
-<span class="header-section-number">8.4</span> Interpreting conflicting signs<a class="anchor" aria-label="anchor" href="#interpreting-conflicting-signs"></a>
+</section><section class="level3" data-number="6.4"><h3 data-number="6.4" id="interpreting-conflicting-signs">
+<span class="header-section-number">6.4</span> Interpreting conflicting signs<a class="anchor" aria-label="anchor" href="#interpreting-conflicting-signs"></a>
 </h3>
 <p>Following <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>: when the subgroup estimates are precise, the subgroup conclusions may themselves be informative; when they are imprecise, the population-level decision curve analysis remains a reasonable starting point, but opposite signs are a warning that motivates Step 3. If the observed point falls in the inconsistency region, population net benefit should not be interpreted as a proxy for population utility. A negative subgroup difference may also come from miscalibration, which recalibration would be expected to remove <span class="citation" data-cites="vancalster2015">(<a href="#ref-vancalster2015" role="doc-biblioref">Van Calster and Vickers 2015</a>)</span>; the framework is for assessing the available evidence when the model cannot be updated.</p>
 <p><strong>Options.</strong> <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> take <code>comparator</code> (<code>"Treat All"</code> by default, as in the case study; <code>"Treat None"</code>, <code>"best default"</code> or another model), <code>shares</code> (the subgroup proportions in the target population, by default those of the sample) and <code>k</code>. With more than two subgroups there is no single K-value; give values or ranges for every subgroup, e.g. <code>k = list(A = c(0.2, 0.3), B = c(0.1, 0.2), C = c(0.2, 0.4))</code>, and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> checks whether the utility-weighted sum can change sign. For survival outcomes, each subgroup uses the same estimator (Kaplan-Meier, or cIPCW with the censoring weights of the whole sample); the checks use the size-weighted sum. Credible intervals are not available with subgroups.</p>
-</section></section><section class="level2" data-number="9"><h2 data-number="9" id="sec-reporting">
-<span class="header-section-number">9</span> Reporting the results<a class="anchor" aria-label="anchor" href="#sec-reporting"></a>
+</section></section><section class="level2" data-number="7"><h2 data-number="7" id="sec-reporting">
+<span class="header-section-number">7</span> Reporting the results<a class="anchor" aria-label="anchor" href="#sec-reporting"></a>
 </h2>
-<section class="level3" data-number="9.1"><h3 data-number="9.1" id="net-benefit-per-100000-patients">
-<span class="header-section-number">9.1</span> Net benefit per 100,000 patients<a class="anchor" aria-label="anchor" href="#net-benefit-per-100000-patients"></a>
+<p>For binary and survival outcomes alike.</p>
+<section class="level3" data-number="7.1"><h3 data-number="7.1" id="net-benefit-per-100000-patients">
+<span class="header-section-number">7.1</span> Net benefit per 100,000 patients<a class="anchor" aria-label="anchor" href="#net-benefit-per-100000-patients"></a>
 </h3>
 <p>Net benefit, EVPI and EVSI are per patient, so their values are small. <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>, <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> and <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> take <code>per</code>, the number of patients to express them per (default 1), e.g. <code>per = 100000</code>; the headers and the y axes say the scale, and the results themselves stay per patient. The default can be set once with <code>options(voipred.per = 100000)</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">e</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span></span>
 <span><span class="co">#&gt; EVPI: Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws, per 100,000 patients</span></span>
 <span><span class="co">#&gt; EVPI &gt; 0 at 0.03-0.30; largest 219.3 at 0.06</span></span>
@@ -863,8 +879,8 @@
 </div>
 </div>
 </div>
-</section><section class="level3" data-number="9.2"><h3 data-number="9.2" id="results-as-data-frames">
-<span class="header-section-number">9.2</span> Results as data frames<a class="anchor" aria-label="anchor" href="#results-as-data-frames"></a>
+</section><section class="level3" data-number="7.2"><h3 data-number="7.2" id="results-as-data-frames">
+<span class="header-section-number">7.2</span> Results as data frames<a class="anchor" aria-label="anchor" href="#results-as-data-frames"></a>
 </h3>
 <p><code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> gives the full results, with fixed column names and one row per threshold (and per model, strategy or future sample size):</p>
 <table class="table caption-top">
@@ -911,7 +927,7 @@
 </table>
 <p>With <code>per</code>, the per-patient columns are kept and the scaled ones added (e.g. <code>EVPI_per_100000</code>). As the tables share <code>threshold</code> (and <code>model</code>), they can be combined, e.g. into one table per threshold and model for a report:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"model"</span>, <span class="st">"NB_model"</span>, <span class="st">"delta_NB"</span><span class="op">)</span><span class="op">]</span>,</span>
 <span>           <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"model"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html" class="external-link">merge</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">e</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"EVPI_per_100000"</span><span class="op">)</span><span class="op">]</span>,</span>
@@ -926,12 +942,13 @@
 <span><span class="co">#&gt; 20      0.10     Full 0.01533333 0.015333333   0.9890        94.00733</span></span></code></pre></div>
 </div>
 <p>Thresholds made with <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code> are not exact decimals, so select them with <code><a href="https://rdrr.io/r/base/Round.html" class="external-link">round()</a></code>, as above. The plots take <code>labels</code> (other names for the curves), <code>colors</code> (e.g. <code>colors = c(Full = "darkred")</code>) and <code>interactive = TRUE</code> (with the plotly package).</p>
-</section></section><section class="level2" data-number="10"><h2 data-number="10" id="sec-ci">
-<span class="header-section-number">10</span> Credible intervals<a class="anchor" aria-label="anchor" href="#sec-ci"></a>
+</section></section><section class="level2" data-number="8"><h2 data-number="8" id="sec-ci">
+<span class="header-section-number">8</span> Credible intervals<a class="anchor" aria-label="anchor" href="#sec-ci"></a>
 </h2>
-<p><code><a href="../reference/nb_val.html">nb_val()</a></code> can also give credible intervals of the net benefit, with <code>interval = 0.95</code> (from <code>n_sim</code> draws, as in <a href="#sec-voi" class="quarto-xref">Section 5</a>). We do not recommend them for deciding whether to use a model: an interval shows the uncertainty of each net benefit on its own, while the decision depends on which strategy is best, and on whether more data could change that choice, which is what EVPI, P(useful) and P(best) measure (see also <span class="citation" data-cites="vickers2023ci">Vickers et al. (<a href="#ref-vickers2023ci" role="doc-biblioref">2023</a>)</span>). For this reason, <code><a href="../reference/nb_val.html">nb_val()</a></code> and every method that shows the intervals give a warning.</p>
+<p>For binary and survival outcomes alike.</p>
+<p><code><a href="../reference/nb_val.html">nb_val()</a></code> can also give credible intervals of the net benefit, with <code>interval = 0.95</code> (from <code>n_sim</code> draws, as in <a href="#sec-voi" class="quarto-xref">Section 4.3</a>). We do not recommend them for deciding whether to use a model: an interval shows the uncertainty of each net benefit on its own, while the decision depends on which strategy is best, and on whether more data could change that choice, which is what EVPI, P(useful) and P(best) measure (see also <span class="citation" data-cites="vickers2023ci">Vickers et al. (<a href="#ref-vickers2023ci" role="doc-biblioref">2023</a>)</span>). For this reason, <code><a href="../reference/nb_val.html">nb_val()</a></code> and every method that shows the intervals give a warning.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">res_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>, predicted_risk <span class="op">=</span> <span class="st">"p_full"</span>, outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
 <span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"Full"</span>,</span>
@@ -942,7 +959,7 @@
 <span><span class="co">#&gt; P(useful) and P(best).</span></span></code></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res_int</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Net benefit of Full: binary, n = 500, 26 events (5.2%), prior improper Beta(0, 0); 95% credible intervals from 1000 posterior draws</span></span>
 <span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>
@@ -965,8 +982,8 @@
 </div>
 </div>
 <p><code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code> show each interval after its estimate, <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> has the bounds (<code>NB_model_lower</code>, <code>NB_model_upper</code>, …), and <code>plot(bands = TRUE)</code> draws them as bands (the default plot has none; for a result without intervals, <code>bands = TRUE</code> gives an error). For survival outcomes, the intervals come from the Bayesian bootstrap.</p>
-</section><section class="level2" data-number="11"><h2 data-number="11" id="sec-options">
-<span class="header-section-number">11</span> Choosing the options<a class="anchor" aria-label="anchor" href="#sec-options"></a>
+</section><section class="level2" data-number="9"><h2 data-number="9" id="sec-options">
+<span class="header-section-number">9</span> Choosing the options<a class="anchor" aria-label="anchor" href="#sec-options"></a>
 </h2>
 <table class="table caption-top">
 <colgroup>
@@ -1039,7 +1056,7 @@
 <td>
 <code>interval</code> in <code><a href="../reference/nb_val.html">nb_val()</a></code>
 </td>
-<td>not needed for the decision; use the VoI measures</td>
+<td>not needed for the decision; use the value of information measures</td>
 </tr>
 <tr class="even">
 <td>Subgroups</td>
@@ -1051,8 +1068,8 @@
 </tbody>
 </table>
 <p>The help pages give the details of every function and argument (see the Reference).</p>
-</section><section class="level2 unnumbered" data-number="12"><h2 class="unnumbered" data-number="12" id="references">
-<span class="header-section-number">12</span> References<a class="anchor" aria-label="anchor" href="#references"></a>
+</section><section class="level2 unnumbered" data-number="10"><h2 class="unnumbered" data-number="10" id="references">
+<span class="header-section-number">10</span> References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-cruz2025" class="csl-entry" role="listitem">
