@@ -393,15 +393,15 @@ risks). There are two ways:</p><ul><li><p><strong>By default</strong>, from the 
 uses <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> with <code>type = "response"</code> or <code>type = "prob"</code>, or
 <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html" class="external-link">riskRegression::predictRisk()</a></code> (at <code>horizon</code>, and for <code>cause</code>), and its
 own prediction code only for models these get wrong. Checked in the
-tests against each package's own predictions:</p><ul><li><p>binary: <code>glm</code> (logit, probit, cloglog), <code>logistf</code>, <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam</a></code>,
-<code>earth</code>, <code>rpart</code>, <code><a href="https://rdrr.io/pkg/partykit/man/ctree.html" class="external-link">partykit::ctree</a></code>, <code>randomForest</code>, <code>ranger</code>
+tests against each package's own predictions:</p><ul><li><p>binary: <code>glm</code> (logit, probit, cloglog), <code>logistf</code>, <code>mgcv::gam</code>,
+<code>earth</code>, <code>rpart</code>, <code>partykit::ctree</code>, <code>randomForest</code>, <code>ranger</code>
 (<code>probability = TRUE</code>), <code>gbm</code>, <code>xgboost</code>, <code>lightgbm</code>, <code>catboost</code>,
 <code>glmnet</code>, <code>cv.glmnet</code>, <code><a href="https://rdrr.io/pkg/e1071/man/svm.html" class="external-link">e1071::svm</a></code> (<code>probability = TRUE</code>),
 <code><a href="https://rdrr.io/pkg/e1071/man/naiveBayes.html" class="external-link">e1071::naiveBayes</a></code>, <code>naivebayes</code>, <code>nnet</code>, <code><a href="https://rdrr.io/pkg/MASS/man/lda.html" class="external-link">MASS::lda</a></code>, <code><a href="https://rdrr.io/pkg/MASS/man/qda.html" class="external-link">MASS::qda</a></code>,
 <code>kknn</code>, and bayespred <code>bpmfit</code> and <code>bpm</code> (posterior mean of risk);</p></li>
 <li><p>survival: <code>coxph</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html" class="external-link">rms::cph</a></code>, <code>survreg</code>, <code><a href="https://rdrr.io/pkg/rms/man/psm.html" class="external-link">rms::psm</a></code>, <code>flexsurvreg</code>,
-<code>flexsurvspline</code>, <code><a href="https://rdrr.io/pkg/rstpm2/man/gsm.html" class="external-link">rstpm2::stpm2</a></code>, <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam</a></code> with <code>cox.ph()</code>,
-<code>ranger</code>, <code>randomForestSRC</code>, <code>aorsf</code>, <code><a href="https://rdrr.io/pkg/partykit/man/ctree.html" class="external-link">partykit::ctree</a></code>, <code>prodlim</code>, and
+<code>flexsurvspline</code>, <code>rstpm2::stpm2</code>, <code>mgcv::gam</code> with <code>cox.ph()</code>,
+<code>ranger</code>, <code>randomForestSRC</code>, <code>aorsf</code>, <code>partykit::ctree</code>, <code>prodlim</code>, and
 bayespred.dev Bayesian Cox and parametric survival models (posterior
 mean of risk);</p></li>
 <li><p>competing risks: <code><a href="https://rdrr.io/pkg/riskRegression/man/CSC.html" class="external-link">riskRegression::CSC</a></code>, <code><a href="https://rdrr.io/pkg/riskRegression/man/FGR.html" class="external-link">riskRegression::FGR</a></code> (fitted

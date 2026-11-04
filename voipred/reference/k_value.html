@@ -73,32 +73,32 @@ gives the same check at every threshold.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">k_value</span><span class="op">(</span><span class="va">dnb</span>, shares <span class="op">=</span> <span class="cn">NULL</span>, k <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">k_value</span><span class="op">(</span><span class="va">diff_nb</span>, shares <span class="op">=</span> <span class="cn">NULL</span>, k <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
 
 
-<dl><dt id="arg-dnb">dnb<a class="anchor" aria-label="anchor" href="#arg-dnb"></a></dt>
+<dl><dt id="arg-diff-nb">diff_nb<a class="anchor" aria-label="anchor" href="#arg-diff-nb"></a></dt>
 <dd><p>The difference in net benefit between the model and the
-comparator in each of the two subgroups, named by subgroup, e.g.
+comparator (the same strategy in both subgroups) in each of the two subgroups, named by subgroup, e.g.
 <code>c(Men = -0.0016, Women = 0.00345)</code>.</p></dd>
 
 
 <dt id="arg-shares">shares<a class="anchor" aria-label="anchor" href="#arg-shares"></a></dt>
-<dd><p>Optional relative sizes of the two subgroups, named like <code>dnb</code>.
+<dd><p>Optional relative sizes of the two subgroups, named like <code>diff_nb</code>.
 Default: equal.</p></dd>
 
 
 <dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
 <dd><p>Optional \(a - c\) of each subgroup (e.g. the relative risk
-reductions of the treatment), named like <code>dnb</code>.</p></dd>
+reductions of the treatment), named like <code>diff_nb</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An object of class <code>voipred_k_value</code>, a list with <code>dnb</code>, <code>shares</code>,
+    <p>An object of class <code>voipred_k_value</code>, a list with <code>diff_nb</code>, <code>shares</code>,
 <code>K</code> (NA when the signs are the same), <code>k</code> and <code>consistent</code> (with <code>k</code>:
 whether population net benefit and population utility favour the same
 strategy), printed as a short report.</p>
@@ -115,18 +115,18 @@ heterogeneity.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># SCORE2 at a 3% threshold (the case study of Wang et al.)</span></span></span>
 <span class="r-in"><span><span class="fu">k_value</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="op">-</span><span class="fl">0.0016</span>, Women <span class="op">=</span> <span class="fl">0.00345</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Subgroup delta NB: Men -0.00160, Women 0.00345 (opposite signs)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Subgroup difference in net benefit (diff_NB): Men -0.00160, Women 0.00345 (opposite signs)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Shares: Men 50%, Women 50%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> K-value (k_Men / k_Women): 2.156</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Population NB and population utility favour different strategies if k_Men / k_Women is beyond 2.156 (above it when k_Men &gt; k_Women, below it when k_Men &lt; k_Women).</span>
 <span class="r-in"><span><span class="fu">k_value</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="op">-</span><span class="fl">0.0016</span>, Women <span class="op">=</span> <span class="fl">0.00345</span><span class="op">)</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="fl">0.28</span>, Women <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Subgroup delta NB: Men -0.00160, Women 0.00345 (opposite signs)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Subgroup difference in net benefit (diff_NB): Men -0.00160, Women 0.00345 (opposite signs)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Shares: Men 50%, Women 50%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> K-value (k_Men / k_Women): 2.156</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Population NB and population utility favour different strategies if k_Men / k_Women is beyond 2.156 (above it when k_Men &gt; k_Women, below it when k_Men &lt; k_Women).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With k: k_Men / k_Women = 1.867, so population NB and population utility favour the same strategy.</span>
 <span class="r-in"><span><span class="fu">k_value</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="op">-</span><span class="fl">0.0016</span>, Women <span class="op">=</span> <span class="fl">0.00345</span><span class="op">)</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="fl">0.28</span>, Women <span class="op">=</span> <span class="fl">0.12</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Subgroup delta NB: Men -0.00160, Women 0.00345 (opposite signs)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Subgroup difference in net benefit (diff_NB): Men -0.00160, Women 0.00345 (opposite signs)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Shares: Men 50%, Women 50%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> K-value (k_Men / k_Women): 2.156</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Population NB and population utility favour different strategies if k_Men / k_Women is beyond 2.156 (above it when k_Men &gt; k_Women, below it when k_Men &lt; k_Women).</span>

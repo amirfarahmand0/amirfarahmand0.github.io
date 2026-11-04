@@ -171,7 +171,7 @@ risks from a model in <code><a href="nb_val.html">nb_val()</a></code>: through <
 <code>coxph</code> with <code>x = TRUE</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html" class="external-link">rms::cph</a></code>, <code>survreg</code>, <code>flexsurvreg</code>, <code>ranger</code>,
 <code>randomForestSRC</code>, a Kaplan-Meier <code>prodlim</code> fit), or voipred's own code for
 models riskRegression cannot handle (<code>coxph</code> without <code>x = TRUE</code>, <code>aorsf</code>,
-<code>partykit</code> survival trees, <code><a href="https://rdrr.io/pkg/rstpm2/man/gsm.html" class="external-link">rstpm2::stpm2</a></code>, <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html" class="external-link">mgcv::gam</a></code> with <code>cox.ph()</code>).
+<code>partykit</code> survival trees, <code>rstpm2::stpm2</code>, <code>mgcv::gam</code> with <code>cox.ph()</code>).
 For any other model, give <code>predict_function</code> (or the weights, option 3).
 Where the model's
 outcome can be read from its formula, voipred checks it against <code>data</code>: it
@@ -208,7 +208,7 @@ done:</p><ul><li><p>for option 1, automatically (voipred's own Cox model);</p></
 <li><p>with <code>refit_function</code>, if given;</p></li>
 <li><p>otherwise automatically for the censoring models whose case weights
 voipred knows: <code><a href="https://rdrr.io/pkg/survival/man/coxph.html" class="external-link">survival::coxph</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html" class="external-link">survival::survreg</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html" class="external-link">rms::cph</a></code>,
-<code><a href="https://rdrr.io/pkg/rms/man/psm.html" class="external-link">rms::psm</a></code>, <code><a href="https://rdrr.io/pkg/flexsurv/man/flexsurvreg.html" class="external-link">flexsurv::flexsurvreg</a></code> (also <code>flexsurvspline</code>) and
+<code><a href="https://rdrr.io/pkg/rms/man/psm.html" class="external-link">rms::psm</a></code>, <code>flexsurv::flexsurvreg</code> (also <code>flexsurvspline</code>) and
 <code><a href="https://rdrr.io/pkg/prodlim/man/prodlim.html" class="external-link">prodlim::prodlim</a></code>: the model's own call, with the draw's data and the
 draw's weights as case weights;</p></li>
 <li><p>otherwise it stops and asks for <code>refit_function</code>: other models take
