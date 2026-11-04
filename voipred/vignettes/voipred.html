@@ -1,0 +1,2048 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta charset="UTF-8">
+<meta name="generator" content="quarto-1.7.32">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Amirhosein Farahmand, Mohsen Sadatsafavi, Laure Wynants">
+<title>Introduction to voipred – voipred</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../man/c.voipred_nb.html" rel="next">
+<link href="../index.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7d64dc365dbc021eb6d1c3d79e0538a9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-91d7da1476328ce26b10d97735d7b180.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-7d64dc365dbc021eb6d1c3d79e0538a9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">voipred</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="../vignettes/voipred.html" aria-current="page"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../man/nb_val.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/amirfarahmand0/voipred_dev"> <i class="bi bi-github" role="img" aria-label="voipred on GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/voipred.html">Articles</a></li><li class="breadcrumb-item"><a href="../vignettes/voipred.html">Introduction to voipred</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Articles</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/voipred.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Introduction to voipred</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/c.voipred_nb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">c.voipred_nb</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/cipcw_control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">cipcw_control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/evpi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evpi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/evsi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evsi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/gusto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gusto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/k_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">k_value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/nb_informative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nb_informative</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/nb_priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nb_priors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/nb_val.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nb_val</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_evpi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_evpi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_evsi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_evsi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_nb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_nb</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_p_best.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_p_best</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_p_useful.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_p_useful</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/summary.voipred_nb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summary.voipred_nb</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/summary.voipred_voi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summary.voipred_voi</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Citation</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation"><span class="header-section-number">2</span> Installation</a></li>
+  <li><a href="#sec-data" id="toc-sec-data" class="nav-link" data-scroll-target="#sec-data"><span class="header-section-number">3</span> Example data</a></li>
+  <li>
+<a href="#sec-binary" id="toc-sec-binary" class="nav-link" data-scroll-target="#sec-binary"><span class="header-section-number">4</span> Binary outcome</a>
+  <ul>
+<li>
+<a href="#sec-nb" id="toc-sec-nb" class="nav-link" data-scroll-target="#sec-nb"><span class="header-section-number">4.1</span> Net benefit and decision curves</a>
+  <ul class="collapse">
+<li><a href="#net-benefit-of-one-model" id="toc-net-benefit-of-one-model" class="nav-link" data-scroll-target="#net-benefit-of-one-model"><span class="header-section-number">4.1.1</span> Net benefit of one model</a></li>
+  <li><a href="#comparing-models" id="toc-comparing-models" class="nav-link" data-scroll-target="#comparing-models"><span class="header-section-number">4.1.2</span> Comparing models</a></li>
+  </ul>
+</li>
+  <li><a href="#sec-priors" id="toc-sec-priors" class="nav-link" data-scroll-target="#sec-priors"><span class="header-section-number">4.2</span> Prior information (the Bayesian framework)</a></li>
+  <li>
+<a href="#sec-voi" id="toc-sec-voi" class="nav-link" data-scroll-target="#sec-voi"><span class="header-section-number">4.3</span> Value of information analysis</a>
+  <ul class="collapse">
+<li><a href="#how-the-uncertainty-is-represented" id="toc-how-the-uncertainty-is-represented" class="nav-link" data-scroll-target="#how-the-uncertainty-is-represented"><span class="header-section-number">4.3.1</span> How the uncertainty is represented</a></li>
+  <li><a href="#evpi-puseful-and-pbest" id="toc-evpi-puseful-and-pbest" class="nav-link" data-scroll-target="#evpi-puseful-and-pbest"><span class="header-section-number">4.3.2</span> EVPI, P(useful) and P(best)</a></li>
+  <li><a href="#evsi-the-value-of-a-further-validation-study" id="toc-evsi-the-value-of-a-further-validation-study" class="nav-link" data-scroll-target="#evsi-the-value-of-a-further-validation-study"><span class="header-section-number">4.3.3</span> EVSI: the value of a further validation study</a></li>
+  <li><a href="#evpi-and-evsi-below-the-decision-curve" id="toc-evpi-and-evsi-below-the-decision-curve" class="nav-link" data-scroll-target="#evpi-and-evsi-below-the-decision-curve"><span class="header-section-number">4.3.4</span> EVPI and EVSI below the decision curve</a></li>
+  <li><a href="#sec-small" id="toc-sec-small" class="nav-link" data-scroll-target="#sec-small"><span class="header-section-number">4.3.5</span> Small effective sample sizes</a></li>
+  </ul>
+</li>
+  <li><a href="#sec-ci" id="toc-sec-ci" class="nav-link" data-scroll-target="#sec-ci"><span class="header-section-number">4.4</span> Credible intervals</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#sec-survival" id="toc-sec-survival" class="nav-link" data-scroll-target="#sec-survival"><span class="header-section-number">5</span> Survival outcome</a>
+  <ul>
+<li><a href="#net-benefit-and-decision-curves" id="toc-net-benefit-and-decision-curves" class="nav-link" data-scroll-target="#net-benefit-and-decision-curves"><span class="header-section-number">5.1</span> Net benefit and decision curves</a></li>
+  <li><a href="#informative-censoring-cipcw" id="toc-informative-censoring-cipcw" class="nav-link" data-scroll-target="#informative-censoring-cipcw"><span class="header-section-number">5.2</span> Informative censoring: cIPCW</a></li>
+  <li><a href="#value-of-information-analysis" id="toc-value-of-information-analysis" class="nav-link" data-scroll-target="#value-of-information-analysis"><span class="header-section-number">5.3</span> Value of information analysis</a></li>
+  <li><a href="#sec-ci-surv" id="toc-sec-ci-surv" class="nav-link" data-scroll-target="#sec-ci-surv"><span class="header-section-number">5.4</span> Credible intervals</a></li>
+  <li><a href="#competing-risks" id="toc-competing-risks" class="nav-link" data-scroll-target="#competing-risks"><span class="header-section-number">5.5</span> Competing risks</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#sec-subgroups" id="toc-sec-subgroups" class="nav-link" data-scroll-target="#sec-subgroups"><span class="header-section-number">6</span> Subgroups: utility heterogeneity</a>
+  <ul>
+<li><a href="#the-idea" id="toc-the-idea" class="nav-link" data-scroll-target="#the-idea"><span class="header-section-number">6.1</span> The idea</a></li>
+  <li><a href="#subgroups-in-gusto-i-age" id="toc-subgroups-in-gusto-i-age" class="nav-link" data-scroll-target="#subgroups-in-gusto-i-age"><span class="header-section-number">6.2</span> Subgroups in GUSTO-I: age</a></li>
+  <li><a href="#from-published-results" id="toc-from-published-results" class="nav-link" data-scroll-target="#from-published-results"><span class="header-section-number">6.3</span> From published results</a></li>
+  <li><a href="#interpreting-conflicting-signs" id="toc-interpreting-conflicting-signs" class="nav-link" data-scroll-target="#interpreting-conflicting-signs"><span class="header-section-number">6.4</span> Interpreting conflicting signs</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#sec-reporting" id="toc-sec-reporting" class="nav-link" data-scroll-target="#sec-reporting"><span class="header-section-number">7</span> Reporting the results</a>
+  <ul>
+<li><a href="#net-benefit-per-100000-patients" id="toc-net-benefit-per-100000-patients" class="nav-link" data-scroll-target="#net-benefit-per-100000-patients"><span class="header-section-number">7.1</span> Net benefit per 100,000 patients</a></li>
+  <li><a href="#results-as-data-frames" id="toc-results-as-data-frames" class="nav-link" data-scroll-target="#results-as-data-frames"><span class="header-section-number">7.2</span> Results as data frames</a></li>
+  </ul>
+</li>
+  <li><a href="#sec-options" id="toc-sec-options" class="nav-link" data-scroll-target="#sec-options"><span class="header-section-number">8</span> Choosing the options</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">9</span> References</a></li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../vignettes/voipred.html">Articles</a></li><li class="breadcrumb-item"><a href="../vignettes/voipred.html">Introduction to voipred</a></li></ol></nav><div class="quarto-title">
+<h1 class="title">Introduction to voipred</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Amirhosein Farahmand, Mohsen Sadatsafavi, Laure Wynants </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><section id="introduction" class="level2" data-number="1"><h2 data-number="1" class="anchored" data-anchor-id="introduction">
+<span class="header-section-number">1</span> Introduction</h2>
+<p>voipred (the package voipred.dev) evaluates clinical prediction models in a validation sample by their <strong>clinical utility</strong>, and quantifies how much the remaining uncertainty matters for the decision of whether to use them. It implements decision curve analysis based on <strong>net benefit</strong> <span class="citation" data-cites="vickers2006 vickers2019">(<a href="#ref-vickers2006" role="doc-biblioref">Vickers and Elkin 2006</a>; <a href="#ref-vickers2019" role="doc-biblioref">Vickers, Van Calster, and Steyerberg 2019</a>)</span>, for binary, survival and competing-risk outcomes <span class="citation" data-cites="vickers2008">(<a href="#ref-vickers2008" role="doc-biblioref">Vickers et al. 2008</a>)</span>, in a Bayesian framework <span class="citation" data-cites="wynants2018 cruz2025">(<a href="#ref-wynants2018" role="doc-biblioref">Wynants et al. 2018</a>; <a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>, and <strong>value of information analysis</strong> for model validation <span class="citation" data-cites="sadatsafavi2023 sadatsafavi2025">(<a href="#ref-sadatsafavi2023" role="doc-biblioref">Sadatsafavi et al. 2023</a>, <a href="#ref-sadatsafavi2025" role="doc-biblioref">2025</a>)</span>.</p>
+<p><strong>Net benefit.</strong> A prediction model is used to decide on treatment by treating the patients whose predicted risk is at or above a threshold <span class="math inline">\(t\)</span>. Its net benefit is <span class="math display">\[NB = \frac{TP}{n} - \frac{FP}{n} \cdot \frac{t}{1-t},\]</span> the proportion of true positives minus the proportion of false positives, weighted by the odds of the threshold. The threshold expresses how the harm of an unnecessary treatment is weighed against the benefit of a necessary one: at <span class="math inline">\(t = 10\%\)</span>, treating 9 patients unnecessarily is accepted to treat 1 patient who needs it. Net benefit is in units of true positives: 0.03 means 3 net true positives per 100 patients, i.e.&nbsp;3 more patients correctly treated per 100, without more unnecessary treatments. A model is <strong>useful</strong> at a threshold where its net benefit is higher than that of both default strategies, treating everyone and treating no one; a decision curve shows this over a range of thresholds.</p>
+<p><strong>Value of information.</strong> A validation sample is finite, so the estimated net benefit is uncertain, and the strategy that looks best (a model, treating everyone or treating no one) may not be the best in the population. Value of information analysis asks how much this uncertainty matters for the decision: the expected value of perfect information (EVPI) is the expected loss in net benefit due to it, and the expected value of sample information (EVSI) is the expected gain from a further validation study of a given size. They are complemented by the probability that a model is useful, P(useful), and the probability that each strategy is the best, P(best).</p>
+<p><strong>Workflow.</strong> The main function is <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>, which computes the net benefit of one or several models at a range of thresholds. Its result is used by the value of information functions:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Step</th>
+<th>Function</th>
+<th>Result</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Net benefit and decision curves</td>
+<td><code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code></td>
+<td>net benefit of each model, of treating all and of treating none, at each threshold</td>
+</tr>
+<tr class="even">
+<td>Uncertainty for the current decision</td>
+<td><code><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi()</a></code></td>
+<td>EVPI; P(useful) (in <code>$p_useful</code>) and P(best) (in <code>$p_best</code>), from the same draws</td>
+</tr>
+<tr class="odd">
+<td>Value of a future validation study</td>
+<td><code><a href="https://rdrr.io/pkg/voipred.dev/man/evsi.html">evsi()</a></code></td>
+<td>EVSI for each future sample size</td>
+</tr>
+<tr class="even">
+<td>Subgroups with different utilities</td>
+<td>
+<code>nb_val(..., subgroup = )</code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/pkg/voipred.dev/man/k_value.html">k_value()</a></code>
+</td>
+<td>whether population net benefit can mislead when <span class="math inline">\(a - c\)</span> differs between subgroups <span class="citation" data-cites="wang2026">(<a href="#ref-wang2026" role="doc-biblioref">Wang et al. 2026</a>)</span>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Every result has <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> (a short table), <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> (the main findings), <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> and <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> (the full results) methods.</p>
+<p><strong>What you need.</strong> For each patient in the validation sample: the predicted risk of the event, from any model or software (or the fitted model itself), and the observed outcome: for a binary outcome, 0/1, <code>TRUE</code>/<code>FALSE</code>, or a factor with two levels; for a survival or competing-risk outcome, a time and a status.</p>
+<p><strong>How this article is organised.</strong> <a href="#sec-binary" class="quarto-xref">Section&nbsp;4</a> shows the complete analysis for a binary outcome: net benefit and decision curves, prior information, the value of information analysis and credible intervals. <a href="#sec-survival" class="quarto-xref">Section&nbsp;5</a> shows the same analyses for a survival outcome, with what differs (censoring, and competing risks). The sections after them apply to both: subgroups (<a href="#sec-subgroups" class="quarto-xref">Section&nbsp;6</a>) and reporting (<a href="#sec-reporting" class="quarto-xref">Section&nbsp;7</a>); <a href="#sec-options" class="quarto-xref">Section&nbsp;8</a> summarises the choices.</p>
+</section><section id="installation" class="level2" data-number="2"><h2 data-number="2" class="anchored" data-anchor-id="installation">
+<span class="header-section-number">2</span> Installation</h2>
+<p>voipred.dev is installed from GitHub:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"amirfarahmand0/voipred_dev"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">voipred.dev</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>It contains compiled (C++) code, so installing it needs a compiler (Rtools on Windows, the Xcode command line tools on macOS). Install or update it in a new R session: R cannot replace a package that is loaded.</p>
+</section><section id="sec-data" class="level2" data-number="3"><h2 data-number="3" class="anchored" data-anchor-id="sec-data">
+<span class="header-section-number">3</span> Example data</h2>
+<p>GUSTO-I was an international randomized trial that compared four thrombolytic strategies in 40,830 patients with acute myocardial infarction <span class="citation" data-cites="gusto1993">(<a href="#ref-gusto1993" role="doc-biblioref">The GUSTO Investigators 1993</a>)</span>. Its data are a standard example in prediction research, and are included in voipred.dev as <code>gusto</code>. The outcome is death within 30 days (<code>day30</code>, 0/1), which 7% of the patients had.</p>
+<p>For illustration, we draw two random, non-overlapping samples: 5,000 patients to develop the models, and <strong>only 500 patients to validate them</strong>. The small validation sample makes the uncertainty, and so the value of information, visible; with thousands of patients it would be small. In practice, the validation data would come from another setting or period (external validation).</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">gusto</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dev</span> <span class="op">&lt;-</span> <span class="va">gusto</span><span class="op">[</span><span class="va">i</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5000</span><span class="op">]</span>, <span class="op">]</span></span>
+<span><span class="va">val</span> <span class="op">&lt;-</span> <span class="va">gusto</span><span class="op">[</span><span class="va">i</span><span class="op">[</span><span class="fl">5001</span><span class="op">:</span><span class="fl">5500</span><span class="op">]</span>, <span class="op">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We fit two logistic regression models for 30-day mortality on the development sample: a “full” model with age, Killip class (the severity of heart failure), systolic blood pressure, pulse, previous myocardial infarction (<code>pmi</code>), location of the infarction (<code>miloc</code>) and sex, and a simpler model with age only. We then predict the risks of the validation patients:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">day30</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">Killip</span> <span class="op">+</span> <span class="va">sysbp</span> <span class="op">+</span> <span class="va">pulse</span> <span class="op">+</span> <span class="va">pmi</span> <span class="op">+</span> <span class="va">miloc</span> <span class="op">+</span> <span class="va">sex</span>,</span>
+<span>                family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">dev</span><span class="op">)</span></span>
+<span><span class="va">fit_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">day30</span> <span class="op">~</span> <span class="va">age</span>, family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">dev</span><span class="op">)</span></span>
+<span><span class="va">val</span><span class="op">$</span><span class="va">p_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_full</span>, newdata <span class="op">=</span> <span class="va">val</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
+<span><span class="va">val</span><span class="op">$</span><span class="va">p_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_age</span>, newdata <span class="op">=</span> <span class="va">val</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">val</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"day30"</span>, <span class="st">"age"</span>, <span class="st">"Killip"</span>, <span class="st">"p_full"</span>, <span class="st">"p_age"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       day30    age Killip      p_full       p_age</span></span>
+<span><span class="co">#&gt; 16184     0 57.992      I 0.021351751 0.037659413</span></span>
+<span><span class="co">#&gt; 38302     0 78.547      I 0.094460726 0.169293294</span></span>
+<span><span class="co">#&gt; 1986      0 40.766      I 0.007360756 0.009721204</span></span>
+<span><span class="co">#&gt; 17205     0 58.891      I 0.022462778 0.040364053</span></span>
+<span><span class="co">#&gt; 28674     0 68.297      I 0.069787317 0.082148493</span></span>
+<span><span class="co">#&gt; 40636     0 87.063      I 0.294718680 0.287617106</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="sec-binary" class="level2" data-number="4"><h2 data-number="4" class="anchored" data-anchor-id="sec-binary">
+<span class="header-section-number">4</span> Binary outcome</h2>
+<p>This section analyses the GUSTO-I example (<a href="#sec-data" class="quarto-xref">Section&nbsp;3</a>), a binary outcome: the net benefit and decision curves of the models, prior information (which is for binary outcomes only), the value of information analysis, and credible intervals.</p>
+<section id="sec-nb" class="level3" data-number="4.1"><h3 data-number="4.1" class="anchored" data-anchor-id="sec-nb">
+<span class="header-section-number">4.1</span> Net benefit and decision curves</h3>
+<section id="net-benefit-of-one-model" class="level4" data-number="4.1.1"><h4 data-number="4.1.1" class="anchored" data-anchor-id="net-benefit-of-one-model">
+<span class="header-section-number">4.1.1</span> Net benefit of one model</h4>
+<p><code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> takes the validation data, the predicted risks (<code>predicted_risk</code>: a vector, or the name of the column that holds them), the outcome and the thresholds. A binary outcome can be coded 0/1 (1 = event), as <code>TRUE</code>/<code>FALSE</code> (<code>TRUE</code> = event), or as a factor with two levels (the event is the level <code>"1"</code> if there is one, otherwise the second level, e.g.&nbsp;<code>"dead"</code> in <code>factor(..., levels = c("alive", "dead"))</code>); the results are the same. The thresholds should cover the range that is clinically reasonable for the decision; here, risks of 30-day death from 1% to 30%.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
+<span>                   predicted_risk <span class="op">=</span> <span class="st">"p_full"</span>,</span>
+<span>                   outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
+<span>                   thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                   label <span class="op">=</span> <span class="st">"Full"</span><span class="op">)</span></span>
+<span><span class="va">res_full</span></span>
+<span><span class="co">#&gt; Net benefit of Full: binary, n = 500, 26 events (5.2%), prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model NB_model   NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;       0.01  Full  0.04374  0.04242       0  0.00131</span></span>
+<span><span class="co">#&gt;       0.02  Full  0.03869  0.03265       0  0.00604</span></span>
+<span><span class="co">#&gt;       0.03  Full  0.03186  0.02268       0  0.00918</span></span>
+<span><span class="co">#&gt;       0.04  Full  0.02317  0.01250       0  0.01067</span></span>
+<span><span class="co">#&gt;       0.05  Full  0.02284  0.00211       0  0.02074</span></span>
+<span><span class="co">#&gt;       0.06  Full  0.02004 -0.00851       0  0.02004</span></span>
+<span><span class="co">#&gt;       0.07  Full  0.01789 -0.01935       0  0.01789</span></span>
+<span><span class="co">#&gt;       0.08  Full  0.01887 -0.03043       0  0.01887</span></span>
+<span><span class="co">#&gt;       0.09  Full  0.01437 -0.04176       0  0.01437</span></span>
+<span><span class="co">#&gt;       0.10  Full  0.01533 -0.05333       0  0.01533</span></span>
+<span><span class="co">#&gt; # 20 more thresholds; use summary() or as.data.frame()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The header line shows what was evaluated. “prior improper Beta(0, 0)” is the default prior: no prior information is used, the estimates come from the data alone, and the net benefit is the usual one of decision curve analysis (priors are optional, see <a href="#sec-priors" class="quarto-xref">Section&nbsp;4.2</a>). The table has one row per threshold (and per model) with:</p>
+<ul>
+<li>
+<code>NB_model</code>: the net benefit of treating the patients whose predicted risk is at or above the threshold;</li>
+<li>
+<code>NB_all</code> and <code>NB_none</code>: the net benefit of treating everyone, and of treating no one (always 0);</li>
+<li>
+<code>delta_NB</code>: <span class="math inline">\(NB_{model} - \max(NB_{all}, NB_{none})\)</span>, the gain of the model over the best default strategy; the model is useful where it is positive.</li>
+</ul>
+<p><code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> gives the main findings: the best strategy along the thresholds, the largest gain of the model, and its sensitivity and specificity, at all thresholds or at those chosen with <code>thresholds</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_full</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Full: binary, n = 500, 26 events (5.2%), prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Full 0.02074 at 0.05</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model    Se    Sp NB_model  NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;       0.02  Full 1.000 0.312  0.03869  0.0327       0  0.00604</span></span>
+<span><span class="co">#&gt;       0.05  Full 0.769 0.656  0.02284  0.0021       0  0.02074</span></span>
+<span><span class="co">#&gt;       0.10  Full 0.577 0.861  0.01533 -0.0533       0  0.01533</span></span>
+<span><span class="co">#&gt;       0.20  Full 0.269 0.964  0.00550 -0.1850       0  0.00550</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> draws the decision curve, or with <code>type = "delta"</code>, the gain of the model over the best default strategy:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_full</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/nb-one-plot-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_full</span>, type <span class="op">=</span> <span class="st">"delta"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/nb-one-plot-2.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The full model has a higher net benefit than both default strategies at every threshold from 1% to 30% (<code>delta_NB</code> &gt; 0), so using it would be better than treating everyone or no one at any of these thresholds. Its largest gain is 0.0207 at a threshold of 5%: about 2.1 more net true positives per 100 patients than the best default strategy. At the lowest thresholds the gain is small, because treating everyone is almost as good when nearly all patients would be treated anyway.</p>
+</section><section id="comparing-models" class="level4" data-number="4.1.2"><h4 data-number="4.1.2" class="anchored" data-anchor-id="comparing-models">
+<span class="header-section-number">4.1.2</span> Comparing models</h4>
+<p>To compare models, give them to one call of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> as a list, one element per model. Every other argument applies to all of them, and every result compares them:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
+<span>              predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="st">"p_full"</span>, `Age only` <span class="op">=</span> <span class="st">"p_age"</span><span class="op">)</span>,</span>
+<span>              outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
+<span>              thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Full, Age only: binary, n = 500, 26 events (5.2%), prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: Full 0.01-0.03, Age only 0.04-0.07, Full 0.08-0.30</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Full 0.02074 at 0.05; Age only 0.02074 at 0.05</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold    model    Se    Sp NB_model  NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;       0.02     Full 1.000 0.312  0.03869  0.0327       0  0.00604</span></span>
+<span><span class="co">#&gt;       0.02 Age only 0.962 0.190  0.03433  0.0327       0  0.00167</span></span>
+<span><span class="co">#&gt;       0.05     Full 0.769 0.656  0.02284  0.0021       0  0.02074</span></span>
+<span><span class="co">#&gt;       0.05 Age only 0.885 0.536  0.02284  0.0021       0  0.02074</span></span>
+<span><span class="co">#&gt;       0.10     Full 0.577 0.861  0.01533 -0.0533       0  0.01533</span></span>
+<span><span class="co">#&gt;       0.10 Age only 0.615 0.800  0.01089 -0.0533       0  0.01089</span></span>
+<span><span class="co">#&gt;       0.20     Full 0.269 0.964  0.00550 -0.1850       0  0.00550</span></span>
+<span><span class="co">#&gt;       0.20 Age only 0.077 0.964 -0.00450 -0.1850       0 -0.00450</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/nb-two-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span>, type <span class="op">=</span> <span class="st">"delta"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/nb-two-2.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The age-only model is useful at 13 of the 30 thresholds, from 2% to 14%, while the full model, which also uses the clinical predictors, is useful at all of them. Around 5%, the two models have almost the same net benefit, and the best strategy switches between them; with only 500 patients, the data may not tell them apart there. Whether such differences are real is what the value of information analysis (<a href="#sec-voi" class="quarto-xref">Section&nbsp;4.3</a>) quantifies.</p>
+<p><strong>Giving the models.</strong> <code>predicted_risk</code> takes, for one model, a vector of risks (<code>val$p_full</code>), the name of the column of <code>data</code> that holds them (<code>"p_full"</code>), or the fitted model (<code>fit_full</code>), from which voipred predicts the risks; for several models, a <code><a href="https://rdrr.io/r/base/list.html">list()</a></code> of these, mixed freely, e.g. <code>list(Full = fit_full, Age = "p_age")</code> (use <code><a href="https://rdrr.io/r/base/list.html">list()</a></code>, not <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>, which joins vectors and takes fitted models apart). The common models (<code>glm</code>, <code>coxph</code>, <code>survreg</code>, random forests, …) are predicted from automatically; for any other, give <code>predict_function</code> (see <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">?nb_val</a></code>). Each model is labelled by its name in the list, otherwise by the column name or the name in the call. Results computed separately, on the same data and thresholds, can be combined with <code><a href="https://rdrr.io/r/base/c.html">c()</a></code>.</p>
+</section></section><section id="sec-priors" class="level3" data-number="4.2"><h3 data-number="4.2" class="anchored" data-anchor-id="sec-priors">
+<span class="header-section-number">4.2</span> Prior information (the Bayesian framework)</h3>
+<p>voipred.dev computes the net benefit in a Bayesian framework. By default it uses no prior information, so the estimates are those of standard decision curve analysis, and the uncertainty is that of the data alone (for a binary outcome, the posterior draws then have exactly the distribution of the Bayesian bootstrap, the approach of <span class="citation" data-cites="sadatsafavi2023">Sadatsafavi et al. (<a href="#ref-sadatsafavi2023" role="doc-biblioref">2023</a>)</span>). Prior information can be added for binary outcomes with the <code>prior</code> argument of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Prior</th>
+<th>What it assumes</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>
+<code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_priors.html">nb_improper()</a></code> (default)</td>
+<td>no prior information: Beta(0, 0) for prevalence, sensitivity and specificity</td>
+</tr>
+<tr class="even">
+<td>
+<code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_priors.html">nb_uniform()</a></code>, <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_priors.html">nb_jeffreys()</a></code>
+</td>
+<td>Beta(1, 1) or Beta(0.5, 0.5) for all three</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_priors.html">nb_beta()</a></code></td>
+<td>your own Beta priors, e.g.&nbsp;on the prevalence from earlier studies; the parts not given are Beta(0, 0)</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_informative.html">nb_informative()</a></code></td>
+<td>the informative prior of bayesDCA <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>, whose priors on sensitivity and specificity change with the threshold</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use prior information.</strong> It matters when the effective sample size is small, for example when most predicted risks are on one side of a threshold, so that few patients are treated (or untreated) there <span class="citation" data-cites="cruz2025">(<a href="#ref-cruz2025" role="doc-biblioref">Cruz and Korthauer 2025</a>)</span>. At other thresholds, and with reasonably large samples, priors change the results little.</p>
+<p><strong>The informative prior.</strong> Every model treats everyone at a threshold of 0 (sensitivity 1, specificity 0) and no one at a threshold above all predicted risks (sensitivity 0, specificity 1). Near the ends of the decision curve, where the data say little, <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_informative.html">nb_informative()</a></code> states, with little weight (about 5 patients), that the model behaves like treat all at the lowest threshold and like treat none at the highest, and stays vague in between; the prevalence has a uniform prior. <span class="citation" data-cites="cruz2025">Cruz and Korthauer (<a href="#ref-cruz2025" role="doc-biblioref">2025</a>)</span> found that it keeps EVPI decreasing with the sample size in small samples. It reproduces bayesDCA’s construction and defaults, and is for binary outcomes only; the prior at a threshold depends on the range of thresholds given to <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>,</span>
+<span>                  predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="st">"p_full"</span>, `Age only` <span class="op">=</span> <span class="st">"p_age"</span><span class="op">)</span>,</span>
+<span>                  outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
+<span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                  prior <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_informative.html">nb_informative</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res_inf</span><span class="op">$</span><span class="va">prior_shapes</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>, <span class="op">]</span>    <span class="co"># the prior at some thresholds</span></span>
+<span><span class="co">#&gt;    threshold     se_a      se_b      sp_a     sp_b prev_a prev_b</span></span>
+<span><span class="co">#&gt; 1       0.01 4.950000 0.0500000 0.0500000 4.950000      1      1</span></span>
+<span><span class="co">#&gt; 5       0.05 2.171302 0.9825444 0.9825444 2.171302      1      1</span></span>
+<span><span class="co">#&gt; 10      0.10 1.000000 1.0000000 1.0000000 1.000000      1      1</span></span>
+<span><span class="co">#&gt; 20      0.20 1.000000 1.0000000 1.0000000 1.000000      1      1</span></span>
+<span><span class="co">#&gt; 30      0.30 0.050000 4.9500000 4.9500000 0.050000      1      1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Reporting the results with and without the prior shows how much it matters; <a href="#sec-small" class="quarto-xref">Section&nbsp;4.3.5</a> compares the EVPI under the two priors.</p>
+<p><strong>Common concerns.</strong></p>
+<ul>
+<li>
+<em>Is the Bayesian analysis complicated?</em> With the default prior, <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> gives the usual net benefit; the Bayesian framework only represents its uncertainty for the value of information functions.</li>
+<li>
+<em>Do I have to choose a prior?</em> No; priors are an option for small effective sample sizes.</li>
+<li>
+<em>Do I have to monitor convergence?</em> No: the draws are exact (closed form, or the Bayesian bootstrap), with no MCMC.</li>
+<li>
+<em>Will the prior make the results subjective?</em> With the default prior, the results are those of standard decision curve analysis. A prior matters only where the data are scarce, and its influence can be shown by reporting the results with and without it.</li>
+</ul></section><section id="sec-voi" class="level3" data-number="4.3"><h3 data-number="4.3" class="anchored" data-anchor-id="sec-voi">
+<span class="header-section-number">4.3</span> Value of information analysis</h3>
+<section id="how-the-uncertainty-is-represented" class="level4" data-number="4.3.1"><h4 data-number="4.3.1" class="anchored" data-anchor-id="how-the-uncertainty-is-represented">
+<span class="header-section-number">4.3.1</span> How the uncertainty is represented</h4>
+<p>The value of information functions take the result of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> and draw the net benefit of every strategy <code>n_sim</code> times from its distribution given the validation data; all their results are computed from these draws. For a binary outcome, the draws come from the posterior of the prevalence, sensitivity and specificity, which is known in closed form (Beta distributions; a Dirichlet over the patterns of treatment when several models are compared), with the prior of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>. For survival and competing-risk outcomes they are the Bayesian bootstrap <span class="citation" data-cites="rubin1981">(<a href="#ref-rubin1981" role="doc-biblioref">Rubin 1981</a>)</span>: random weights on the patients, with the net benefit recomputed in each draw. There is no MCMC, so there is no convergence to monitor. When models are compared, all of them are evaluated on the same patients within each draw, so their correlation is preserved. The draws are random: set a seed to reproduce them.</p>
+</section><section id="evpi-puseful-and-pbest" class="level4" data-number="4.3.2"><h4 data-number="4.3.2" class="anchored" data-anchor-id="evpi-puseful-and-pbest">
+<span class="header-section-number">4.3.2</span> EVPI, P(useful) and P(best)</h4>
+<p><code><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi()</a></code> computes three measures at each threshold from one set of draws:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res</span>, n_sim <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
+<span><span class="va">e</span></span>
+<span><span class="co">#&gt; EVPI: Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold     EVPI rEVPI</span></span>
+<span><span class="co">#&gt;       0.01 0.000000 1.000</span></span>
+<span><span class="co">#&gt;       0.02 0.000000 1.000</span></span>
+<span><span class="co">#&gt;       0.03 0.000298 1.033</span></span>
+<span><span class="co">#&gt;       0.04 0.002024 1.187</span></span>
+<span><span class="co">#&gt;       0.05 0.002096 1.101</span></span>
+<span><span class="co">#&gt;       0.06 0.002193 1.108</span></span>
+<span><span class="co">#&gt;       0.07 0.001934 1.103</span></span>
+<span><span class="co">#&gt;       0.08 0.000981 1.052</span></span>
+<span><span class="co">#&gt;       0.09 0.001957 1.135</span></span>
+<span><span class="co">#&gt;       0.10 0.000940 1.061</span></span>
+<span><span class="co">#&gt; # 20 more rows; use summary() or as.data.frame()</span></span>
+<span><span class="co">#&gt; # From the same draws: P(useful) in $p_useful, P(best) in $p_best</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>EVPI.</strong> With <span class="math inline">\(NB_s\)</span> the net benefit of strategy <span class="math inline">\(s\)</span>, choosing the strategy with the highest expected net benefit gives <span class="math inline">\(\max_s E(NB_s)\)</span>; knowing the true net benefits, one would always choose the truly best strategy, which gives <span class="math inline">\(E(\max_s NB_s)\)</span>. EVPI is the difference, the expected loss in net benefit due to uncertainty. It is 0 when the best strategy is certain. The relative EVPI (<code>rEVPI</code>) compares the gain from perfect information with the gain from using the model(s) over the best default strategy: 1.10 means that perfect information would add 10% to it.</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">e</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; EVPI: Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
+<span><span class="co">#&gt; EVPI &gt; 0 at 0.03-0.30; largest 0.002193 at 0.06</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold     EVPI rEVPI</span></span>
+<span><span class="co">#&gt;       0.02 0.000000 1.000</span></span>
+<span><span class="co">#&gt;       0.05 0.002096 1.101</span></span>
+<span><span class="co">#&gt;       0.10 0.000940 1.061</span></span>
+<span><span class="co">#&gt;       0.20 0.000442 1.082</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">e</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/evpi-summary-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>plot(e, type = "relative")</code> draws the relative EVPI, which puts EVPI on a scale comparable across thresholds; the dashed line at 1 means no value of perfect information:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">e</span>, type <span class="op">=</span> <span class="st">"relative"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/evpi-relative-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>EVPI is largest, 0.00219, at a threshold of 6%: about 219 net true positives per 100,000 patients are expected to be lost because of the uncertainty in this validation sample of 500 patients. Whether this is worth a further study depends on the number of patients who would be affected by the decision, and on the cost of the study.</p>
+<p><strong>P(useful)</strong> is the probability that each model has a higher net benefit than both default strategies, the share of draws in which it does. It compares each model only with the default strategies:</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span></span>
+<span><span class="co">#&gt; P(useful): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold    model p_useful</span></span>
+<span><span class="co">#&gt;       0.01     Full    1.000</span></span>
+<span><span class="co">#&gt;       0.01 Age only    0.197</span></span>
+<span><span class="co">#&gt;       0.02     Full    1.000</span></span>
+<span><span class="co">#&gt;       0.02 Age only    0.848</span></span>
+<span><span class="co">#&gt;       0.03     Full    0.986</span></span>
+<span><span class="co">#&gt;       0.03 Age only    0.990</span></span>
+<span><span class="co">#&gt;       0.04     Full    0.964</span></span>
+<span><span class="co">#&gt;       0.04 Age only    0.987</span></span>
+<span><span class="co">#&gt;       0.05     Full    0.998</span></span>
+<span><span class="co">#&gt;       0.05 Age only    0.996</span></span>
+<span><span class="co">#&gt;       0.06     Full    0.999</span></span>
+<span><span class="co">#&gt;       0.06 Age only    0.992</span></span>
+<span><span class="co">#&gt;       0.07     Full    0.994</span></span>
+<span><span class="co">#&gt;       0.07 Age only    0.990</span></span>
+<span><span class="co">#&gt;       0.08     Full    0.996</span></span>
+<span><span class="co">#&gt;       0.08 Age only    0.961</span></span>
+<span><span class="co">#&gt;       0.09     Full    0.981</span></span>
+<span><span class="co">#&gt;       0.09 Age only    0.948</span></span>
+<span><span class="co">#&gt;       0.10     Full    0.989</span></span>
+<span><span class="co">#&gt;       0.10 Age only    0.919</span></span>
+<span><span class="co">#&gt; # 20 more thresholds; use summary() or as.data.frame()</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span><span class="op">)</span></span>
+<span><span class="co">#&gt; P(useful): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
+<span><span class="co">#&gt; Thresholds where the probability that the model is useful is:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     model  P &gt; 0.95     0.5 to 0.95         P &lt; 0.5</span></span>
+<span><span class="co">#&gt;      Full 0.01-0.18       0.19-0.30               -</span></span>
+<span><span class="co">#&gt;  Age only 0.03-0.08 0.02, 0.09-0.14 0.01, 0.15-0.30</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">e</span>, type <span class="op">=</span> <span class="st">"p_useful"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/p-useful-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> gives, for each model, the thresholds where P(useful) is above 0.95, between 0.5 and 0.95, and below 0.5. A P(useful) near 0.5 means that the data give no evidence either way: the model’s net benefit is about that of the best default strategy.</p>
+<p><strong>P(best)</strong> is the probability that each strategy (each model, treat all, treat none) has the highest net benefit; the probabilities add up to 1 at each threshold. It compares the models with each other:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_best</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; P(best): Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws</span></span>
+<span><span class="co">#&gt; Most likely best: Full 0.01-0.06, Age only 0.07, Full 0.08-0.30</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold   strategy p_best</span></span>
+<span><span class="co">#&gt;       0.02       Full  1.000</span></span>
+<span><span class="co">#&gt;       0.02   Age only  0.000</span></span>
+<span><span class="co">#&gt;       0.02  Treat All  0.000</span></span>
+<span><span class="co">#&gt;       0.02 Treat None  0.000</span></span>
+<span><span class="co">#&gt;       0.05       Full  0.523</span></span>
+<span><span class="co">#&gt;       0.05   Age only  0.476</span></span>
+<span><span class="co">#&gt;       0.05  Treat All  0.000</span></span>
+<span><span class="co">#&gt;       0.05 Treat None  0.000</span></span>
+<span><span class="co">#&gt;       0.10       Full  0.768</span></span>
+<span><span class="co">#&gt;       0.10   Age only  0.224</span></span>
+<span><span class="co">#&gt;       0.10  Treat All  0.000</span></span>
+<span><span class="co">#&gt;       0.10 Treat None  0.007</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">e</span>, type <span class="op">=</span> <span class="st">"p_best"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/p-best-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>At 6%, where EVPI is largest, the full model is the best in 50% of the draws and the age-only model in 50%: the data cannot tell the two models apart, which is why perfect information has most value there.</p>
+</section><section id="evsi-the-value-of-a-further-validation-study" class="level4" data-number="4.3.3"><h4 data-number="4.3.3" class="anchored" data-anchor-id="evsi-the-value-of-a-further-validation-study">
+<span class="header-section-number">4.3.3</span> EVSI: the value of a further validation study</h4>
+<p>The expected gain in net benefit from a future validation study of <span class="math inline">\(N\)</span> patients (<code>future_n</code>), added to the current sample, before choosing the strategy, is quantified by the expected value of sample information (EVSI). It is between 0 and EVPI, and approaches EVPI as <span class="math inline">\(N\)</span> grows:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span></span>
+<span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/evsi.html">evsi</a></span><span class="op">(</span><span class="va">res</span>, future_n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">2000</span>, <span class="fl">4000</span><span class="op">)</span>, n_sim <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span></span>
+<span><span class="co">#&gt; EVSI: Full, Age only; binary, n = 500, 2000 posterior draws</span></span>
+<span><span class="co">#&gt; Before the future study (as for EVPI): prior improper Beta(0, 0), updated with the validation data (n = 500)</span></span>
+<span><span class="co">#&gt; Future study: 250, 500, 1,000, 2,000 or 4,000 more patients, drawn from that distribution; then the prior is updated with the validation data and the future study together</span></span>
+<span><span class="co">#&gt; EVSI / EVPI at the thresholds with the largest EVPI:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold future_n     EVSI     EVPI EVSI / EVPI</span></span>
+<span><span class="co">#&gt;       0.04      250 0.001070 0.002009         53%</span></span>
+<span><span class="co">#&gt;       0.04      500 0.001363 0.002009         68%</span></span>
+<span><span class="co">#&gt;       0.04    1,000 0.001629 0.002009         81%</span></span>
+<span><span class="co">#&gt;       0.04    2,000 0.001757 0.002009         87%</span></span>
+<span><span class="co">#&gt;       0.04    4,000 0.001882 0.002009         94%</span></span>
+<span><span class="co">#&gt;       0.05      250 0.001060 0.001996         53%</span></span>
+<span><span class="co">#&gt;       0.05      500 0.001357 0.001996         68%</span></span>
+<span><span class="co">#&gt;       0.05    1,000 0.001594 0.001996         80%</span></span>
+<span><span class="co">#&gt;       0.05    2,000 0.001750 0.001996         88%</span></span>
+<span><span class="co">#&gt;       0.05    4,000 0.001870 0.001996         94%</span></span>
+<span><span class="co">#&gt;       0.06      250 0.001229 0.002135         58%</span></span>
+<span><span class="co">#&gt;       0.06      500 0.001463 0.002135         69%</span></span>
+<span><span class="co">#&gt;       0.06    1,000 0.001728 0.002135         81%</span></span>
+<span><span class="co">#&gt;       0.06    2,000 0.001898 0.002135         89%</span></span>
+<span><span class="co">#&gt;       0.06    4,000 0.002001 0.002135         94%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">o</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/evsi-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The header states the information at the two moments that EVSI compares: before the future study, the prior updated with the validation data (as for EVPI), and after it, with the future study added. <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> gives the share of EVPI that a study of each size would recover. At 6%, a further study of 500 patients would recover about 69% of EVPI, and one of 4,000 patients about 94%: most of the value of perfect information can be obtained with a moderate study, with diminishing returns beyond it. Multiplied by the number of patients affected by the decision, EVSI can be compared with the cost of the study.</p>
+</section><section id="evpi-and-evsi-below-the-decision-curve" class="level4" data-number="4.3.4"><h4 data-number="4.3.4" class="anchored" data-anchor-id="evpi-and-evsi-below-the-decision-curve">
+<span class="header-section-number">4.3.4</span> EVPI and EVSI below the decision curve</h4>
+<p><code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> of the result of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> draws EVPI and EVSI in a panel below the decision curve, so that the net benefit and the value of information can be read together:</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span>, evpi <span class="op">=</span> <span class="va">e</span>, evsi <span class="op">=</span> <span class="va">o</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/dca-voi-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="sec-small" class="level4" data-number="4.3.5"><h4 data-number="4.3.5" class="anchored" data-anchor-id="sec-small">
+<span class="header-section-number">4.3.5</span> Small effective sample sizes</h4>
+<p>Where few patients are on one side of a threshold (typically at very low or very high thresholds), the data say little, and the value of information measures can behave unexpectedly; for example, EVPI may not decrease steadily as the sample size grows <span class="citation" data-cites="sadatsafavi2023">(<a href="#ref-sadatsafavi2023" role="doc-biblioref">Sadatsafavi et al. 2023</a>)</span>. Interpret them with care there; prior information (<a href="#sec-priors" class="quarto-xref">Section&nbsp;4.2</a>) can stabilise them.</p>
+<p>For example, with the informative prior of <a href="#sec-priors" class="quarto-xref">Section&nbsp;4.2</a>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">e_inf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res_inf</span>, n_sim <span class="op">=</span> <span class="fl">5000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>threshold <span class="op">=</span> <span class="va">ee</span><span class="op">$</span><span class="va">threshold</span>,</span>
+<span>                 EVPI_default <span class="op">=</span> <span class="va">ee</span><span class="op">$</span><span class="va">EVPI</span>,</span>
+<span>                 EVPI_informative <span class="op">=</span> <span class="va">e_inf</span><span class="op">$</span><span class="va">estimates</span><span class="op">$</span><span class="va">EVPI</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span><span class="op">)</span>, <span class="op">]</span>, <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    threshold EVPI_default EVPI_informative</span></span>
+<span><span class="co">#&gt; 1       0.01      0.00000          0.00003</span></span>
+<span><span class="co">#&gt; 2       0.02      0.00000          0.00003</span></span>
+<span><span class="co">#&gt; 5       0.05      0.00210          0.00187</span></span>
+<span><span class="co">#&gt; 10      0.10      0.00094          0.00094</span></span>
+<span><span class="co">#&gt; 20      0.20      0.00044          0.00035</span></span>
+<span><span class="co">#&gt; 30      0.30      0.00027          0.00038</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With 500 patients, the two priors give similar EVPI, except near the ends of the range, where the informative prior expresses its assumptions.</p>
+</section></section><section id="sec-ci" class="level3" data-number="4.4"><h3 data-number="4.4" class="anchored" data-anchor-id="sec-ci">
+<span class="header-section-number">4.4</span> Credible intervals</h3>
+<p><code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> can also give credible intervals of the net benefit, with <code>interval = 0.95</code> (from <code>n_sim</code> draws, as in <a href="#sec-voi" class="quarto-xref">Section&nbsp;4.3</a>). We do not recommend them for deciding whether to use a model: an interval shows the uncertainty of each net benefit on its own, while the decision depends on which strategy is best, and on whether more data could change that choice, which is what EVPI, P(useful) and P(best) measure (see also <span class="citation" data-cites="vickers2023ci">Vickers et al. (<a href="#ref-vickers2023ci" role="doc-biblioref">2023</a>)</span>). For this reason, <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> and every method that shows the intervals give a warning.</p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">res_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val</span>, predicted_risk <span class="op">=</span> <span class="st">"p_full"</span>, outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
+<span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>, label <span class="op">=</span> <span class="st">"Full"</span>,</span>
+<span>                  interval <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Credible intervals show the uncertainty of each net benefit on its</span></span>
+<span><span class="co">#&gt; own, which is not a good measure of the uncertainty that matters for choosing a</span></span>
+<span><span class="co">#&gt; strategy. We suggest value-of-information analysis: evpi() gives EVPI,</span></span>
+<span><span class="co">#&gt; P(useful) and P(best).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_int</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Full: binary, n = 500, 26 events (5.2%), prior improper Beta(0, 0); 95% credible intervals from 1000 posterior draws</span></span>
+<span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Full 0.02074 at 0.05</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model    Se    Sp NB_model             95% CrI  NB_all NB_none</span></span>
+<span><span class="co">#&gt;       0.05  Full 0.769 0.656  0.02284  (0.00658, 0.04134)  0.0021       0</span></span>
+<span><span class="co">#&gt;       0.10  Full 0.577 0.861  0.01533  (0.00067, 0.03213) -0.0533       0</span></span>
+<span><span class="co">#&gt;       0.20  Full 0.269 0.964  0.00550 (-0.00421, 0.01749) -0.1850       0</span></span>
+<span><span class="co">#&gt;  delta_NB             95% CrI</span></span>
+<span><span class="co">#&gt;   0.02074  (0.00580, 0.02708)</span></span>
+<span><span class="co">#&gt;   0.01533  (0.00067, 0.03213)</span></span>
+<span><span class="co">#&gt;   0.00550 (-0.00421, 0.01749)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_int</span>, type <span class="op">=</span> <span class="st">"delta"</span>, bands <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/ci-show-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code><a href="https://rdrr.io/r/base/print.html">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> show each interval after its estimate, <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> has the bounds (<code>NB_model_lower</code>, <code>NB_model_upper</code>, …), and <code>plot(bands = TRUE)</code> draws them as bands (the default plot has none; for a result without intervals, <code>bands = TRUE</code> gives an error). For survival outcomes, see <a href="#sec-ci-surv" class="quarto-xref">Section&nbsp;5.4</a>.</p>
+</section></section><section id="sec-survival" class="level2" data-number="5"><h2 data-number="5" class="anchored" data-anchor-id="sec-survival">
+<span class="header-section-number">5</span> Survival outcome</h2>
+<p>The same analyses for a survival outcome, where the event is the event by a time horizon and some patients are censored before it: net benefit and decision curves (with Kaplan-Meier, or with cIPCW when censoring is informative), the value of information analysis, credible intervals, and competing risks. The methods are those of <a href="#sec-binary" class="quarto-xref">Section&nbsp;4</a>; only what differs is explained here.</p>
+<section id="net-benefit-and-decision-curves" class="level3" data-number="5.1"><h3 data-number="5.1" class="anchored" data-anchor-id="net-benefit-and-decision-curves">
+<span class="header-section-number">5.1</span> Net benefit and decision curves</h3>
+<p>For a survival outcome, the event is the event by a time horizon, and the predicted risks are the risks of the event by that horizon. We use the Rotterdam breast cancer data (<code>rotterdam</code>, from the survival package): 2,982 women with primary breast cancer, used by <span class="citation" data-cites="royston2013">Royston and Altman (<a href="#ref-royston2013" role="doc-biblioref">2013</a>)</span> to illustrate the validation of survival models. The outcome is death, and we evaluate the risk of death by 5 years. As before, the data are split at random, here into 1,500 women to fit the models and 600 to validate them.</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rott</span> <span class="op">&lt;-</span> <span class="va">rotterdam</span></span>
+<span><span class="va">rott</span><span class="op">$</span><span class="va">years</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">$</span><span class="va">dtime</span> <span class="op">/</span> <span class="fl">365.25</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2023</span><span class="op">)</span></span>
+<span><span class="va">j</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">rott</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dev_s</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">[</span><span class="va">j</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1500</span><span class="op">]</span>, <span class="op">]</span></span>
+<span><span class="va">val_s</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">[</span><span class="va">j</span><span class="op">[</span><span class="fl">1501</span><span class="op">:</span><span class="fl">2100</span><span class="op">]</span>, <span class="op">]</span></span>
+<span><span class="va">fit_cox</span> <span class="op">&lt;-</span> <span class="fu">coxph</span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">size</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span> <span class="op">+</span> <span class="va">hormon</span> <span class="op">+</span> <span class="va">chemo</span>,</span>
+<span>                 data <span class="op">=</span> <span class="va">dev_s</span><span class="op">)</span></span>
+<span><span class="va">fit_wb</span> <span class="op">&lt;-</span> <span class="fu">survreg</span><span class="op">(</span><span class="fu">Surv</span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">size</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span> <span class="op">+</span> <span class="va">hormon</span> <span class="op">+</span> <span class="va">chemo</span>,</span>
+<span>                  data <span class="op">=</span> <span class="va">dev_s</span>, dist <span class="op">=</span> <span class="st">"weibull"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The outcome is given with <code>Surv()</code>, and <code>horizon</code> is required. Here the fitted models are given, and voipred predicts each patient’s risk by 5 years from them:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
+<span>                predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
+<span>                outcome <span class="op">=</span> <span class="op">~</span> <span class="fu">Surv</span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>                horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.60</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_s</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Cox, Weibull: survival, horizon 5, n = 600, risk by horizon 26.6%, censoring KM, prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: treat all 0.05-0.07, Weibull 0.08-0.10, Cox 0.11, Weibull 0.12, Cox 0.13-0.14, Weibull 0.15-0.17, Cox 0.18-0.21, Weibull 0.22-0.25, Cox 0.26-0.29, Weibull 0.30-0.31, Cox 0.32-0.34, Weibull 0.35-0.36, Cox 0.37-0.44, Weibull 0.45, Cox 0.46, Weibull 0.47, Cox 0.48-0.54, Weibull 0.55-0.60</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Cox 0.09297 at 0.27; Weibull 0.08228 at 0.27</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold   model    Se    Sp NB_model  NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;        0.1     Cox 1.000 0.016   0.1859  0.1845       0  0.00137</span></span>
+<span><span class="co">#&gt;        0.1 Weibull 1.000 0.052   0.1890  0.1845       0  0.00448</span></span>
+<span><span class="co">#&gt;        0.2     Cox 0.778 0.524   0.1198  0.0826       0  0.03715</span></span>
+<span><span class="co">#&gt;        0.2 Weibull 0.712 0.575   0.1115  0.0826       0  0.02894</span></span>
+<span><span class="co">#&gt;        0.3     Cox 0.523 0.797   0.0752 -0.0485       0  0.07523</span></span>
+<span><span class="co">#&gt;        0.3 Weibull 0.465 0.853   0.0776 -0.0485       0  0.07760</span></span>
+<span><span class="co">#&gt;        0.4     Cox 0.320 0.925   0.0486 -0.2232       0  0.04855</span></span>
+<span><span class="co">#&gt;        0.4 Weibull 0.276 0.941   0.0448 -0.2232       0  0.04483</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_s</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/surv-nb-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The two models perform very similarly: the best strategy switches between them from one threshold to the next, and their largest gains are 0.093 (Cox) and 0.082 (Weibull). Both are better than the default strategies above 8%; below it, with 27% of the women dying within 5 years, treating everyone is as good.</p>
+<p>By default, censoring is handled with Kaplan-Meier estimates <span class="citation" data-cites="vickers2008">(<a href="#ref-vickers2008" role="doc-biblioref">Vickers et al. 2008</a>)</span>: the risk of the event by the horizon, overall and among the treated patients. This assumes that censoring is independent of the outcome.</p>
+</section><section id="informative-censoring-cipcw" class="level3" data-number="5.2"><h3 data-number="5.2" class="anchored" data-anchor-id="informative-censoring-cipcw">
+<span class="header-section-number">5.2</span> Informative censoring: cIPCW</h3>
+<p>When censoring may depend on patient characteristics that are also related to the outcome (for example when older or sicker patients are more often lost to follow-up, or when the length of follow-up changes with calendar time while the case mix changes too), Kaplan-Meier can give a biased net benefit. Conditional inverse probability of censoring weighting (cIPCW) allows censoring to depend on covariates <span class="citation" data-cites="farahmand2026">(<a href="#ref-farahmand2026" role="doc-biblioref">Farahmand et al. 2026</a>)</span>. Give the covariates that censoring may depend on: voipred fits a Cox model of the censoring times of the validation data on them, and weights the patients by the inverse of their probability of remaining uncensored (truncated at 0.02, i.e.&nbsp;weights of at most 50):</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">res_ci</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
+<span>                 predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
+<span>                 outcome <span class="op">=</span> <span class="op">~</span> <span class="fu">Surv</span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>                 horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                 thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.60</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                 cipcw <span class="op">=</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_ci</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Cox, Weibull: survival, horizon 5, n = 600, risk by horizon 26.6%, censoring cIPCW (coxph), prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: treat all 0.05-0.07, Weibull 0.08-0.10, Cox 0.11, Weibull 0.12, Cox 0.13-0.14, Weibull 0.15-0.17, Cox 0.18-0.21, Weibull 0.22-0.25, Cox 0.26-0.29, Weibull 0.30-0.31, Cox 0.32-0.34, Weibull 0.35-0.36, Cox 0.37-0.44, Weibull 0.45-0.47, Cox 0.48-0.54, Weibull 0.55-0.60</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Cox 0.0926 at 0.27; Weibull 0.08241 at 0.27</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold   model    Se    Sp NB_model  NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;        0.1     Cox 1.000 0.017   0.1859  0.1845       0  0.00139</span></span>
+<span><span class="co">#&gt;        0.1 Weibull 1.000 0.054   0.1888  0.1845       0  0.00437</span></span>
+<span><span class="co">#&gt;        0.2     Cox 0.776 0.525   0.1192  0.0825       0  0.03663</span></span>
+<span><span class="co">#&gt;        0.2 Weibull 0.712 0.574   0.1112  0.0825       0  0.02863</span></span>
+<span><span class="co">#&gt;        0.3     Cox 0.520 0.801   0.0757 -0.0485       0  0.07569</span></span>
+<span><span class="co">#&gt;        0.3 Weibull 0.462 0.857   0.0779 -0.0485       0  0.07789</span></span>
+<span><span class="co">#&gt;        0.4     Cox 0.317 0.925   0.0474 -0.2233       0  0.04741</span></span>
+<span><span class="co">#&gt;        0.4 Weibull 0.272 0.942   0.0440 -0.2233       0  0.04400</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here the results with cIPCW are close to those with Kaplan-Meier (the net benefits differ by at most 0.0014), so censoring related to these covariates does not change the conclusions. When censoring is purely administrative (the end of the study), Kaplan-Meier is fine. The censoring model does not have to be a Cox model: any survival model fitted to the censoring times can be given (<code>cipcw = &lt;model&gt;</code>), e.g.&nbsp;a parametric model or a random survival forest; <code><a href="https://rdrr.io/pkg/voipred.dev/man/cipcw_control.html">cipcw_control()</a></code> sets the other options (truncation, given weights, how to refit the model). See <code><a href="https://rdrr.io/pkg/voipred.dev/man/cipcw_control.html">?cipcw_control</a></code>, which includes an example with a random survival forest.</p>
+</section><section id="value-of-information-analysis" class="level3" data-number="5.3"><h3 data-number="5.3" class="anchored" data-anchor-id="value-of-information-analysis">
+<span class="header-section-number">5.3</span> Value of information analysis</h3>
+<p>The value of information functions work in the same way. Their draws are the Bayesian bootstrap; with cIPCW, the censoring model is refitted in every draw, which takes longer.</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span></span>
+<span><span class="va">e_s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res_s</span>, n_sim <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">e_s</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; EVPI: Cox, Weibull; survival, horizon 5, n = 600, censoring KM, prior improper Beta(0, 0), 1000 Bayesian bootstrap draws</span></span>
+<span><span class="co">#&gt; EVPI &gt; 0 at 0.11-0.41, 0.43-0.60; largest 0.002571 at 0.46</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold     EVPI rEVPI</span></span>
+<span><span class="co">#&gt;        0.1 0.000000 1.000</span></span>
+<span><span class="co">#&gt;        0.2 0.000098 1.003</span></span>
+<span><span class="co">#&gt;        0.3 0.001575 1.020</span></span>
+<span><span class="co">#&gt;        0.4 0.000662 1.014</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_s</span>, evpi <span class="op">=</span> <span class="va">e_s</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/surv-voi-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>EVPI is positive over most thresholds, because the two models are so close that the data rarely show which one is best; it is largest, 0.00257, at 46% (about 257 net true positives per 100,000 patients), which is small compared with the gain of either model over the default strategies (up to 0.093): the uncertainty is mostly about which of two almost equally good models to use.</p>
+</section><section id="sec-ci-surv" class="level3" data-number="5.4"><h3 data-number="5.4" class="anchored" data-anchor-id="sec-ci-surv">
+<span class="header-section-number">5.4</span> Credible intervals</h3>
+<p>Credible intervals (<a href="#sec-ci" class="quarto-xref">Section&nbsp;4.4</a>) are computed in the same way for survival and competing-risk outcomes, with <code>interval</code>. There is no closed-form posterior of the net benefit with censored data, so the draws are the Bayesian bootstrap: random weights on the patients, with the net benefit recomputed in each draw (with cIPCW, the censoring model is also refitted in every draw, which takes longer). As for a binary outcome, we recommend the value of information analysis for the decision, and every use of the intervals gives a warning:</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">res_s_int</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_s</span>,</span>
+<span>                    predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Cox <span class="op">=</span> <span class="va">fit_cox</span>, Weibull <span class="op">=</span> <span class="va">fit_wb</span><span class="op">)</span>,</span>
+<span>                    outcome <span class="op">=</span> <span class="op">~</span> <span class="fu">Surv</span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>                    horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                    thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.60</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                    interval <span class="op">=</span> <span class="fl">0.95</span>, n_sim <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_s_int</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Cox, Weibull: survival, horizon 5, n = 600, risk by horizon 26.6%, censoring KM, prior improper Beta(0, 0); 95% credible intervals from 500 Bayesian bootstrap draws</span></span>
+<span><span class="co">#&gt; Best strategy: treat all 0.05-0.07, Weibull 0.08-0.10, Cox 0.11, Weibull 0.12, Cox 0.13-0.14, Weibull 0.15-0.17, Cox 0.18-0.21, Weibull 0.22-0.25, Cox 0.26-0.29, Weibull 0.30-0.31, Cox 0.32-0.34, Weibull 0.35-0.36, Cox 0.37-0.44, Weibull 0.45, Cox 0.46, Weibull 0.47, Cox 0.48-0.54, Weibull 0.55-0.60</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Cox 0.09297 at 0.27; Weibull 0.08228 at 0.27</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold   model    Se    Sp NB_model          95% CrI  NB_all NB_none</span></span>
+<span><span class="co">#&gt;        0.2     Cox 0.778 0.524   0.1198 (0.0853, 0.1557)  0.0826       0</span></span>
+<span><span class="co">#&gt;        0.2 Weibull 0.712 0.575   0.1115 (0.0793, 0.1451)  0.0826       0</span></span>
+<span><span class="co">#&gt;        0.3     Cox 0.523 0.797   0.0752 (0.0457, 0.1045) -0.0485       0</span></span>
+<span><span class="co">#&gt;        0.3 Weibull 0.465 0.853   0.0776 (0.0500, 0.1060) -0.0485       0</span></span>
+<span><span class="co">#&gt;        0.4     Cox 0.320 0.925   0.0486 (0.0206, 0.0755) -0.2232       0</span></span>
+<span><span class="co">#&gt;        0.4 Weibull 0.276 0.941   0.0448 (0.0200, 0.0712) -0.2232       0</span></span>
+<span><span class="co">#&gt;  delta_NB          95% CrI</span></span>
+<span><span class="co">#&gt;   0.03715 (0.0115, 0.0603)</span></span>
+<span><span class="co">#&gt;   0.02894 (0.0009, 0.0547)</span></span>
+<span><span class="co">#&gt;   0.07523 (0.0457, 0.1035)</span></span>
+<span><span class="co">#&gt;   0.07760 (0.0500, 0.1047)</span></span>
+<span><span class="co">#&gt;   0.04855 (0.0206, 0.0755)</span></span>
+<span><span class="co">#&gt;   0.04483 (0.0200, 0.0712)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_s_int</span>, type <span class="op">=</span> <span class="st">"delta"</span>, bands <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/ci-surv-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="competing-risks" class="level3" data-number="5.5"><h3 data-number="5.5" class="anchored" data-anchor-id="competing-risks">
+<span class="header-section-number">5.5</span> Competing risks</h3>
+<p>With competing events, the status is a factor whose first level is censoring, and <code>cause</code> names the event of interest; the net benefit is computed from the cumulative incidence of that cause (Aalen-Johansen, or cIPCW). Here, the risk of recurrence by 5 years, with death before recurrence as a competing event, from a cause-specific Cox model:</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">crdat</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">d</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">recur</span> <span class="op">==</span> <span class="fl">1</span>, <span class="va">d</span><span class="op">$</span><span class="va">rtime</span>, <span class="va">d</span><span class="op">$</span><span class="va">dtime</span><span class="op">)</span> <span class="op">/</span> <span class="fl">365.25</span></span>
+<span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_code</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">recur</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">death</span> <span class="op">==</span> <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">d</span><span class="op">$</span><span class="va">cr_status</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cr_code</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"censored"</span>, <span class="st">"recurrence"</span>, <span class="st">"death"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">d</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">dev_cr</span> <span class="op">&lt;-</span> <span class="fu">crdat</span><span class="op">(</span><span class="va">dev_s</span><span class="op">)</span></span>
+<span><span class="va">val_cr</span> <span class="op">&lt;-</span> <span class="fu">crdat</span><span class="op">(</span><span class="va">val_s</span><span class="op">)</span></span>
+<span><span class="va">fit_csc</span> <span class="op">&lt;-</span> <span class="fu">riskRegression</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/riskRegression/man/CSC.html">CSC</a></span><span class="op">(</span><span class="fu">prodlim</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/prodlim/man/Hist.html">Hist</a></span><span class="op">(</span><span class="va">cr_time</span>, <span class="va">cr_code</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">size</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>,</span>
+<span>                               data <span class="op">=</span> <span class="va">dev_cr</span><span class="op">)</span></span>
+<span><span class="va">res_cr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_cr</span>,</span>
+<span>                 predicted_risk <span class="op">=</span> <span class="va">fit_csc</span>,</span>
+<span>                 outcome <span class="op">=</span> <span class="op">~</span> <span class="fu">Surv</span><span class="op">(</span><span class="va">cr_time</span>, <span class="va">cr_status</span><span class="op">)</span>,</span>
+<span>                 horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                 cause <span class="op">=</span> <span class="st">"recurrence"</span>,</span>
+<span>                 thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.60</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                 label <span class="op">=</span> <span class="st">"Cause-specific Cox"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_cr</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Cause-specific Cox: competing risks (cause recurrence), horizon 5, n = 600, risk by horizon 39.9%, censoring KM, prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: treat all 0.05-0.17, Cause-specific Cox 0.18-0.60</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Cause-specific Cox 0.107 at 0.40</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold              model    Se    Sp NB_model  NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;        0.2 Cause-specific Cox 1.000 0.014   0.2509  0.2489       0   0.0021</span></span>
+<span><span class="co">#&gt;        0.3 Cause-specific Cox 0.911 0.290   0.1806  0.1416       0   0.0391</span></span>
+<span><span class="co">#&gt;        0.4 Cause-specific Cox 0.595 0.674   0.1070 -0.0015       0   0.1070</span></span>
+<span><span class="co">#&gt;        0.5 Cause-specific Cox 0.313 0.891   0.0595 -0.2018       0   0.0595</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With 40% of the women having a recurrence within 5 years, treating everyone is best at low thresholds; the model is useful from 18%, with its largest gain, 0.107, at 40%.</p>
+</section></section><section id="sec-subgroups" class="level2" data-number="6"><h2 data-number="6" class="anchored" data-anchor-id="sec-subgroups">
+<span class="header-section-number">6</span> Subgroups: utility heterogeneity</h2>
+<p>This section applies to binary and survival outcomes alike.</p>
+<section id="the-idea" class="level3" data-number="6.1"><h3 data-number="6.1" class="anchored" data-anchor-id="the-idea">
+<span class="header-section-number">6.1</span> The idea</h3>
+<p>Net benefit is expressed in units of <span class="math inline">\(a - c\)</span>, the incremental utility of a true positive relative to a false negative (written <span class="math inline">\(k\)</span>): within a population, the difference in utility between two strategies is <span class="math inline">\(k \, \Delta NB\)</span>, so net benefit and utility favour the same strategy. When the population consists of subgroups whose <span class="math inline">\(k\)</span> differs, for example because a treatment is more effective in men than in women, this no longer holds <span class="citation" data-cites="wang2026">(<a href="#ref-wang2026" role="doc-biblioref">Wang et al. 2026</a>)</span>. With subgroups <span class="math inline">\(i = 1, \dots, m\)</span> of sizes <span class="math inline">\(n_i\)</span>, the population difference in net benefit weights the subgroup differences by size only, whereas the population difference in utility also weights them by <span class="math inline">\(k_i\)</span>: <span class="math display">\[\Delta NB \propto \sum_i n_i \, \Delta NB_i, \qquad
+  \Delta U \propto \sum_i n_i \, k_i \, \Delta NB_i .\]</span> The two can therefore favour different strategies: population net benefit can favour the model while population utility favours the comparator, or the reverse. This is possible only when the subgroup <span class="math inline">\(\Delta NB_i\)</span> do not all have the same sign. For two subgroups, the combinations of <span class="math inline">\((\Delta NB_1,
+\Delta NB_2)\)</span> for which it happens form the <strong>inconsistency region</strong>, between the lines <span class="math inline">\(y = -(n_1/n_2)\,x\)</span> and <span class="math inline">\(y = -(n_1 k_1)/(n_2 k_2)\,x\)</span>, and the <strong>K-value</strong> <span class="math display">\[K = -\frac{n_2 \, \Delta NB_2}{n_1 \, \Delta NB_1}\]</span> is the critical ratio <span class="math inline">\(k_1/k_2\)</span> at which the conclusion changes: when <span class="math inline">\(k_1 &gt; k_2\)</span>, population net benefit and utility favour different strategies if <span class="math inline">\(k_1/k_2 &gt; K\)</span> (and if <span class="math inline">\(k_1/k_2 &lt; K\)</span> when <span class="math inline">\(k_1 &lt; k_2\)</span>). Like the E-value for unmeasured confounding, it measures how robust the population-level conclusion is <span class="citation" data-cites="wang2026">(<a href="#ref-wang2026" role="doc-biblioref">Wang et al. 2026</a>)</span>.</p>
+<p><span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span> propose a framework in three steps, which voipred.dev implements:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Step</th>
+<th>Framework of <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>
+</th>
+<th>In voipred.dev</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Decision curve analysis within relevant subgroups</td>
+<td><code>nb_val(..., subgroup = )</code></td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Do the subgroup <span class="math inline">\(\Delta NB_i\)</span> have the same sign? If so, differences in <span class="math inline">\(a - c\)</span> cannot change the population conclusion</td>
+<td><code>summary(res)</code></td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>If not: with external evidence on <span class="math inline">\(k\)</span>, is <span class="math inline">\((\Delta NB_1, \Delta NB_2)\)</span> in the inconsistency region? Without it, the K-value. For more than two subgroups: plausible values or ranges of the <span class="math inline">\(k_i\)</span>
+</td>
+<td>
+<code>summary(res, k = )</code>, <code>plot(res, type = "region")</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>The evidence on <span class="math inline">\(k\)</span> comes from the treatment effect: for a diagnostic model, the effect of treatment among people with the target disease; for a prognostic model, under the assumptions of <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>, the relative risk reduction (RRR) of the treatment in each subgroup.</p>
+<p><strong>Notation.</strong> In the framework, <span class="math inline">\(\Delta NB_i\)</span> is the difference in net benefit between the model and a comparator that is the same strategy in every subgroup (by default treat all), so that the sums above compare two population strategies. voipred.dev calls it <code>diff_NB</code> (<code>diff_NB_&lt;subgroup&gt;</code>, and <code>diff_NB_population</code> for the size-weighted sum), to keep it apart from <code>delta_NB</code>, which compares the model with the best default strategy chosen in each group. The utility-weighted difference is <code>diff_utility</code>.</p>
+</section><section id="subgroups-in-gusto-i-age" class="level3" data-number="6.2"><h3 data-number="6.2" class="anchored" data-anchor-id="subgroups-in-gusto-i-age">
+<span class="header-section-number">6.2</span> Subgroups in GUSTO-I: age</h3>
+<p>Subgroup estimates need more data than population estimates, so for this section we validate the full model on 5,000 patients (the next 5,000 in the random order of <a href="#sec-data" class="quarto-xref">Section&nbsp;3</a>), with two subgroups: patients younger than 65 years, and those 65 and over. <code>subgroup</code> takes the name of a column of <code>data</code> (as here), several column names (their combinations), or a factor or vector with one subgroup per patient.</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">val_age</span> <span class="op">&lt;-</span> <span class="va">gusto</span><span class="op">[</span><span class="va">i</span><span class="op">[</span><span class="fl">5001</span><span class="op">:</span><span class="fl">10000</span><span class="op">]</span>, <span class="op">]</span></span>
+<span><span class="va">val_age</span><span class="op">$</span><span class="va">p_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">fit_full</span>, newdata <span class="op">=</span> <span class="va">val_age</span>, type <span class="op">=</span> <span class="st">"response"</span><span class="op">)</span></span>
+<span><span class="va">val_age</span><span class="op">$</span><span class="va">age_group</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">val_age</span><span class="op">$</span><span class="va">age</span> <span class="op">&gt;=</span> <span class="fl">65</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"under 65"</span>, <span class="st">"65 and over"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">val_age</span>,</span>
+<span>                  predicted_risk <span class="op">=</span> <span class="st">"p_full"</span>,</span>
+<span>                  outcome <span class="op">=</span> <span class="st">"day30"</span>,</span>
+<span>                  thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">0.30</span>, by <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span>,</span>
+<span>                  label <span class="op">=</span> <span class="st">"Full"</span>,</span>
+<span>                  subgroup <span class="op">=</span> <span class="st">"age_group"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Steps 1 and 2.</strong> <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> adds, for each threshold, the subgroup differences in net benefit against treat all, their size-weighted sum, and whether they have the same sign; <code>plot(type = "subgroups")</code> draws them:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_age</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.03</span>, <span class="fl">0.04</span>, <span class="fl">0.05</span>, <span class="fl">0.06</span>, <span class="fl">0.10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Full: binary, n = 5000, 339 events (6.8%), prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Full 0.02939 at 0.07</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model    Se    Sp NB_model   NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;       0.02  Full 0.962 0.324  0.05234  0.04878       0  0.00356</span></span>
+<span><span class="co">#&gt;       0.03  Full 0.914 0.463  0.04653  0.03897       0  0.00756</span></span>
+<span><span class="co">#&gt;       0.04  Full 0.858 0.571  0.04153  0.02896       0  0.01258</span></span>
+<span><span class="co">#&gt;       0.05  Full 0.805 0.644  0.03716  0.01874       0  0.01842</span></span>
+<span><span class="co">#&gt;       0.06  Full 0.749 0.711  0.03360  0.00830       0  0.02531</span></span>
+<span><span class="co">#&gt;       0.10  Full 0.602 0.845  0.02478 -0.03578       0  0.02478</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Subgroups (age_group): under 65 (61%), 65 and over (39%); difference in net benefit (diff_NB) against Treat All</span></span>
+<span><span class="co">#&gt; opposite signs at 0.03-0.06</span></span>
+<span><span class="co">#&gt; K-value (k_under 65 / k_65 and over): 0.002349 to 0.03899</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model diff_NB_under 65 diff_NB_65 and over diff_NB_population</span></span>
+<span><span class="co">#&gt;       0.02  Full          0.00568             0.00026            0.00356</span></span>
+<span><span class="co">#&gt;       0.03  Full          0.01249            -0.00013            0.00756</span></span>
+<span><span class="co">#&gt;       0.04  Full          0.02108            -0.00070            0.01258</span></span>
+<span><span class="co">#&gt;       0.05  Full          0.03144            -0.00191            0.01842</span></span>
+<span><span class="co">#&gt;       0.06  Full          0.04161            -0.00015            0.02531</span></span>
+<span><span class="co">#&gt;       0.10  Full          0.08501             0.02237            0.06056</span></span>
+<span><span class="co">#&gt;     signs       K</span></span>
+<span><span class="co">#&gt;      same      NA</span></span>
+<span><span class="co">#&gt;  opposite 0.00677</span></span>
+<span><span class="co">#&gt;  opposite 0.02140</span></span>
+<span><span class="co">#&gt;  opposite 0.03899</span></span>
+<span><span class="co">#&gt;  opposite 0.00235</span></span>
+<span><span class="co">#&gt;      same      NA</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_age</span>, type <span class="op">=</span> <span class="st">"subgroups"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/subgroup-summary-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>At 3% to 6%, the model is better than treat all in one age group and worse in the other, so Step 3 is needed there; at the other thresholds the signs agree, and differences in <span class="math inline">\(a - c\)</span> between the age groups cannot change the conclusion.</p>
+<p><strong>Step 3.</strong> The K-values at these thresholds range from 0.0023 to 0.039: the conclusion would change only if <span class="math inline">\(a - c\)</span> in patients 65 and over were 26 to 426 times that in younger patients, so it is robust to plausible differences between the age groups. With evidence on <span class="math inline">\(k\)</span>, give it as <code>k</code> (the values below are hypothetical, for illustration only); <code>diff_utility</code> is then the utility-weighted difference, and <code>consistent</code> says whether population net benefit and population utility favour the same strategy. <code>plot(type = "region")</code> locates the observed point relative to the inconsistency region at one threshold, as in <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res_age</span>, thresholds <span class="op">=</span> <span class="va">opp</span><span class="op">$</span><span class="va">threshold</span>,</span>
+<span>        k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`under 65` <span class="op">=</span> <span class="fl">0.30</span>, `65 and over` <span class="op">=</span> <span class="fl">0.20</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Net benefit of Full: binary, n = 5000, 339 events (6.8%), prior improper Beta(0, 0)</span></span>
+<span><span class="co">#&gt; Best strategy: Full 0.01-0.30</span></span>
+<span><span class="co">#&gt; Largest delta_NB: Full 0.02939 at 0.07</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model    Se    Sp NB_model  NB_all NB_none delta_NB</span></span>
+<span><span class="co">#&gt;       0.03  Full 0.914 0.463  0.04653 0.03897       0  0.00756</span></span>
+<span><span class="co">#&gt;       0.04  Full 0.858 0.571  0.04153 0.02896       0  0.01258</span></span>
+<span><span class="co">#&gt;       0.05  Full 0.805 0.644  0.03716 0.01874       0  0.01842</span></span>
+<span><span class="co">#&gt;       0.06  Full 0.749 0.711  0.03360 0.00830       0  0.02531</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Subgroups (age_group): under 65 (61%), 65 and over (39%); difference in net benefit (diff_NB) against Treat All</span></span>
+<span><span class="co">#&gt; opposite signs at 0.03-0.06</span></span>
+<span><span class="co">#&gt; K-value (k_under 65 / k_65 and over): 0.002349 to 0.03899</span></span>
+<span><span class="co">#&gt; with k, population NB and population utility favour the same strategy at every threshold</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold model diff_NB_under 65 diff_NB_65 and over diff_NB_population</span></span>
+<span><span class="co">#&gt;       0.03  Full          0.01249           -0.000132            0.00756</span></span>
+<span><span class="co">#&gt;       0.04  Full          0.02108           -0.000704            0.01258</span></span>
+<span><span class="co">#&gt;       0.05  Full          0.03144           -0.001914            0.01842</span></span>
+<span><span class="co">#&gt;       0.06  Full          0.04161           -0.000153            0.02531</span></span>
+<span><span class="co">#&gt;     signs       K diff_utility consistent</span></span>
+<span><span class="co">#&gt;  opposite 0.00677     0.002273       TRUE</span></span>
+<span><span class="co">#&gt;  opposite 0.02140     0.003800       TRUE</span></span>
+<span><span class="co">#&gt;  opposite 0.03899     0.005601       TRUE</span></span>
+<span><span class="co">#&gt;  opposite 0.00235     0.007598       TRUE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res_age</span>, type <span class="op">=</span> <span class="st">"region"</span>, threshold <span class="op">=</span> <span class="va">z_opp</span>,</span>
+<span>     k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>`under 65` <span class="op">=</span> <span class="fl">0.30</span>, `65 and over` <span class="op">=</span> <span class="fl">0.20</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/subgroup-k-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="from-published-results" class="level3" data-number="6.3"><h3 data-number="6.3" class="anchored" data-anchor-id="from-published-results">
+<span class="header-section-number">6.3</span> From published results</h3>
+<p>Without patient data, <code><a href="https://rdrr.io/pkg/voipred.dev/man/k_value.html">k_value()</a></code> computes the K-value from published subgroup differences in net benefit. In the case study of <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>, SCORE2 at a 3% threshold had a difference against treat all of <span class="math inline">\(-0.00160\)</span> in men and <span class="math inline">\(0.00345\)</span> in women (equal proportions assumed), and LDL-lowering therapy has RRRs of 0.28 in men and 0.15 in women:</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/k_value.html">k_value</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="op">-</span><span class="fl">0.0016</span>, Women <span class="op">=</span> <span class="fl">0.00345</span><span class="op">)</span>, k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>Men <span class="op">=</span> <span class="fl">0.28</span>, Women <span class="op">=</span> <span class="fl">0.15</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Subgroup difference in net benefit (diff_NB): Men -0.00160, Women 0.00345 (opposite signs)</span></span>
+<span><span class="co">#&gt; Shares: Men 50%, Women 50%</span></span>
+<span><span class="co">#&gt; K-value (k_Men / k_Women): 2.156</span></span>
+<span><span class="co">#&gt; Population NB and population utility favour different strategies if k_Men / k_Women is beyond 2.156 (above it when k_Men &gt; k_Women, below it when k_Men &lt; k_Women).</span></span>
+<span><span class="co">#&gt; With k: k_Men / k_Women = 1.867, so population NB and population utility favour the same strategy.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The evidence-based ratio, 1.867, is below the K-value of 2.156, so population net benefit and population utility favour the same strategy, as in the paper.</p>
+</section><section id="interpreting-conflicting-signs" class="level3" data-number="6.4"><h3 data-number="6.4" class="anchored" data-anchor-id="interpreting-conflicting-signs">
+<span class="header-section-number">6.4</span> Interpreting conflicting signs</h3>
+<p>Following <span class="citation" data-cites="wang2026">Wang et al. (<a href="#ref-wang2026" role="doc-biblioref">2026</a>)</span>: when the subgroup estimates are precise, the subgroup conclusions may themselves be informative; when they are imprecise, the population-level decision curve analysis remains a reasonable starting point, but opposite signs are a warning that motivates Step 3. If the observed point falls in the inconsistency region, population net benefit should not be interpreted as a proxy for population utility. A negative subgroup difference may also come from miscalibration, which recalibration would be expected to remove <span class="citation" data-cites="vancalster2015">(<a href="#ref-vancalster2015" role="doc-biblioref">Van Calster and Vickers 2015</a>)</span>; the framework is for assessing the available evidence when the model cannot be updated.</p>
+<p><strong>Options.</strong> <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> and <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> take <code>comparator</code> (<code>"Treat All"</code> by default, as in the case study; <code>"Treat None"</code>, <code>"best default"</code> or another model), <code>shares</code> (the subgroup proportions in the target population, by default those of the sample) and <code>k</code>. With more than two subgroups there is no single K-value; give values or ranges for every subgroup, e.g. <code>k = list(A = c(0.2, 0.3), B = c(0.1, 0.2), C = c(0.2, 0.4))</code>, and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> checks whether the utility-weighted sum can change sign. For survival outcomes, each subgroup uses the same estimator (Kaplan-Meier, or cIPCW with the censoring weights of the whole sample); the checks use the size-weighted sum. Credible intervals are not available with subgroups.</p>
+</section></section><section id="sec-reporting" class="level2" data-number="7"><h2 data-number="7" class="anchored" data-anchor-id="sec-reporting">
+<span class="header-section-number">7</span> Reporting the results</h2>
+<p>For binary and survival outcomes alike.</p>
+<section id="net-benefit-per-100000-patients" class="level3" data-number="7.1"><h3 data-number="7.1" class="anchored" data-anchor-id="net-benefit-per-100000-patients">
+<span class="header-section-number">7.1</span> Net benefit per 100,000 patients</h3>
+<p>Net benefit, EVPI and EVSI are per patient, so their values are small. <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> and <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> take <code>per</code>, the number of patients to express them per (default 1), e.g.&nbsp;<code>per = 100000</code>; the headers and the y axes say the scale, and the results themselves stay per patient. The default can be set once with <code>options(voipred.per = 100000)</code>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">e</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span></span>
+<span><span class="co">#&gt; EVPI: Full, Age only; binary, n = 500, prior improper Beta(0, 0), 5000 posterior draws, per 100,000 patients</span></span>
+<span><span class="co">#&gt; EVPI &gt; 0 at 0.03-0.30; largest 219.3 at 0.06</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  threshold  EVPI rEVPI</span></span>
+<span><span class="co">#&gt;       0.02   0.0 1.000</span></span>
+<span><span class="co">#&gt;       0.05 209.6 1.101</span></span>
+<span><span class="co">#&gt;       0.10  94.0 1.061</span></span>
+<span><span class="co">#&gt;       0.20  44.2 1.082</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span>, evpi <span class="op">=</span> <span class="va">e</span>, evsi <span class="op">=</span> <span class="va">o</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="voipred_files/figure-html/per-1.png" class="img-fluid figure-img" width="770"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="results-as-data-frames" class="level3" data-number="7.2"><h3 data-number="7.2" class="anchored" data-anchor-id="results-as-data-frames">
+<span class="header-section-number">7.2</span> Results as data frames</h3>
+<p><code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> gives the full results, with fixed column names and one row per threshold (and per model, strategy or future sample size):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Data frame</th>
+<th>Columns</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>as.data.frame(res)</code></td>
+<td>
+<code>threshold</code>, <code>model</code>, <code>NB_model</code>, <code>NB_all</code>, <code>NB_none</code>, <code>delta_NB</code>
+</td>
+</tr>
+<tr class="even">
+<td><code>as.data.frame(e)</code></td>
+<td>
+<code>threshold</code>, <code>ENB_current</code>, <code>ENB_perfect</code>, <code>EVPI</code>, <code>rEVPI</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code>as.data.frame(e$p_useful)</code></td>
+<td>
+<code>threshold</code>, <code>model</code>, <code>p_useful</code>
+</td>
+</tr>
+<tr class="even">
+<td><code>as.data.frame(e$p_best)</code></td>
+<td>
+<code>threshold</code>, <code>strategy</code>, <code>p_best</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code>as.data.frame(o)</code></td>
+<td>
+<code>threshold</code>, <code>future_n</code>, <code>EVSI</code>, <code>EVPI</code>
+</td>
+</tr>
+</tbody>
+</table>
+<p>With <code>per</code>, the per-patient columns are kept and the scaled ones added (e.g. <code>EVPI_per_100000</code>). As the tables share <code>threshold</code> (and <code>model</code>), they can be combined, e.g.&nbsp;into one table per threshold and model for a report:</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"model"</span>, <span class="st">"NB_model"</span>, <span class="st">"delta_NB"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>           <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">e</span><span class="op">$</span><span class="va">p_useful</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"model"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">e</span>, per <span class="op">=</span> <span class="fl">100000</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"threshold"</span>, <span class="st">"EVPI_per_100000"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>           by <span class="op">=</span> <span class="st">"threshold"</span><span class="op">)</span></span>
+<span><span class="va">d</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">threshold</span>, <span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.02</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="co">#&gt;    threshold    model   NB_model    delta_NB p_useful EVPI_per_100000</span></span>
+<span><span class="co">#&gt; 3       0.02 Age only 0.03432653 0.001673469   0.8480         0.00000</span></span>
+<span><span class="co">#&gt; 4       0.02     Full 0.03869388 0.006040816   1.0000         0.00000</span></span>
+<span><span class="co">#&gt; 9       0.05 Age only 0.02284211 0.020736842   0.9964       209.64234</span></span>
+<span><span class="co">#&gt; 10      0.05     Full 0.02284211 0.020736842   0.9984       209.64234</span></span>
+<span><span class="co">#&gt; 19      0.10 Age only 0.01088889 0.010888889   0.9188        94.00733</span></span>
+<span><span class="co">#&gt; 20      0.10     Full 0.01533333 0.015333333   0.9890        94.00733</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Thresholds made with <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> are not exact decimals, so select them with <code><a href="https://rdrr.io/r/base/Round.html">round()</a></code>, as above. The plots take <code>labels</code> (other names for the curves), <code>colors</code> (e.g.&nbsp;<code>colors = c(Full = "darkred")</code>) and <code>interactive = TRUE</code> (with the plotly package).</p>
+</section></section><section id="sec-options" class="level2" data-number="8"><h2 data-number="8" class="anchored" data-anchor-id="sec-options">
+<span class="header-section-number">8</span> Choosing the options</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Choice</th>
+<th>Argument</th>
+<th>Recommendation</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Thresholds</td>
+<td>
+<code>thresholds</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>
+</td>
+<td>the range of thresholds that are clinically reasonable for the decision</td>
+</tr>
+<tr class="even">
+<td>Several models</td>
+<td><code>predicted_risk = list(...)</code></td>
+<td>compare them in one call, on the same patients</td>
+</tr>
+<tr class="odd">
+<td>Prior</td>
+<td>
+<code>prior</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>
+</td>
+<td>the default (no prior information); <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_informative.html">nb_informative()</a></code> for small effective sample sizes, reported with and without it</td>
+</tr>
+<tr class="even">
+<td>Censoring</td>
+<td>
+<code>cipcw</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>
+</td>
+<td>Kaplan-Meier (default) when censoring is unrelated to the outcome; <code>cipcw = ~ covariates</code> when it may depend on them</td>
+</tr>
+<tr class="odd">
+<td>Number of draws</td>
+<td>
+<code>n_sim</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi()</a></code>, <code><a href="https://rdrr.io/pkg/voipred.dev/man/evsi.html">evsi()</a></code>
+</td>
+<td>1,000 (default); more (e.g.&nbsp;5,000) for stable results at thresholds with little data; set a seed</td>
+</tr>
+<tr class="even">
+<td>Future study sizes</td>
+<td>
+<code>future_n</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/evsi.html">evsi()</a></code>
+</td>
+<td>sizes that could realistically be collected</td>
+</tr>
+<tr class="odd">
+<td>Scale</td>
+<td>
+<code>per</code> in <code><a href="https://rdrr.io/r/base/print.html">print()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code>
+</td>
+<td>e.g.&nbsp;100,000 for reporting</td>
+</tr>
+<tr class="even">
+<td>Case weights</td>
+<td>
+<code>weights</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>
+</td>
+<td>for samples that do not represent the target population in equal proportions (e.g.&nbsp;oversampled events): the inverse of the sampling probability</td>
+</tr>
+<tr class="odd">
+<td>Credible intervals</td>
+<td>
+<code>interval</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>
+</td>
+<td>not needed for the decision; use the value of information measures</td>
+</tr>
+<tr class="even">
+<td>Subgroups</td>
+<td>
+<code>subgroup</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>; <code>k</code>, <code>comparator</code>, <code>shares</code> in <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>
+</td>
+<td>for clinically relevant subgroups that are large or may differ in <span class="math inline">\(a - c\)</span> (e.g.&nbsp;treatment effect)</td>
+</tr>
+</tbody>
+</table>
+<p>The help pages give the details of every function and argument (see the Reference).</p>
+</section><section id="references" class="level2" data-number="9">
+
+
+
+</section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">
+9 References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cruz2025" class="csl-entry" role="listitem">
+Cruz, Giuliano Netto Flores, and Keegan Korthauer. 2025. <span>“Bayesian Decision Curve Analysis with <span class="nocase">bayesDCA</span>.”</span> <em>Statistics in Medicine</em>.
+</div>
+<div id="ref-farahmand2026" class="csl-entry" role="listitem">
+Farahmand, Amirhosein, Mohsen Sadatsafavi, Abdollah Safari, and Tae Yoon Lee. 2026. <span>“Robust Decision Curve Analysis for Survival Risk Prediction Models in the Presence of Informative Censoring.”</span> Under review at Statistics in Medicine.
+</div>
+<div id="ref-royston2013" class="csl-entry" role="listitem">
+Royston, Patrick, and Douglas G. Altman. 2013. <span>“External Validation of a <span>Cox</span> Prognostic Model: Principles and Methods.”</span> <em>BMC Medical Research Methodology</em> 13: 33.
+</div>
+<div id="ref-rubin1981" class="csl-entry" role="listitem">
+Rubin, Donald B. 1981. <span>“The <span>Bayesian</span> Bootstrap.”</span> <em>The Annals of Statistics</em> 9 (1): 130–34.
+</div>
+<div id="ref-sadatsafavi2025" class="csl-entry" role="listitem">
+Sadatsafavi, Mohsen et al. 2025. <span>“Expected Value of Sample Information Calculations for Risk Prediction Model Validation.”</span> <em>Medical Decision Making</em> 45 (3): 232–44.
+</div>
+<div id="ref-sadatsafavi2023" class="csl-entry" role="listitem">
+Sadatsafavi, Mohsen, Tae Yoon Lee, Laure Wynants, Andrew J. Vickers, and Paul Gustafson. 2023. <span>“Value-of-Information Analysis for External Validation of Risk Prediction Models.”</span> <em>Medical Decision Making</em> 43 (5): 564–75.
+</div>
+<div id="ref-gusto1993" class="csl-entry" role="listitem">
+The GUSTO Investigators. 1993. <span>“An International Randomized Trial Comparing Four Thrombolytic Strategies for Acute Myocardial Infarction.”</span> <em>New England Journal of Medicine</em> 329 (10): 673–82.
+</div>
+<div id="ref-vancalster2015" class="csl-entry" role="listitem">
+Van Calster, Ben, and Andrew J. Vickers. 2015. <span>“Calibration of Risk Prediction Models: Impact on Decision-Analytic Performance.”</span> <em>Medical Decision Making</em> 35 (2): 162–69.
+</div>
+<div id="ref-vickers2008" class="csl-entry" role="listitem">
+Vickers, Andrew J., Angel M. Cronin, Elena B. Elkin, and Mithat Gonen. 2008. <span>“Extensions to Decision Curve Analysis, a Novel Method for Evaluating Diagnostic Tests, Prediction Models and Molecular Markers.”</span> <em>BMC Medical Informatics and Decision Making</em> 8: 53. <a href="https://doi.org/10.1186/1472-6947-8-53">https://doi.org/10.1186/1472-6947-8-53</a>.
+</div>
+<div id="ref-vickers2006" class="csl-entry" role="listitem">
+Vickers, Andrew J., and Elena B. Elkin. 2006. <span>“Decision Curve Analysis: A Novel Method for Evaluating Prediction Models.”</span> <em>Medical Decision Making</em> 26 (6): 565–74. <a href="https://doi.org/10.1177/0272989X06295361">https://doi.org/10.1177/0272989X06295361</a>.
+</div>
+<div id="ref-vickers2019" class="csl-entry" role="listitem">
+Vickers, Andrew J., Ben Van Calster, and Ewout W. Steyerberg. 2019. <span>“A Simple, Step-by-Step Guide to Interpreting Decision Curve Analysis.”</span> <em>Diagnostic and Prognostic Research</em> 3: 18. <a href="https://doi.org/10.1186/s41512-019-0064-7">https://doi.org/10.1186/s41512-019-0064-7</a>.
+</div>
+<div id="ref-vickers2023ci" class="csl-entry" role="listitem">
+Vickers, Andrew J., Ben Van Calster, Laure Wynants, and Ewout W. Steyerberg. 2023. <span>“Decision Curve Analysis: Confidence Intervals and Hypothesis Testing for Net Benefit.”</span> <em>Diagnostic and Prognostic Research</em> 7: 11.
+</div>
+<div id="ref-wang2026" class="csl-entry" role="listitem">
+Wang, Junfeng, Kim Zhipei Wang, Ben Van Calster, Nan van Geloven, Ewout Steyerberg, and Laure Wynants. 2026. <span>“Population-Level Decision Curve Analysis May Mislead the Evaluation of Prediction Model Usefulness Under Subgroup Utility Heterogeneity.”</span> arXiv preprint arXiv:2609.34521. <a href="https://arxiv.org/abs/2609.34521">https://arxiv.org/abs/2609.34521</a>.
+</div>
+<div id="ref-wynants2018" class="csl-entry" role="listitem">
+Wynants, Laure, Richard D. Riley, Dirk Timmerman, and Ben Van Calster. 2018. <span>“Random-Effects Meta-Analysis of the Clinical Utility of Tests and Prediction Models.”</span> <em>Statistics in Medicine</em> 37 (12): 2034–52. <a href="https://doi.org/10.1002/sim.7653">https://doi.org/10.1002/sim.7653</a>.
+</div>
+</div></section></div></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/amirfarahmand0\.github\.io\/voipred\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../index.html" class="pagination-link" aria-label="Home">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Home</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../man/c.voipred_nb.html" class="pagination-link" aria-label="c.voipred_nb">
+        <span class="nav-page-text">c.voipred_nb</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Developed by Amirhosein Farahmand, Mohsen Sadatsafavi and Laure Wynants.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://altdoc.etiennebacher.com">altdoc</a> and <a href="https://quarto.org">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+<meta charset="UTF-8">
+<meta name="generator" content="quarto-1.7.32">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>cipcw_control – voipred</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../man/evpi.html" rel="next">
+<link href="../man/c.voipred_nb.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-2fef5ea3f8957b3e4ecc936fc74692ca.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7d64dc365dbc021eb6d1c3d79e0538a9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-91d7da1476328ce26b10d97735d7b180.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-7d64dc365dbc021eb6d1c3d79e0538a9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+</head>
+<body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">voipred</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link active" href="../vignettes/voipred.html" aria-current="page"> 
+<span class="menu-text">Tutorial</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../man/nb_val.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/amirfarahmand0/voipred_dev"> <i class="bi bi-github" role="img" aria-label="voipred on GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/c.voipred_nb.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/cipcw_control.html">cipcw_control</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto"><div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Home</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Articles</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../vignettes/voipred.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction to voipred</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Reference</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+<li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/c.voipred_nb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">c.voipred_nb</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/cipcw_control.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">cipcw_control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/evpi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evpi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/evsi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">evsi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/gusto.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">gusto</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/k_value.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">k_value</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/nb_informative.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nb_informative</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/nb_priors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nb_priors</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/nb_val.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">nb_val</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_evpi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_evpi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_evsi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_evsi</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_nb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_nb</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_p_best.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_p_best</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/plot.voipred_p_useful.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">plot.voipred_p_useful</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/summary.voipred_nb.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summary.voipred_nb</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../man/summary.voipred_voi.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">summary.voipred_voi</span></a>
+  </div>
+</li>
+      </ul>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../CITATION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Citation</span></a>
+  </div>
+</li>
+    </ul>
+</div>
+</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#settings-for-conditional-ipcw-net-benefit-optional" id="toc-settings-for-conditional-ipcw-net-benefit-optional" class="nav-link active" data-scroll-target="#settings-for-conditional-ipcw-net-benefit-optional">Settings for conditional IPCW net benefit (optional)</a>
+  <ul>
+<li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#details" id="toc-details" class="nav-link" data-scroll-target="#details">Details</a></li>
+  <li><a href="#value" id="toc-value" class="nav-link" data-scroll-target="#value">Value</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul>
+</li>
+  </ul></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../man/c.voipred_nb.html">Reference</a></li><li class="breadcrumb-item"><a href="../man/cipcw_control.html">cipcw_control</a></li></ol></nav></header><section id="settings-for-conditional-ipcw-net-benefit-optional" class="level2 unnumbered"><h2 class="unnumbered anchored" data-anchor-id="settings-for-conditional-ipcw-net-benefit-optional">Settings for conditional IPCW net benefit (optional)</h2>
+<section id="description" class="level3"><h3 class="anchored" data-anchor-id="description">Description</h3>
+<p>Conditional inverse probability of censoring weighting (cIPCW) allows censoring to depend on covariates: it assumes censoring is independent of the event time <em>given</em> the covariates of the censoring model. It is used when <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> is given <code>cipcw</code>, and most analyses need nothing more than the covariates, <code>cipcw = ~ age + nodes</code> (option 1 below, with the default truncation). <code><a href="https://rdrr.io/pkg/voipred.dev/man/cipcw_control.html">cipcw_control()</a></code> is only needed for the other options: your own censoring model, given weights, another truncation, <code>ties</code>, or your own predict and refit functions.</p>
+</section><section id="usage" class="level3"><h3 class="anchored" data-anchor-id="usage">Usage</h3>
+<pre><code class="language-R">cipcw_control(
+  formula = NULL,
+  model = NULL,
+  weight_event = NULL,
+  weight_horizon = NULL,
+  min_prob = 0.02,
+  ties = c("left", "right"),
+  predict_function = NULL,
+  refit_function = NULL
+)
+</code></pre>
+</section><section id="arguments" class="level3"><h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
+<table role="presentation">
+<tbody><tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="formula">formula</code>
+</td>
+<td>
+Option 1: the covariates of the censoring, a one-sided formula such as <code>~ age + nodes</code> (variables of <code>data</code>), for a Cox model fitted by voipred. Give one of <code>formula</code>, <code>model</code> or the two weights.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="model">model</code>
+</td>
+<td>
+Option 2: a survival model fitted to the censoring times of the validation data <code>data</code> passed to <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> (same patients), with censoring as the event, e.g.&nbsp;<code>coxph(Surv(time, status == 0) ~ x, data = val)</code>.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="weight_event">weight_event</code>, <code id="weight_horizon">weight_horizon</code>
+</td>
+<td>
+Option 3: two numeric vectors, one positive finite value per row of <code>data</code> (in its row order), given together: <code>weight_event</code> is the inverse probability of remaining uncensored just before each patient’s own time, <code class="reqn">1/G(T_i- X_i)</code>, used for patients with an event (of any cause) by the horizon; <code>weight_horizon</code> is the inverse probability of remaining uncensored at the horizon, <span class="math inline">\(1/\hat G(\tau \mid X_i)\)</span>, used for patients event-free at the horizon. Values for the other patients are ignored (any positive number will do). Unstabilized weights only.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="min_prob">min_prob</code>
+</td>
+<td>
+Truncation, for every option: censoring probabilities below <code>min_prob</code> (options 1 and 2), or weights above <code>1 / min_prob</code> (option 3), are set to that limit. A single number strictly between 0 and 1; default 0.02 (weights at most 50). <code>NULL</code>: no truncation.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="ties">ties</code>
+</td>
+<td>
+Options 1 and 2, and only matters for a censoring model whose survival curve has steps (e.g.&nbsp;Cox, Kaplan-Meier, forests, trees): <code>“left”</code> (default) uses the probability of remaining uncensored just before each patient’s own time, so a censoring step at exactly that time is not included (the usual convention, as for Kaplan-Meier: an event tied with a censoring comes first); <code>“right”</code> includes it. For smooth (parametric) censoring models both give practically the same result.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="predict_function">predict_function</code>
+</td>
+<td>
+Option 2, optional: a <code style="white-space: pre;">function(model, newdata, times)</code> returning, for each row of <code>newdata</code>, the probability of <strong>remaining uncensored</strong> at that row’s time in <code>times</code> (the censoring survival <span class="math inline">\(G(t \mid X)\)</span>, not a risk). It may instead return a curve per row, <code style="white-space: pre;">list(time = &lt;grid&gt;, surv = &lt;n x grid matrix&gt;)</code>, which voipred reads at each row’s own time. Use it for a censoring model voipred cannot predict from by itself, or to predict in your own way; it then replaces voipred’s own prediction. Requires <code>model</code>.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="refit_function">refit_function</code>
+</td>
+<td>
+Option 2, optional: a <code style="white-space: pre;">function(data, weights)</code> returning the censoring model fitted to <code>data</code> (the validation data given to <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>, restricted to the patients with a positive weight in a draw) with case weights <code>weights</code> (the Bayesian-bootstrap weights of the draw, positive and averaging 1, times the case weights of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> if any; in <code><a href="https://rdrr.io/pkg/voipred.dev/man/evsi.html">evsi()</a></code> also whole numbers for the pooled samples), e.g. <code>function(data, weights) coxph(Surv(time, status == 0) ~ x, data = data, weights = weights)</code>. Used by the value-of-information functions to refit the censoring model in every draw (see "Uncertainty"). Needed for a censoring model voipred cannot refit with case weights by itself.
+</td>
+</tr>
+</tbody></table></section><section id="details" class="level3"><h3 class="anchored" data-anchor-id="details">Details</h3>
+<p>There are three ways to give the censoring information:</p>
+<p><strong>1. The covariates of the censoring</strong> (<code style="white-space: pre;">formula =</code>, or simply <code>cipcw = ~ age + nodes</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>). voipred fits a Cox model of the censoring times of the validation data on them, <code>coxph(Surv(time, censored) ~ age + nodes)</code>, with only true censoring as the event (with competing risks, patients with a competing event are not censored), weighted by the case weights of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> if any, and refits it in every draw of the value-of-information functions. A two-sided formula (e.g.&nbsp;<code>Surv(time, status == 0) ~ age + nodes</code>) is fitted as it is.</p>
+<p><strong>2. A fitted censoring model</strong> (<code style="white-space: pre;">model =</code>, or <code style="white-space: pre;">cipcw = &lt;model&gt;</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>). Fit any survival model to the <em>censoring</em> times in the validation data, i.e.&nbsp;with the censored patients as the "events": <code>Surv(time, status == 0)</code>. With competing risks, only true censoring is censoring: patients with a competing event are not censored (<code>Surv(time, status == “censored”)</code>, not <code>status != cause</code>). voipred predicts from the model the probability of remaining uncensored just before each patient’s own time and at the horizon, in the same way as it predicts risks from a model in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>: through <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html">riskRegression::predictRisk()</a></code> (e.g. <code>coxph</code> with <code>x = TRUE</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code>survreg</code>, <code>flexsurvreg</code>, <code>ranger</code>, <code>randomForestSRC</code>, a Kaplan-Meier <code>prodlim</code> fit), or voipred’s own code for models riskRegression cannot handle (<code>coxph</code> without <code>x = TRUE</code>, <code>aorsf</code>, <code>partykit</code> survival trees, <code>rstpm2::stpm2</code>, <code>mgcv::gam</code> with <code>cox.ph()</code>). For any other model, give <code>predict_function</code> (or the weights, option 3). Where the model’s outcome can be read from its formula, voipred checks it against <code>data</code>: it stops if the model was fitted to the event (for competing risks: to the cause of interest, to another cause or to all events together), and warns if the check is not possible or if the model was fitted to a different number of patients than <code>data</code> has.</p>
+<p><strong>3. Weights</strong> (<code style="white-space: pre;">weight_event =</code>, <code style="white-space: pre;">weight_horizon =</code>): one value per row of <code>data</code>, the inverse probabilities of remaining uncensored just before each patient’s own time and at the horizon, i.e.&nbsp;<span class="math inline">\(1/\hat G(T_i- \mid X_i)\)</span> and <span class="math inline">\(1/\hat G(\tau \mid X_i)\)</span>. Only the weights of patients with an event by the horizon (<code>weight_event</code>; including competing events) and of patients event-free at the horizon (<code>weight_horizon</code>) are used. They must be <strong>unstabilized</strong>: stabilized weights bias this estimator.</p>
+<p><strong>Flexible censoring models.</strong> A flexible model (e.g.&nbsp;a forest) fitted and evaluated on the same patients overfits their censoring times, and its weights are biased. Use cross-fitting: split <code>data</code> into folds, fit the censoring model on all folds but one, predict the censoring probabilities for the held-out fold, and give the resulting weights through option 3 (in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> only: see "Uncertainty").</p>
+<p><strong>Truncation.</strong> By default, censoring probabilities below <code>min_prob = 0.02</code> (options 1 and 2), or weights above <code>1 / min_prob = 50</code> (option 3), are truncated, with a warning saying how many of the used ones were. With <code>min_prob = NULL</code> there is no truncation: voipred then warns when some used probabilities are below 0.01 (weights above 100), a sign of near-violations of positivity, and stops if a probability is exactly 0.</p>
+<p><strong>Uncertainty (value of information).</strong> The censoring model is estimated from the validation data, so its uncertainty is part of the uncertainty about the net benefit. The value-of-information functions (<code><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi()</a></code>, <code><a href="https://rdrr.io/pkg/voipred.dev/man/evsi.html">evsi()</a></code>) therefore refit the censoring model in every draw of the Bayesian bootstrap, with that draw’s weights as case weights, and recompute the censoring weights from it. The refit is done:</p>
+<ul>
+<li>
+<p>for option 1, automatically (voipred’s own Cox model);</p>
+</li>
+<li>
+<p>with <code>refit_function</code>, if given;</p>
+</li>
+<li>
+<p>otherwise automatically for the censoring models whose case weights voipred knows: <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">survival::coxph</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survival::survreg</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/psm.html">rms::psm</a></code>, <code>flexsurv::flexsurvreg</code> (also <code>flexsurvspline</code>) and <code><a href="https://rdrr.io/pkg/prodlim/man/prodlim.html">prodlim::prodlim</a></code>: the model’s own call, with the draw’s data and the draw’s weights as case weights;</p>
+</li>
+<li>
+<p>otherwise it stops and asks for <code>refit_function</code>: other models take weights under other names or with another meaning (e.g.&nbsp;<code>ranger</code>’s <code>case.weights</code> are sampling probabilities), so voipred does not guess.</p>
+</li>
+</ul>
+<p>Patients with a weight of 0 in a draw are left out of the refit. Given weights (option 3) cannot be refitted, so they can be used in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> but not in the value-of-information functions. <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> itself always uses the model as given.</p>
+</section><section id="value" class="level3"><h3 class="anchored" data-anchor-id="value">Value</h3>
+<p>An object of class <code>cipcw_control</code>.</p>
+</section><section id="examples" class="level3"><h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"voipred.dev"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span><span class="va">rott</span> <span class="op">&lt;-</span> <span class="va">rotterdam</span></span>
+<span><span class="va">rott</span><span class="op">$</span><span class="va">years</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">$</span><span class="va">dtime</span> <span class="op">/</span> <span class="fl">365.25</span></span>
+<span><span class="va">df_dev_survival</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">1500</span>, <span class="op">]</span></span>
+<span><span class="va">df_val_survival</span> <span class="op">&lt;-</span> <span class="va">rott</span><span class="op">[</span><span class="fl">1501</span><span class="op">:</span><span class="fl">2982</span>, <span class="op">]</span></span>
+<span><span class="va">cox</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">size</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>,</span>
+<span>             data <span class="op">=</span> <span class="va">df_dev_survival</span><span class="op">)</span></span>
+<span><span class="co"># the predicted risks of death by 5 years</span></span>
+<span><span class="va">sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="va">cox</span>, newdata <span class="op">=</span> <span class="va">df_val_survival</span><span class="op">)</span></span>
+<span><span class="va">df_val_survival</span><span class="op">$</span><span class="va">p5</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">sf</span>, times <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">$</span><span class="va">surv</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="co"># usually only the covariates of the censoring are needed (no cipcw_control())</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_survival</span>,</span>
+<span>       predicted_risk <span class="op">=</span> <span class="va">df_val_survival</span><span class="op">$</span><span class="va">p5</span>,</span>
+<span>       outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>       horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>       thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>       cipcw <span class="op">=</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
+
+ threshold model NB_model NB_all NB_none delta_NB
+       0.1    p5   0.1076 0.4206       0  -0.3130
+       0.2    p5   0.0340 0.3482       0  -0.3142
+       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the same covariates, truncated at 0.05 instead of 0.02</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_survival</span>,</span>
+<span>       predicted_risk <span class="op">=</span> <span class="va">df_val_survival</span><span class="op">$</span><span class="va">p5</span>,</span>
+<span>       outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>       horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>       thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>       cipcw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/cipcw_control.html">cipcw_control</a></span><span class="op">(</span><span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>, min_prob <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
+
+ threshold model NB_model NB_all NB_none delta_NB
+       0.1    p5   0.1076 0.4206       0  -0.3130
+       0.2    p5   0.0340 0.3482       0  -0.3142
+       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># your own censoring model: fitted on the validation data, censoring as the</span></span>
+<span><span class="co"># event, here without truncation</span></span>
+<span><span class="va">cens_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>,</span>
+<span>                  data <span class="op">=</span> <span class="va">df_val_survival</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_survival</span>,</span>
+<span>       predicted_risk <span class="op">=</span> <span class="va">df_val_survival</span><span class="op">$</span><span class="va">p5</span>,</span>
+<span>       outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>       horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>       thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>       cipcw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/cipcw_control.html">cipcw_control</a></span><span class="op">(</span>model <span class="op">=</span> <span class="va">cens_fit</span>, min_prob <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
+
+ threshold model NB_model NB_all NB_none delta_NB
+       0.1    p5   0.1076 0.4206       0  -0.3130
+       0.2    p5   0.0340 0.3482       0  -0.3142
+       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># a flexible censoring model: a random survival forest (ranger), fitted on</span></span>
+<span><span class="co"># the validation data with the censored patients as the events</span></span>
+<span><span class="va">df_val_survival</span><span class="op">$</span><span class="va">censored</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">-</span> <span class="va">df_val_survival</span><span class="op">$</span><span class="va">death</span></span>
+<span><span class="va">cens_forest</span> <span class="op">&lt;-</span> <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">censored</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">size</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>,</span>
+<span>                              data <span class="op">=</span> <span class="va">df_val_survival</span>, num.trees <span class="op">=</span> <span class="fl">200</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">res_forest</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_survival</span>,</span>
+<span>                     predicted_risk <span class="op">=</span> <span class="va">df_val_survival</span><span class="op">$</span><span class="va">p5</span>,</span>
+<span>                     outcome <span class="op">=</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span><span class="op">)</span>,</span>
+<span>                     horizon <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                     thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>,</span>
+<span>                     cipcw <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/cipcw_control.html">cipcw_control</a></span><span class="op">(</span></span>
+<span>                       model <span class="op">=</span> <span class="va">cens_forest</span>,</span>
+<span>                       <span class="co"># how to refit it in each draw of the value-of-information</span></span>
+<span>                       <span class="co"># functions, with the draw's case weights</span></span>
+<span>                       refit_function <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span>, <span class="va">weights</span><span class="op">)</span></span>
+<span>                         <span class="fu">ranger</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ranger/man/ranger.html">ranger</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">censored</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">size</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>,</span>
+<span>                                        data <span class="op">=</span> <span class="va">data</span>, case.weights <span class="op">=</span> <span class="va">weights</span>,</span>
+<span>                                        num.trees <span class="op">=</span> <span class="fl">200</span>, seed <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res_forest</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.8%, censoring cIPCW (ranger), prior improper Beta(0, 0)
+
+ threshold model NB_model NB_all NB_none delta_NB
+       0.1    p5   0.1076 0.4197       0  -0.3121
+       0.2    p5   0.0340 0.3472       0  -0.3132
+       0.3    p5   0.0159 0.2540       0  -0.2381</code></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the forest is refitted in every draw, so this takes a while</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/evpi.html">evpi</a></span><span class="op">(</span><span class="va">res_forest</span>, n_sim <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>EVPI: p5; survival, horizon 5, n = 1482, censoring cIPCW (ranger), prior improper Beta(0, 0), 20 Bayesian bootstrap draws
+
+ threshold EVPI rEVPI
+       0.1    0    NA
+       0.2    0    NA
+       0.3    0    NA
+# From the same draws: P(useful) in $p_useful, P(best) in $p_best</code></pre>
+</div>
+</div>
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/amirfarahmand0\.github\.io\/voipred\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+      <a href="../man/c.voipred_nb.html" class="pagination-link" aria-label="c.voipred_nb">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">c.voipred_nb</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../man/evpi.html" class="pagination-link" aria-label="evpi">
+        <span class="nav-page-text">evpi</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Developed by Amirhosein Farahmand, Mohsen Sadatsafavi and Laure Wynants.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Built with <a href="https://altdoc.etiennebacher.com">altdoc</a> and <a href="https://quarto.org">Quarto</a>.</p>
+</div>
+  </div>
+</footer>
+
+
+</body></html>
