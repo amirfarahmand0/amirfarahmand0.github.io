@@ -515,26 +515,38 @@ window.Quarto = {
 </li>
 </ul></section><section id="usage" class="level3"><h3 class="anchored" data-anchor-id="usage">Usage</h3>
 <pre><code class="language-R">## S3 method for class 'voipred_evpi'
-print(x, n = 10, per = getOption("voipred.per", 1), unit = c("tp", "fp"), ...)
+print(
+  x,
+  n = 10,
+  per = getOption("voipred.per", 1),
+  unit = c("tp", "fp_avoided"),
+  ...
+)
 
 ## S3 method for class 'voipred_evpi'
 summary(
   object,
   thresholds = NULL,
   per = getOption("voipred.per", 1),
-  unit = c("tp", "fp"),
+  unit = c("tp", "fp_avoided"),
   ...
 )
 
 ## S3 method for class 'voipred_evsi'
-print(x, n = 10, per = getOption("voipred.per", 1), unit = c("tp", "fp"), ...)
+print(
+  x,
+  n = 10,
+  per = getOption("voipred.per", 1),
+  unit = c("tp", "fp_avoided"),
+  ...
+)
 
 ## S3 method for class 'voipred_evsi'
 summary(
   object,
   thresholds = NULL,
   per = getOption("voipred.per", 1),
-  unit = c("tp", "fp"),
+  unit = c("tp", "fp_avoided"),
   ...
 )
 
@@ -556,7 +568,7 @@ as.data.frame(
   row.names = NULL,
   optional = FALSE,
   per = getOption("voipred.per", 1),
-  unit = c("tp", "fp"),
+  unit = c("tp", "fp_avoided"),
   ...
 )
 
@@ -566,7 +578,7 @@ as.data.frame(
   row.names = NULL,
   optional = FALSE,
   per = getOption("voipred.per", 1),
-  unit = c("tp", "fp"),
+  unit = c("tp", "fp_avoided"),
   ...
 )
 
@@ -599,7 +611,7 @@ Scale of EVPI and EVSI: the number of patients they are expressed per. Default 1
 <code id="unit">unit</code>
 </td>
 <td>
-The unit of EVPI and EVSI: <code>“tp”</code> (default), net true positives, the unit of net benefit; or <code>“fp”</code>, net false positives avoided, i.e.&nbsp;divided by the threshold odds <span class="math inline">\(t/(1-t)\)</span> (as the gain of a model over treat all is converted into net false positives avoided; not defined at a threshold of 0). The header (and the y axis) says so; <code>as.data.frame(unit = “fp”)</code> adds the converted columns (<code>EVPI_fp_avoided</code>, <code>EVSI_fp_avoided</code>) to the per-patient ones.
+The unit of EVPI and EVSI: <code>“tp”</code> (default), net true positives, the unit of net benefit; or <code>“fp_avoided”</code>, net false positives avoided, i.e.&nbsp;divided by the threshold odds <span class="math inline">\(t/(1-t)\)</span> (as the gain of a model over treat all is converted into net false positives avoided; not defined at a threshold of 0). The header (and the y axis) says so; <code>as.data.frame(unit = “fp_avoided”)</code> adds the converted columns (<code>EVPI_fp_avoided</code>, <code>EVSI_fp_avoided</code>) to the per-patient ones.
 </td>
 </tr>
 <tr>
