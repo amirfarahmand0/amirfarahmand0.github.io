@@ -659,11 +659,12 @@ Number of draws for <code>interval</code>. Default 1000.
 <p><strong>Binary outcome.</strong> With outcome <span class="math inline">\(Y\)</span>, predicted risk <span class="math inline">\(\hat\pi\)</span> and threshold <span class="math inline">\(z\)</span>,</p>
 <p style="text-align: center;">
 </p>
-<p><span class="math inline">\(NB_{model}(z) = \frac{1}{n}\sum_i Y_i T_i - \frac{1}{n}\sum_i (1-Y_i) T_i \frac{z}{1-z},\quad T_i = 1(\hat\pi_i \ge z)\)</span></p>
+<p><span class="math inline">\(NB_{model}(z) = \frac{1}{n}\sum_i Y_i \, 1(\hat\pi_i \ge z) - \frac{z}{1-z}\,\frac{1}{n}\sum_i (1-Y_i) \, 1(\hat\pi_i \ge z),\)</span></p>
+<p>where <span class="math inline">\(1(\hat\pi_i \ge z)\)</span> is 1 for the patients treated at threshold <span class="math inline">\(z\)</span> (predicted risk at or above it), and 0 otherwise;</p>
 <p style="text-align: center;">
 </p>
 <p><span class="math inline">\(NB_{all}(z) = \bar Y - (1-\bar Y)\frac{z}{1-z}, \qquad NB_{none}(z) = 0.\)</span></p>
-<p><strong>Survival outcome</strong> (<code>Surv(time, status)</code>, with a <code>horizon</code>). The event is "the event by the horizon". With <span class="math inline">\(q\)</span> the share treated at threshold <span class="math inline">\(z\)</span> and <span class="math inline">\(F_+\)</span> the risk of the event by the horizon among them, <span class="math inline">\(NB_{model} = q F_+ - q (1 - F_+) z/(1-z)\)</span>. Two estimators:</p>
+<p><strong>Survival outcome</strong> (<code>Surv(time, status)</code>, with a <code>horizon</code>). The event is "the event by the horizon". With <span class="math inline">\(q\)</span> the share treated at threshold <span class="math inline">\(z\)</span> and <span class="math inline">\(F_+\)</span> the risk of the event by the horizon among them, <span class="math inline">\(NB_{model} = q F_+ - q (1 - F_+) z/(1-z)\)</span>, i.e.&nbsp;the share of patients who are treated and have the event by the horizon, minus the share treated without it, weighted by <span class="math inline">\(z/(1-z)\)</span>. Two estimators of these shares:</p>
 <ul>
 <li>
 <p>Kaplan-Meier (default, <code>cipcw</code> not given): <span class="math inline">\(F_+\)</span> and the overall risk are Kaplan-Meier estimates (Aalen-Johansen for competing risks), as in dcurves. If none of the treated patients is followed up to the horizon, the net benefit at that threshold is <code>NA</code>, with a warning.</p>
