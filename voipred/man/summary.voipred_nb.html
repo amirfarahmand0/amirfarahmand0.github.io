@@ -583,7 +583,7 @@ Not used (as in <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.dat
 </td>
 </tr>
 </tbody></table></section><section id="details" class="level3"><h3 class="anchored" data-anchor-id="details">Details</h3>
-<p>All three have the same layout, for one model or several: one row per threshold and model, the model’s label in the column <code>model</code>, and the columns <code>NB_model</code>, <code>NB_all</code>, <code>NB_none</code> and <code>delta_NB</code> (<code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> adds <code>Se</code> and <code>Sp</code>). <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> sort the rows by threshold, so that the models are side by side; <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> keeps the order of the estimates (by model, then threshold).</p>
+<p>All three have the same layout, for one model or several: one row per threshold and model, the model’s label in the column <code>model</code>, and the columns <code>NB_model</code>, <code>NB_all</code>, <code>NB_none</code>, <code>delta_NB</code> and <code>net_FP_avoided</code> (net false positives avoided against treat all; see <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>) (<code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> adds <code>Se</code> and <code>Sp</code>). <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> sort the rows by threshold, so that the models are side by side; <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> keeps the order of the estimates (by model, then threshold).</p>
 <p>With credible intervals (<code>nb_val(interval = )</code>), <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> show the interval of <code>NB_model</code> and of <code>delta_NB</code> after each of them, e.g. <code style="white-space: pre;">95% CrI (0.0208, 0.0596)</code>, the header says how they were computed, and <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame()</a></code> has the bounds (<code>NB_model_lower</code>, <code>NB_model_upper</code>, …); <code>plot(bands = TRUE)</code> draws them as bands.</p>
 <p>The best strategy at a threshold is the model with the largest <code>delta_NB</code> if it is positive, otherwise treat all if its net benefit is positive, otherwise treat none. For a binary outcome, sensitivity and specificity are posterior means (the observed proportions with the default improper prior). For survival and competing-risks outcomes they are those of the event by the horizon, from the same estimates as the net benefit: with Kaplan-Meier, from the Kaplan-Meier (Aalen-Johansen) risk by the horizon <span class="math inline">\(F\)</span>, the share treated <span class="math inline">\(q\)</span> and the risk among the treated <span class="math inline">\(F_+\)</span>, <span class="math inline">\(Se = q F_+ / F\)</span> and <span class="math inline">\(Sp = 1 - q (1 - F_+) / (1 - F)\)</span>; with cIPCW (<code>cipcw</code>), the IPCW-weighted proportions of the cIPCW estimator.</p>
 </section><section id="value" class="level3"><h3 class="anchored" data-anchor-id="value">Value</h3>
@@ -607,17 +607,17 @@ Not used (as in <code><a href="https://rdrr.io/r/base/as.data.frame.html">as.dat
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p: binary, n = 500, 8 events (1.6%), prior improper Beta(0, 0)
 
- threshold model  NB_model   NB_all NB_none  delta_NB
-      0.01     p  0.005333  0.00606       0 -0.000727
-      0.02     p  0.002041 -0.00408       0  0.002041
-      0.03     p  0.000763 -0.01443       0  0.000763
-      0.04     p -0.000750 -0.02500       0 -0.000750
-      0.05     p -0.000421 -0.03579       0 -0.000421
-      0.06     p -0.000511 -0.04681       0 -0.000511
-      0.07     p -0.000602 -0.05806       0 -0.000602
-      0.08     p -0.000348 -0.06957       0 -0.000348
-      0.09     p -0.000198 -0.08132       0 -0.000198
-      0.10     p -0.000222 -0.09333       0 -0.000222
+ threshold model  NB_model   NB_all NB_none  delta_NB net_FP_avoided
+      0.01     p  0.005333  0.00606       0 -0.000727        -0.0720
+      0.02     p  0.002041 -0.00408       0  0.002041         0.3000
+      0.03     p  0.000763 -0.01443       0  0.000763         0.4913
+      0.04     p -0.000750 -0.02500       0 -0.000750         0.5820
+      0.05     p -0.000421 -0.03579       0 -0.000421         0.6720
+      0.06     p -0.000511 -0.04681       0 -0.000511         0.7253
+      0.07     p -0.000602 -0.05806       0 -0.000602         0.7634
+      0.08     p -0.000348 -0.06957       0 -0.000348         0.7960
+      0.09     p -0.000198 -0.08132       0 -0.000198         0.8202
+      0.10     p -0.000222 -0.09333       0 -0.000222         0.8380
 # 20 more thresholds; use summary() or as.data.frame()</code></pre>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -637,6 +637,17 @@ Largest delta_NB: p 0.002041 at 0.02
       0.08     p 0.000 0.996 -0.000348 -0.06957       0 -0.000348
       0.09     p 0.000 0.998 -0.000198 -0.08132       0 -0.000198
       0.10     p 0.000 0.998 -0.000222 -0.09333       0 -0.000222
+ net_FP_avoided
+        -0.0720
+         0.3000
+         0.4913
+         0.5820
+         0.6720
+         0.7253
+         0.7634
+         0.7960
+         0.8202
+         0.8380
 # 20 more thresholds; summary(x, thresholds = ) to choose</code></pre>
 </div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.2</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -645,10 +656,10 @@ Largest delta_NB: p 0.002041 at 0.02
 Best strategy: treat all 0.01, p 0.02-0.03, treat none 0.04-0.30
 Largest delta_NB: p 0.002041 at 0.02
 
- threshold model Se    Sp   NB_model  NB_all NB_none   delta_NB
-      0.05     p  0 0.992 -0.0004211 -0.0358       0 -0.0004211
-      0.10     p  0 0.998 -0.0002222 -0.0933       0 -0.0002222
-      0.20     p  0 0.998 -0.0005000 -0.2300       0 -0.0005000</code></pre>
+ threshold model Se    Sp   NB_model  NB_all NB_none   delta_NB net_FP_avoided
+      0.05     p  0 0.992 -0.0004211 -0.0358       0 -0.0004211         0.6720
+      0.10     p  0 0.998 -0.0002222 -0.0933       0 -0.0002222         0.8380
+      0.20     p  0 0.998 -0.0005000 -0.2300       0 -0.0005000         0.9180</code></pre>
 </div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -658,7 +669,14 @@ Largest delta_NB: p 0.002041 at 0.02
 3      0.03     p  0.0007628866 -0.014432990       0  0.0007628866
 4      0.04     p -0.0007500000 -0.025000000       0 -0.0007500000
 5      0.05     p -0.0004210526 -0.035789474       0 -0.0004210526
-6      0.06     p -0.0005106383 -0.046808511       0 -0.0005106383</code></pre>
+6      0.06     p -0.0005106383 -0.046808511       0 -0.0005106383
+  net_FP_avoided
+1     -0.0720000
+2      0.3000000
+3      0.4913333
+4      0.5820000
+5      0.6720000
+6      0.7253333</code></pre>
 </div>
 </div>
 

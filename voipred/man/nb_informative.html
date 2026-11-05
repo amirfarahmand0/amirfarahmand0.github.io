@@ -580,17 +580,17 @@ The Beta prior (shapes <span class="math inline">\((a, b)\)</span>) of the preva
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p: binary, n = 500, 8 events (1.8%), prior informative (bayesDCA, threshold-varying)
 
- threshold model NB_model   NB_all NB_none  delta_NB
-      0.00     p  0.01786  0.01793       0 -0.000069
-      0.01     p  0.00847  0.00801       0  0.000459
-      0.02     p  0.00616 -0.00211       0  0.006158
-      0.03     p  0.00469 -0.01245       0  0.004693
-      0.04     p  0.00295 -0.02299       0  0.002948
-      0.05     p  0.00262 -0.03376       0  0.002618
-      0.06     p  0.00193 -0.04476       0  0.001926
-      0.07     p  0.00129 -0.05599       0  0.001286
-      0.08     p  0.00127 -0.06747       0  0.001274
-      0.09     p  0.00140 -0.07920       0  0.001400
+ threshold model NB_model   NB_all NB_none  delta_NB net_FP_avoided
+      0.00     p  0.01786  0.01793       0 -0.000069             NA
+      0.01     p  0.00847  0.00801       0  0.000459         0.0454
+      0.02     p  0.00616 -0.00211       0  0.006158         0.4053
+      0.03     p  0.00469 -0.01245       0  0.004693         0.5541
+      0.04     p  0.00295 -0.02299       0  0.002948         0.6225
+      0.05     p  0.00262 -0.03376       0  0.002618         0.6912
+      0.06     p  0.00193 -0.04476       0  0.001926         0.7314
+      0.07     p  0.00129 -0.05599       0  0.001286         0.7610
+      0.08     p  0.00127 -0.06747       0  0.001274         0.7905
+      0.09     p  0.00140 -0.07920       0  0.001400         0.8149
 # 21 more thresholds; use summary() or as.data.frame()</code></pre>
 </div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the prior used at each threshold</span></span>

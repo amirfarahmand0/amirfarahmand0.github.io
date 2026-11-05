@@ -703,10 +703,10 @@ Number of draws for <code>interval</code>. Default 1000.
 <p><strong>By default</strong>, from the model alone. voipred keeps no list of models: it uses <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> with <code>type = “response”</code> or <code>type = “prob”</code>, or <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html">riskRegression::predictRisk()</a></code> (at <code>horizon</code>, and for <code>cause</code>), and its own prediction code only for models these get wrong. Checked in the tests against each package’s own predictions:</p>
 <ul>
 <li>
-<p>binary: <code>glm</code> (logit, probit, cloglog), <code>logistf</code>, <code>mgcv::gam</code>, <code>earth</code>, <code>rpart</code>, <code>partykit::ctree</code>, <code>randomForest</code>, <code>ranger</code> (<code>probability = TRUE</code>), <code>gbm</code>, <code>xgboost</code>, <code>lightgbm</code>, <code>catboost</code>, <code>glmnet</code>, <code>cv.glmnet</code>, <code><a href="https://rdrr.io/pkg/e1071/man/svm.html">e1071::svm</a></code> (<code>probability = TRUE</code>), <code><a href="https://rdrr.io/pkg/e1071/man/naiveBayes.html">e1071::naiveBayes</a></code>, <code>naivebayes</code>, <code>nnet</code>, <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">MASS::lda</a></code>, <code><a href="https://rdrr.io/pkg/MASS/man/qda.html">MASS::qda</a></code>, <code>kknn</code>, and bayespred <code>bpmfit</code> and <code>bpm</code> (posterior mean of risk);</p>
+<p>binary: <code>glm</code> (logit, probit, cloglog), <code>logistf</code>, <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html">mgcv::gam</a></code>, <code>earth</code>, <code>rpart</code>, <code><a href="https://rdrr.io/pkg/partykit/man/ctree.html">partykit::ctree</a></code>, <code>randomForest</code>, <code>ranger</code> (<code>probability = TRUE</code>), <code>gbm</code>, <code>xgboost</code>, <code>lightgbm</code>, <code>catboost</code>, <code>glmnet</code>, <code>cv.glmnet</code>, <code><a href="https://rdrr.io/pkg/e1071/man/svm.html">e1071::svm</a></code> (<code>probability = TRUE</code>), <code><a href="https://rdrr.io/pkg/e1071/man/naiveBayes.html">e1071::naiveBayes</a></code>, <code>naivebayes</code>, <code>nnet</code>, <code><a href="https://rdrr.io/pkg/MASS/man/lda.html">MASS::lda</a></code>, <code><a href="https://rdrr.io/pkg/MASS/man/qda.html">MASS::qda</a></code>, <code>kknn</code>, and bayespred <code>bpmfit</code> and <code>bpm</code> (posterior mean of risk);</p>
 </li>
 <li>
-<p>survival: <code>coxph</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code>survreg</code>, <code><a href="https://rdrr.io/pkg/rms/man/psm.html">rms::psm</a></code>, <code>flexsurvreg</code>, <code>flexsurvspline</code>, <code>rstpm2::stpm2</code>, <code>mgcv::gam</code> with <code>cox.ph()</code>, <code>ranger</code>, <code>randomForestSRC</code>, <code>aorsf</code>, <code>partykit::ctree</code>, <code>prodlim</code>, and bayespred.dev Bayesian Cox and parametric survival models (posterior mean of risk);</p>
+<p>survival: <code>coxph</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code>survreg</code>, <code><a href="https://rdrr.io/pkg/rms/man/psm.html">rms::psm</a></code>, <code>flexsurvreg</code>, <code>flexsurvspline</code>, <code><a href="https://rdrr.io/pkg/rstpm2/man/gsm.html">rstpm2::stpm2</a></code>, <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html">mgcv::gam</a></code> with <code>cox.ph()</code>, <code>ranger</code>, <code>randomForestSRC</code>, <code>aorsf</code>, <code><a href="https://rdrr.io/pkg/partykit/man/ctree.html">partykit::ctree</a></code>, <code>prodlim</code>, and bayespred.dev Bayesian Cox and parametric survival models (posterior mean of risk);</p>
 </li>
 <li>
 <p>competing risks: <code><a href="https://rdrr.io/pkg/riskRegression/man/CSC.html">riskRegression::CSC</a></code>, <code><a href="https://rdrr.io/pkg/riskRegression/man/FGR.html">riskRegression::FGR</a></code> (fitted for the requested cause), <code><a href="https://rdrr.io/pkg/cmprsk/man/crr.html">cmprsk::crr</a></code>, competing-risks <code>randomForestSRC</code>, and survival’s multi-state <code>coxph</code>.</p>
@@ -724,7 +724,7 @@ Number of draws for <code>interval</code>. Default 1000.
 <p>An object of class <code>voipred_nb</code>, a list with:</p>
 <ul>
 <li>
-<p><code>estimates</code>: a data frame with one row per model and threshold (by model, then threshold) and columns <code>threshold</code>, <code>model</code> (its label), <code>NB_model</code> (using the model; <code>NA</code> where it cannot be estimated, see Details), <code>NB_all</code> (treat everyone), <code>NB_none</code> (treat no one, always 0) and <code>delta_NB</code>, the difference in net benefit between the model and the best default strategy, <span class="math inline">\(NB_{model} - \max(NB_{all}, NB_{none})\)</span>: positive where the model is useful; with <code>interval</code>, also the bounds <code>NB_model_lower</code>, <code>NB_model_upper</code>, <code>NB_all_lower</code>, <code>NB_all_upper</code>, <code>delta_NB_lower</code> and <code>delta_NB_upper</code>;</p>
+<p><code>estimates</code>: a data frame with one row per model and threshold (by model, then threshold) and columns <code>threshold</code>, <code>model</code> (its label), <code>NB_model</code> (using the model; <code>NA</code> where it cannot be estimated, see Details), <code>NB_all</code> (treat everyone), <code>NB_none</code> (treat no one, always 0) and <code>delta_NB</code>, the difference in net benefit between the model and the best default strategy, <span class="math inline">\(NB_{model} - \max(NB_{all}, NB_{none})\)</span>: positive where the model is useful; <code>net_FP_avoided</code>, the net false positives avoided by the model compared with treat all (the net interventions avoided of Vickers and Elkin), <span class="math inline">\((NB_{model} - NB_{all}) / (t/(1-t))\)</span>: the gain in net benefit over treat all in units of false positives, e.g.&nbsp;0.09 at <span class="math inline">\(t = 10\%\)</span> is 9 unnecessary treatments avoided per 100 patients without missing more events (not defined at <span class="math inline">\(t = 0\)</span>); with <code>interval</code>, also the bounds <code>NB_model_lower</code>, <code>NB_model_upper</code>, <code>NB_all_lower</code>, <code>NB_all_upper</code>, <code>delta_NB_lower</code> and <code>delta_NB_upper</code>, <code>net_FP_avoided_lower</code>, <code>net_FP_avoided_upper</code>;</p>
 </li>
 <li>
 <p><code>interval</code> (with <code>interval</code>): the level, <code>n_sim</code> and the kind of draws (<code>“posterior”</code> or <code>“Bayesian bootstrap”</code>);</p>
@@ -770,17 +770,17 @@ Number of draws for <code>interval</code>. Default 1000.
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold model NB_model   NB_all NB_none  delta_NB
-      0.00     p  0.02140  0.02140       0  0.000000
-      0.01     p  0.01123  0.01152       0 -0.000283
-      0.02     p  0.00934  0.00143       0  0.007910
-      0.03     p  0.00717 -0.00887       0  0.007173
-      0.04     p  0.00525 -0.01938       0  0.005250
-      0.05     p  0.00462 -0.03011       0  0.004621
-      0.06     p  0.00412 -0.04106       0  0.004123
-      0.07     p  0.00361 -0.05226       0  0.003613
-      0.08     p  0.00346 -0.06370       0  0.003461
-      0.09     p  0.00315 -0.07538       0  0.003145
+ threshold model NB_model   NB_all NB_none  delta_NB net_FP_avoided
+      0.00     p  0.02140  0.02140       0  0.000000             NA
+      0.01     p  0.01123  0.01152       0 -0.000283        -0.0280
+      0.02     p  0.00934  0.00143       0  0.007910         0.3876
+      0.03     p  0.00717 -0.00887       0  0.007173         0.5186
+      0.04     p  0.00525 -0.01938       0  0.005250         0.5910
+      0.05     p  0.00462 -0.03011       0  0.004621         0.6598
+      0.06     p  0.00412 -0.04106       0  0.004123         0.7079
+      0.07     p  0.00361 -0.05226       0  0.003613         0.7423
+      0.08     p  0.00346 -0.06370       0  0.003461         0.7723
+      0.09     p  0.00315 -0.07538       0  0.003145         0.7940
 # 21 more thresholds; use summary() or as.data.frame()</code></pre>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -789,17 +789,17 @@ Number of draws for <code>interval</code>. Default 1000.
 Best strategy: treat all 0.00-0.01, p 0.02-0.30
 Largest delta_NB: p 0.00791 at 0.02
 
- threshold model    Se    Sp NB_model   NB_all NB_none  delta_NB
-      0.00     p 1.000 0.000  0.02140  0.02140       0  0.000000
-      0.01     p 0.720 0.578  0.01123  0.01152       0 -0.000283
-      0.02     p 0.533 0.897  0.00934  0.00143       0  0.007910
-      0.03     p 0.411 0.946  0.00717 -0.00887       0  0.007173
-      0.04     p 0.299 0.972  0.00525 -0.01938       0  0.005250
-      0.05     p 0.252 0.985  0.00462 -0.03011       0  0.004621
-      0.06     p 0.224 0.989  0.00412 -0.04106       0  0.004123
-      0.07     p 0.196 0.992  0.00361 -0.05226       0  0.003613
-      0.08     p 0.187 0.994  0.00346 -0.06370       0  0.003461
-      0.09     p 0.168 0.995  0.00315 -0.07538       0  0.003145
+ threshold model    Se    Sp NB_model   NB_all NB_none  delta_NB net_FP_avoided
+      0.00     p 1.000 0.000  0.02140  0.02140       0  0.000000             NA
+      0.01     p 0.720 0.578  0.01123  0.01152       0 -0.000283        -0.0280
+      0.02     p 0.533 0.897  0.00934  0.00143       0  0.007910         0.3876
+      0.03     p 0.411 0.946  0.00717 -0.00887       0  0.007173         0.5186
+      0.04     p 0.299 0.972  0.00525 -0.01938       0  0.005250         0.5910
+      0.05     p 0.252 0.985  0.00462 -0.03011       0  0.004621         0.6598
+      0.06     p 0.224 0.989  0.00412 -0.04106       0  0.004123         0.7079
+      0.07     p 0.196 0.992  0.00361 -0.05226       0  0.003613         0.7423
+      0.08     p 0.187 0.994  0.00346 -0.06370       0  0.003461         0.7723
+      0.09     p 0.168 0.995  0.00315 -0.07538       0  0.003145         0.7940
 # 21 more thresholds; summary(x, thresholds = ) to choose</code></pre>
 </div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -817,9 +817,9 @@ Largest delta_NB: p 0.00791 at 0.02
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold model NB_model   NB_all NB_none delta_NB
-      0.05     p 0.004621 -0.03011       0 0.004621
-      0.10     p 0.003111 -0.08733       0 0.003111</code></pre>
+ threshold model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05     p 0.004621 -0.03011       0 0.004621         0.6598
+      0.10     p 0.003111 -0.08733       0 0.003111         0.8140</code></pre>
 </div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Several models: their risks in one call</span></span>
 <span><span class="va">fit_age</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">day30</span> <span class="op">~</span> <span class="va">age</span>, family <span class="op">=</span> <span class="va">binomial</span>, data <span class="op">=</span> <span class="va">df_dev_binary</span><span class="op">)</span></span>
@@ -832,27 +832,27 @@ Largest delta_NB: p 0.00791 at 0.02
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of Full, Age only: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold    model NB_model   NB_all NB_none  delta_NB
-      0.00     Full  0.02140  0.02140       0  0.000000
-      0.00 Age only  0.02140  0.02140       0  0.000000
-      0.01     Full  0.01123  0.01152       0 -0.000283
-      0.01 Age only  0.01152  0.01152       0  0.000000
-      0.02     Full  0.00934  0.00143       0  0.007910
-      0.02 Age only  0.00000  0.00143       0 -0.001429
-      0.03     Full  0.00717 -0.00887       0  0.007173
-      0.03 Age only  0.00000 -0.00887       0  0.000000
-      0.04     Full  0.00525 -0.01938       0  0.005250
-      0.04 Age only  0.00000 -0.01938       0  0.000000
-      0.05     Full  0.00462 -0.03011       0  0.004621
-      0.05 Age only  0.00000 -0.03011       0  0.000000
-      0.06     Full  0.00412 -0.04106       0  0.004123
-      0.06 Age only  0.00000 -0.04106       0  0.000000
-      0.07     Full  0.00361 -0.05226       0  0.003613
-      0.07 Age only  0.00000 -0.05226       0  0.000000
-      0.08     Full  0.00346 -0.06370       0  0.003461
-      0.08 Age only  0.00000 -0.06370       0  0.000000
-      0.09     Full  0.00315 -0.07538       0  0.003145
-      0.09 Age only  0.00000 -0.07538       0  0.000000
+ threshold    model NB_model   NB_all NB_none  delta_NB net_FP_avoided
+      0.00     Full  0.02140  0.02140       0  0.000000             NA
+      0.00 Age only  0.02140  0.02140       0  0.000000             NA
+      0.01     Full  0.01123  0.01152       0 -0.000283        -0.0280
+      0.01 Age only  0.01152  0.01152       0  0.000000         0.0000
+      0.02     Full  0.00934  0.00143       0  0.007910         0.3876
+      0.02 Age only  0.00000  0.00143       0 -0.001429        -0.0700
+      0.03     Full  0.00717 -0.00887       0  0.007173         0.5186
+      0.03 Age only  0.00000 -0.00887       0  0.000000         0.2867
+      0.04     Full  0.00525 -0.01938       0  0.005250         0.5910
+      0.04 Age only  0.00000 -0.01938       0  0.000000         0.4650
+      0.05     Full  0.00462 -0.03011       0  0.004621         0.6598
+      0.05 Age only  0.00000 -0.03011       0  0.000000         0.5720
+      0.06     Full  0.00412 -0.04106       0  0.004123         0.7079
+      0.06 Age only  0.00000 -0.04106       0  0.000000         0.6433
+      0.07     Full  0.00361 -0.05226       0  0.003613         0.7423
+      0.07 Age only  0.00000 -0.05226       0  0.000000         0.6943
+      0.08     Full  0.00346 -0.06370       0  0.003461         0.7723
+      0.08 Age only  0.00000 -0.06370       0  0.000000         0.7325
+      0.09     Full  0.00315 -0.07538       0  0.003145         0.7940
+      0.09 Age only  0.00000 -0.07538       0  0.000000         0.7622
 # 21 more thresholds; use summary() or as.data.frame()</code></pre>
 </div>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">both</span>, thresholds <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -865,7 +865,12 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
       0.05     Full 0.252 0.985 0.004621 -0.03011       0 0.004621
       0.05 Age only 0.000 1.000 0.000000 -0.03011       0 0.000000
       0.10     Full 0.168 0.996 0.003111 -0.08733       0 0.003111
-      0.10 Age only 0.000 1.000 0.000000 -0.08733       0 0.000000</code></pre>
+      0.10 Age only 0.000 1.000 0.000000 -0.08733       0 0.000000
+ net_FP_avoided
+         0.6598
+         0.5720
+         0.8140
+         0.7860</code></pre>
 </div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">both</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -882,11 +887,11 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of Full, Age only: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold    model NB_model   NB_all NB_none delta_NB
-      0.05     Full 0.004621 -0.03011       0 0.004621
-      0.05 Age only 0.000000 -0.03011       0 0.000000
-      0.10     Full 0.003111 -0.08733       0 0.003111
-      0.10 Age only 0.000000 -0.08733       0 0.000000</code></pre>
+ threshold    model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05     Full 0.004621 -0.03011       0 0.004621         0.6598
+      0.05 Age only 0.000000 -0.03011       0 0.000000         0.5720
+      0.10     Full 0.003111 -0.08733       0 0.003111         0.8140
+      0.10 Age only 0.000000 -0.08733       0 0.000000         0.7860</code></pre>
 </div>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_binary</span>,</span>
 <span>       predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="va">fit</span>, `Age only` <span class="op">=</span> <span class="va">fit_age</span><span class="op">)</span>,</span>
@@ -895,11 +900,11 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of Full, Age only: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold    model NB_model   NB_all NB_none delta_NB
-      0.05     Full 0.004621 -0.03011       0 0.004621
-      0.05 Age only 0.000000 -0.03011       0 0.000000
-      0.10     Full 0.003111 -0.08733       0 0.003111
-      0.10 Age only 0.000000 -0.08733       0 0.000000</code></pre>
+ threshold    model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05     Full 0.004621 -0.03011       0 0.004621         0.6598
+      0.05 Age only 0.000000 -0.03011       0 0.000000         0.5720
+      0.10     Full 0.003111 -0.08733       0 0.003111         0.8140
+      0.10 Age only 0.000000 -0.08733       0 0.000000         0.7860</code></pre>
 </div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_binary</span>,</span>
 <span>       predicted_risk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>Full <span class="op">=</span> <span class="va">fit</span>, `Age only` <span class="op">=</span> <span class="st">"p_age"</span><span class="op">)</span>,</span>
@@ -908,11 +913,11 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of Full, Age only: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold    model NB_model   NB_all NB_none delta_NB
-      0.05     Full 0.004621 -0.03011       0 0.004621
-      0.05 Age only 0.000000 -0.03011       0 0.000000
-      0.10     Full 0.003111 -0.08733       0 0.003111
-      0.10 Age only 0.000000 -0.08733       0 0.000000</code></pre>
+ threshold    model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05     Full 0.004621 -0.03011       0 0.004621         0.6598
+      0.05 Age only 0.000000 -0.03011       0 0.000000         0.5720
+      0.10     Full 0.003111 -0.08733       0 0.003111         0.8140
+      0.10 Age only 0.000000 -0.08733       0 0.000000         0.7860</code></pre>
 </div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Optionally, the model instead of the risks: by default, or with your own</span></span>
 <span><span class="co"># prediction function</span></span>
@@ -923,9 +928,9 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of fit: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold model NB_model   NB_all NB_none delta_NB
-      0.05   fit 0.004621 -0.03011       0 0.004621
-      0.10   fit 0.003111 -0.08733       0 0.003111</code></pre>
+ threshold model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05   fit 0.004621 -0.03011       0 0.004621         0.6598
+      0.10   fit 0.003111 -0.08733       0 0.003111         0.8140</code></pre>
 </div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_binary</span>,</span>
 <span>       predicted_risk <span class="op">=</span> <span class="va">fit</span>,</span>
@@ -936,9 +941,9 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of fit: binary, n = 5000, 107 events (2.1%), prior improper Beta(0, 0)
 
- threshold model NB_model   NB_all NB_none delta_NB
-      0.05   fit 0.004621 -0.03011       0 0.004621
-      0.10   fit 0.003111 -0.08733       0 0.003111</code></pre>
+ threshold model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05   fit 0.004621 -0.03011       0 0.004621         0.6598
+      0.10   fit 0.003111 -0.08733       0 0.003111         0.8140</code></pre>
 </div>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Optional prior information (binary outcome); the default uses the data only</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_binary</span>,</span>
@@ -949,9 +954,9 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p: binary, n = 5000, 107 events (2.2%), prior uniform Beta(1, 1)
 
- threshold model NB_model   NB_all NB_none delta_NB
-      0.05     p 0.004757 -0.02990       0 0.004757
-      0.10     p 0.003253 -0.08712       0 0.003253</code></pre>
+ threshold model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05     p 0.004757 -0.02990       0 0.004757         0.6586
+      0.10     p 0.003253 -0.08712       0 0.003253         0.8134</code></pre>
 </div>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_binary</span>,</span>
 <span>       predicted_risk <span class="op">=</span> <span class="va">df_val_binary</span><span class="op">$</span><span class="va">p</span>,</span>
@@ -961,9 +966,9 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p: binary, n = 5000, 107 events (2.2%), prior Beta: prevalence Beta(7, 93), sensitivity Beta(0, 0), specificity Beta(0, 0)
 
- threshold model NB_model   NB_all NB_none delta_NB
-      0.05     p 0.004862 -0.02910       0 0.004862
-      0.10     p 0.003272 -0.08627       0 0.003272</code></pre>
+ threshold model NB_model   NB_all NB_none delta_NB net_FP_avoided
+      0.05     p 0.004862 -0.02910       0 0.004862         0.6453
+      0.10     p 0.003272 -0.08627       0 0.003272         0.8059</code></pre>
 </div>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Survival: death by 5 years (Rotterdam breast cancer data)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
@@ -984,10 +989,10 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring KM, prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1080 0.4206       0  -0.3126
-       0.2    p5   0.0341 0.3481       0  -0.3140
-       0.3    p5   0.0158 0.2550       0  -0.2392</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1080 0.4206       0  -0.3126         -2.813
+       0.2    p5   0.0341 0.3481       0  -0.3140         -1.256
+       0.3    p5   0.0158 0.2550       0  -0.2392         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Optionally, the model instead of the risks: by default, or with your own</span></span>
 <span><span class="co"># prediction function (here the same risks as above)</span></span>
@@ -999,10 +1004,10 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of cox: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring KM, prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1   cox   0.1080 0.4206       0  -0.3126
-       0.2   cox   0.0341 0.3481       0  -0.3140
-       0.3   cox   0.0158 0.2550       0  -0.2392</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1   cox   0.1080 0.4206       0  -0.3126         -2.813
+       0.2   cox   0.0341 0.3481       0  -0.3140         -1.256
+       0.3   cox   0.0158 0.2550       0  -0.2392         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_survival</span>,</span>
 <span>       predicted_risk <span class="op">=</span> <span class="va">cox</span>,</span>
@@ -1014,10 +1019,10 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of cox: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring KM, prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1   cox   0.1080 0.4206       0  -0.3126
-       0.2   cox   0.0341 0.3481       0  -0.3140
-       0.3   cox   0.0158 0.2550       0  -0.2392</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1   cox   0.1080 0.4206       0  -0.3126         -2.813
+       0.2   cox   0.0341 0.3481       0  -0.3140         -1.256
+       0.3   cox   0.0158 0.2550       0  -0.2392         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># The same with conditional IPCW: censoring depends on age, nodes and grade</span></span>
 <span><span class="co"># (a Cox model of the censoring times, fitted by voipred)</span></span>
@@ -1030,10 +1035,10 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1076 0.4206       0  -0.3130
-       0.2    p5   0.0340 0.3482       0  -0.3142
-       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1076 0.4206       0  -0.3130         -2.817
+       0.2    p5   0.0340 0.3482       0  -0.3142         -1.257
+       0.3    p5   0.0159 0.2550       0  -0.2391         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># or your own censoring model, fitted to the validation data</span></span>
 <span><span class="va">cens</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">years</span>, <span class="va">death</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">nodes</span> <span class="op">+</span> <span class="va">grade</span>,</span>
@@ -1047,10 +1052,10 @@ Largest delta_NB: Full 0.00791 at 0.02; Age only none (never better than both de
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1076 0.4206       0  -0.3130
-       0.2    p5   0.0340 0.3482       0  -0.3142
-       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1076 0.4206       0  -0.3130         -2.817
+       0.2    p5   0.0340 0.3482       0  -0.3142         -1.257
+       0.3    p5   0.0159 0.2550       0  -0.2391         -0.558</code></pre>
 </div>
 </div>
 

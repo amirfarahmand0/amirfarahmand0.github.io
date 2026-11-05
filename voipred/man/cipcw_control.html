@@ -572,7 +572,7 @@ Option 2, optional: a <code style="white-space: pre;">function(data, weights)</c
 </tbody></table></section><section id="details" class="level3"><h3 class="anchored" data-anchor-id="details">Details</h3>
 <p>There are three ways to give the censoring information:</p>
 <p><strong>1. The covariates of the censoring</strong> (<code style="white-space: pre;">formula =</code>, or simply <code>cipcw = ~ age + nodes</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>). voipred fits a Cox model of the censoring times of the validation data on them, <code>coxph(Surv(time, censored) ~ age + nodes)</code>, with only true censoring as the event (with competing risks, patients with a competing event are not censored), weighted by the case weights of <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> if any, and refits it in every draw of the value-of-information functions. A two-sided formula (e.g.&nbsp;<code>Surv(time, status == 0) ~ age + nodes</code>) is fitted as it is.</p>
-<p><strong>2. A fitted censoring model</strong> (<code style="white-space: pre;">model =</code>, or <code style="white-space: pre;">cipcw = &lt;model&gt;</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>). Fit any survival model to the <em>censoring</em> times in the validation data, i.e.&nbsp;with the censored patients as the "events": <code>Surv(time, status == 0)</code>. With competing risks, only true censoring is censoring: patients with a competing event are not censored (<code>Surv(time, status == “censored”)</code>, not <code>status != cause</code>). voipred predicts from the model the probability of remaining uncensored just before each patient’s own time and at the horizon, in the same way as it predicts risks from a model in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>: through <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html">riskRegression::predictRisk()</a></code> (e.g. <code>coxph</code> with <code>x = TRUE</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code>survreg</code>, <code>flexsurvreg</code>, <code>ranger</code>, <code>randomForestSRC</code>, a Kaplan-Meier <code>prodlim</code> fit), or voipred’s own code for models riskRegression cannot handle (<code>coxph</code> without <code>x = TRUE</code>, <code>aorsf</code>, <code>partykit</code> survival trees, <code>rstpm2::stpm2</code>, <code>mgcv::gam</code> with <code>cox.ph()</code>). For any other model, give <code>predict_function</code> (or the weights, option 3). Where the model’s outcome can be read from its formula, voipred checks it against <code>data</code>: it stops if the model was fitted to the event (for competing risks: to the cause of interest, to another cause or to all events together), and warns if the check is not possible or if the model was fitted to a different number of patients than <code>data</code> has.</p>
+<p><strong>2. A fitted censoring model</strong> (<code style="white-space: pre;">model =</code>, or <code style="white-space: pre;">cipcw = &lt;model&gt;</code> in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>). Fit any survival model to the <em>censoring</em> times in the validation data, i.e.&nbsp;with the censored patients as the "events": <code>Surv(time, status == 0)</code>. With competing risks, only true censoring is censoring: patients with a competing event are not censored (<code>Surv(time, status == “censored”)</code>, not <code>status != cause</code>). voipred predicts from the model the probability of remaining uncensored just before each patient’s own time and at the horizon, in the same way as it predicts risks from a model in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code>: through <code><a href="https://rdrr.io/pkg/riskRegression/man/predictRisk.html">riskRegression::predictRisk()</a></code> (e.g. <code>coxph</code> with <code>x = TRUE</code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code>survreg</code>, <code>flexsurvreg</code>, <code>ranger</code>, <code>randomForestSRC</code>, a Kaplan-Meier <code>prodlim</code> fit), or voipred’s own code for models riskRegression cannot handle (<code>coxph</code> without <code>x = TRUE</code>, <code>aorsf</code>, <code>partykit</code> survival trees, <code><a href="https://rdrr.io/pkg/rstpm2/man/gsm.html">rstpm2::stpm2</a></code>, <code><a href="https://rdrr.io/pkg/mgcv/man/gam.html">mgcv::gam</a></code> with <code>cox.ph()</code>). For any other model, give <code>predict_function</code> (or the weights, option 3). Where the model’s outcome can be read from its formula, voipred checks it against <code>data</code>: it stops if the model was fitted to the event (for competing risks: to the cause of interest, to another cause or to all events together), and warns if the check is not possible or if the model was fitted to a different number of patients than <code>data</code> has.</p>
 <p><strong>3. Weights</strong> (<code style="white-space: pre;">weight_event =</code>, <code style="white-space: pre;">weight_horizon =</code>): one value per row of <code>data</code>, the inverse probabilities of remaining uncensored just before each patient’s own time and at the horizon, i.e.&nbsp;<span class="math inline">\(1/\hat G(T_i- \mid X_i)\)</span> and <span class="math inline">\(1/\hat G(\tau \mid X_i)\)</span>. Only the weights of patients with an event by the horizon (<code>weight_event</code>; including competing events) and of patients event-free at the horizon (<code>weight_horizon</code>) are used. They must be <strong>unstabilized</strong>: stabilized weights bias this estimator.</p>
 <p><strong>Flexible censoring models.</strong> A flexible model (e.g.&nbsp;a forest) fitted and evaluated on the same patients overfits their censoring times, and its weights are biased. Use cross-fitting: split <code>data</code> into folds, fit the censoring model on all folds but one, predict the censoring probabilities for the held-out fold, and give the resulting weights through option 3 (in <code><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val()</a></code> only: see "Uncertainty").</p>
 <p><strong>Truncation.</strong> By default, censoring probabilities below <code>min_prob = 0.02</code> (options 1 and 2), or weights above <code>1 / min_prob = 50</code> (option 3), are truncated, with a warning saying how many of the used ones were. With <code>min_prob = NULL</code> there is no truncation: voipred then warns when some used probabilities are below 0.01 (weights above 100), a sign of near-violations of positivity, and stops if a probability is exactly 0.</p>
@@ -585,7 +585,7 @@ Option 2, optional: a <code style="white-space: pre;">function(data, weights)</c
 <p>with <code>refit_function</code>, if given;</p>
 </li>
 <li>
-<p>otherwise automatically for the censoring models whose case weights voipred knows: <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">survival::coxph</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survival::survreg</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/psm.html">rms::psm</a></code>, <code>flexsurv::flexsurvreg</code> (also <code>flexsurvspline</code>) and <code><a href="https://rdrr.io/pkg/prodlim/man/prodlim.html">prodlim::prodlim</a></code>: the model’s own call, with the draw’s data and the draw’s weights as case weights;</p>
+<p>otherwise automatically for the censoring models whose case weights voipred knows: <code><a href="https://rdrr.io/pkg/survival/man/coxph.html">survival::coxph</a></code>, <code><a href="https://rdrr.io/pkg/survival/man/survreg.html">survival::survreg</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/cph.html">rms::cph</a></code>, <code><a href="https://rdrr.io/pkg/rms/man/psm.html">rms::psm</a></code>, <code><a href="https://rdrr.io/pkg/flexsurv/man/flexsurvreg.html">flexsurv::flexsurvreg</a></code> (also <code>flexsurvspline</code>) and <code><a href="https://rdrr.io/pkg/prodlim/man/prodlim.html">prodlim::prodlim</a></code>: the model’s own call, with the draw’s data and the draw’s weights as case weights;</p>
 </li>
 <li>
 <p>otherwise it stops and asks for <code>refit_function</code>: other models take weights under other names or with another meaning (e.g.&nbsp;<code>ranger</code>’s <code>case.weights</code> are sampling probabilities), so voipred does not guess.</p>
@@ -619,10 +619,10 @@ Option 2, optional: a <code style="white-space: pre;">function(data, weights)</c
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1076 0.4206       0  -0.3130
-       0.2    p5   0.0340 0.3482       0  -0.3142
-       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1076 0.4206       0  -0.3130         -2.817
+       0.2    p5   0.0340 0.3482       0  -0.3142         -1.257
+       0.3    p5   0.0159 0.2550       0  -0.2391         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the same covariates, truncated at 0.05 instead of 0.02</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/voipred.dev/man/nb_val.html">nb_val</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_val_survival</span>,</span>
@@ -634,10 +634,10 @@ Option 2, optional: a <code style="white-space: pre;">function(data, weights)</c
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1076 0.4206       0  -0.3130
-       0.2    p5   0.0340 0.3482       0  -0.3142
-       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1076 0.4206       0  -0.3130         -2.817
+       0.2    p5   0.0340 0.3482       0  -0.3142         -1.257
+       0.3    p5   0.0159 0.2550       0  -0.2391         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># your own censoring model: fitted on the validation data, censoring as the</span></span>
 <span><span class="co"># event, here without truncation</span></span>
@@ -652,10 +652,10 @@ Option 2, optional: a <code style="white-space: pre;">function(data, weights)</c
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.9%, censoring cIPCW (coxph), prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1076 0.4206       0  -0.3130
-       0.2    p5   0.0340 0.3482       0  -0.3142
-       0.3    p5   0.0159 0.2550       0  -0.2391</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1076 0.4206       0  -0.3130         -2.817
+       0.2    p5   0.0340 0.3482       0  -0.3142         -1.257
+       0.3    p5   0.0159 0.2550       0  -0.2391         -0.558</code></pre>
 </div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># a flexible censoring model: a random survival forest (ranger), fitted on</span></span>
 <span><span class="co"># the validation data with the censored patients as the events</span></span>
@@ -679,10 +679,10 @@ Option 2, optional: a <code style="white-space: pre;">function(data, weights)</c
 <div class="cell-output cell-output-stdout">
 <pre><code>Net benefit of p5: survival, horizon 5, n = 1482, risk by horizon 47.8%, censoring cIPCW (ranger), prior improper Beta(0, 0)
 
- threshold model NB_model NB_all NB_none delta_NB
-       0.1    p5   0.1076 0.4197       0  -0.3121
-       0.2    p5   0.0340 0.3472       0  -0.3132
-       0.3    p5   0.0159 0.2540       0  -0.2381</code></pre>
+ threshold model NB_model NB_all NB_none delta_NB net_FP_avoided
+       0.1    p5   0.1076 0.4197       0  -0.3121         -2.809
+       0.2    p5   0.0340 0.3472       0  -0.3132         -1.253
+       0.3    p5   0.0159 0.2540       0  -0.2381         -0.556</code></pre>
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># the forest is refitted in every draw, so this takes a while</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>

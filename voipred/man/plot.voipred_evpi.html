@@ -101,7 +101,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 </head>
 <body class="nav-sidebar floating nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
@@ -483,6 +508,7 @@ plot(
   labels = NULL,
   colors = NULL,
   per = getOption("voipred.per", 1),
+  unit = c("tp", "fp"),
   interactive = FALSE
 )
 </code></pre>
@@ -534,6 +560,14 @@ Optional colours of the curves, instead of the defaults: named by curve label, o
 </td>
 <td>
 Scale of EVPI (<code>type = “evpi”</code>): the number of patients it is expressed per. Default 1 (per patient); e.g.&nbsp;<code>per = 100000</code>, and the y axis says "(per 100,000 patients)". Relative EVPI, P(useful) and P(best) have no unit. The default can be set with <code>options(voipred.per = )</code>.
+</td>
+</tr>
+<tr>
+<td style="white-space: collapse; font-family: monospace; vertical-align: top">
+<code id="unit">unit</code>
+</td>
+<td>
+The unit of EVPI and EVSI: <code>“tp”</code> (default), net true positives, the unit of net benefit; or <code>“fp”</code>, net false positives avoided, i.e.&nbsp;divided by the threshold odds <span class="math inline">\(t/(1-t)\)</span> (as the gain of a model over treat all is converted into net false positives avoided; not defined at a threshold of 0). The header (and the y axis) says so; For the plot of EVPI (<code>type = “evpi”</code>) and of EVSI.
 </td>
 </tr>
 <tr>
