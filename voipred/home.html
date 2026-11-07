@@ -478,6 +478,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
   <li><a href="#get-started" id="toc-get-started" class="nav-link" data-scroll-target="#get-started">Get started</a></li>
+  <li><a href="#authors" id="toc-authors" class="nav-link" data-scroll-target="#authors">Authors</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -495,6 +496,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><strong>Net benefit and decision curves</strong> (<code>nb_val()</code>), for binary, survival and competing-risk outcomes, for one model or several compared on the same patients; with Kaplan-Meier or conditional inverse probability of censoring weights (cIPCW) for informative censoring.</li>
 <li><strong>Value of information analysis</strong>: the expected value of perfect information (EVPI), the probability that each model is useful and that each strategy is the best (<code>evpi()</code>), and the expected value of sample information of a further validation study (<code>evsi()</code>).</li>
+<li>Results as net true positives (net benefit) or as <strong>net false positives avoided</strong> compared with treating everyone.</li>
+<li><strong>Subgroups</strong>: whether population-level net benefit can mislead when the benefit of treatment differs between subgroups (Wang et al., 2026).</li>
 <li>A <strong>Bayesian framework</strong>, which by default gives the usual net benefit, with optional prior information, including the informative prior of bayesDCA (<code>nb_informative()</code>).</li>
 </ul>
 <section id="installation" class="level2">
@@ -505,6 +508,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="get-started" class="level2">
 <h2 class="anchored" data-anchor-id="get-started">Get started</h2>
 <p>The article <a href="./vignettes/voipred.html">Introduction to voipred</a> walks through a complete analysis: net benefit and decision curves, comparing models, value of information, prior information, survival and competing-risk outcomes, and reporting. The Reference (in the menu) documents every function.</p>
+</section>
+<section id="authors" class="level2">
+<h2 class="anchored" data-anchor-id="authors">Authors</h2>
+<ul>
+<li><strong>Amirhosein Farahmand</strong>, author and maintainer</li>
+<li><strong>Mohsen Sadatsafavi</strong>, author</li>
+<li><strong>Laure Wynants</strong>, author</li>
+</ul>
+<p>To cite voipred, see <a href="CITATION.html">Citation</a>.</p>
 
 
 </section>
